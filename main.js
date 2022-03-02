@@ -1,10 +1,15 @@
 
-//Initializing game data variables
+// Initializing game data variables
 var gameData = {
 	version: '0.1',
 	cookies: 0,
 	cursors: 0,
 	prestige: 0
+}
+
+
+function update(id, content) {
+  document.getElementById(id).innerHTML = content;
 }
 
 
@@ -21,7 +26,7 @@ function load() {
 	var saveGame = JSON.parse(localStorage.getItem("mfiSave"));	//saveGame is the decoded save
 	if (saveGame !==null) {
 		if (saveGame.version !== gameData.version) {
-			if (typeof saveGame.update === 'undefined') saveGame.update = gameData.update;
+			if (typeof saveGame.version === 'undefined') saveGame.version = gameData.version;
 			if (typeof saveGame.cookies === 'undefined') saveGame.cookies = gameData.cookies;
 			if (typeof saveGame.cursors === 'undefined') saveGame.cursors = gameData.cursors;
 			if (typeof saveGame.prestige === 'undefined') saveGame.prestige = gameData.prestige;
@@ -51,8 +56,9 @@ function refresh() {
 
 
 
-// Loading save
+// INITIAL GAME LOAD
 load();
+update("titleVer", gameData.version);
 
 
 
@@ -66,26 +72,25 @@ load();
 
 
 
-
-
-
+// GAME FUNCTIONS
 
 
 function cookieClick(number) {
 	gameData.cookies += number;
-	document.getElementById("cookies").innerHTML = gameData.cookies; 
+	update("cookies", gameData.cookies.toLocaleString("en-US"));
 }
 
 function buyCursor(number) {
-	var cursorCost = Math.floor(10 * Math.pow(1.1,gameData.cursors));
+	var cursorCost = Math.floor(10 * (1.1 ** gameData.cursors));
 	if(gameData.cookies >= cursorCost) {
 		gameData.cursors += number;
 		gameData.cookies -= cursorCost;
-		document.getElementById("cursors").innerHTML = gameData.cursors;
-		document.getElementById("cookies").innerHTML = gameData.cookies;
+		update("cursors", gameData.cursors.toLocaleString("en-US"));
+		update("cookies", gameData.cookies.toLocaleString("en-US"));
 	};
-	var nextCost = Math.floor(10 * Math.pow(1.1,gameData.cursors));
-	document.getElementById("cursorCost").innerHTML = nextCost;
+	var nextCost = Math.floor(10 * (1.1 ** gameData.cursors));
+	update("cursorCost", nextCost.toLocaleString("en-US"))
+
 }
 
 
