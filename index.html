@@ -1,83 +1,108 @@
 <!doctype html>
 <html>
- <head>
-  <title>My First Incremental</title>
-  <link rel="stylesheet" type="text/css" href="interface.css" />
- </head>
- 
- <body>
- 
- 
- 
- <h1>My First Incremental <small>v<span id="titleVer">0.0</span></small></h1>
- <br>
- <br>
+<head>
+<title>MFI Metro by SMMDesign</title>
+<link rel="stylesheet" type="text/css" href="interface.css" />
+</head>
+
+<body>
+
+
+<div class="header">
+<a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <span id="titleVer" style="font-size:80%;" class="accent">0.0</span>
+</div>
+
+
+<div class="bankContainer">
+<div class="bank left">
+<span class="accent">Bank:
+<br>
+</span>¥<span id="money">X</span>
+<span id="mps" class="description">XXX/s</p>
+</div>
+<div class="bank right">
+<span class="accent">Passengers:
+<br>
+</span><span id="passengers" >X</span> <span id="maxPassengers" class="description">XXX</span>
+<span id="pps" class="description">XXX/s</p>
+</div>
+</div>
+
+
+
+
 <div class="main">
-<br>
-Cookies: <span id="cookies">0</span>
-<br>
-<br>
- <button class="button" onClick="cookieClick(1)">Make Cookie</button>
- 
- <br>
- <br>
- <br>
+<span class="accent">Train Lines</span>
+: <span id="lines">X</span>
+<p class="description">Comes with 2 Stations, 1 Train, and 1 Train Car</p>
+<button class="button" onClick="buyLine(1)">Buy  ¥<span id="lineCost">XXX</span></button>
+<br><span style="font-size: 70%;">Note: Currently no benefit to buying more than 1 line.</span>
+<br><br>
 
- <button class="button" onClick="buyCursor(1)">Buy Cursor</button>
- <br>
- <br>
-  Cursors: <span id="cursors">0</span>
-  Cost: <span id="cursorCost">10</span>
- 
- 
- 
- <br>
- <br>
- <br>
 
- 
- <button class="button" onClick="deleteSave()"> Delete Save</button>
- <br>
- <br>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- </div>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- <script type="text/javascript" src="main.js"></script>
- </body>
+<span class="accent">Stations</span>
+: <span id="stations">X</span>
+<p class="description">Generates 2 passengers per second</p>
+<button class="button" onClick="buyStation(1)">Buy  ¥<span id="stationCost">XXX</span></button>
+
+<br><br>
+
+<span class="accent">Trains</span>
+: <span id="trains">X</span>
+<p class="description">Can not exceed number of stations</p>
+<button class="button" onClick="buyTrain(1)">Buy  ¥<span id="trainCost">XXX</span></button>
+<br><br>
+
+<span class="accent">Train Cars</span>
+: <span id="cars">X</span> <small>(Max 12 per train)</small>
+<p class="description">Can carry 100 passengers</p>
+<button class="button" onClick="buyCar(1)">Buy  ¥<span id="carCost">XXX</span></button>
+<br><br>
+
+Ticket Price is currently ¥100.
+
+
+<br>
+<br>
+<br>
+
+
+
+
+<hr>
+
+
+<h3>Debugging Tools</h3>
+
+<button class="button" onClick="makeMoney(10000000000)">Make Money </button>
+
+
+<button class="button" onClick="deleteSave()"> Delete Save</button>
+<br>
+
+
+</div>
+<!-- end of main div -->
+
+
+<div class="footer">
+© SMMDesign 2022
+<br>
+Created with help from <a href="https://kastark.co.uk/articles/incrementals.html">kastark</a> and <a href="https://www.reddit.com/r/incremental_games/comments/ahf6nx/how_to_make_an_incremental_game/">YhvrTheSecond</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="main.js"></script>
+</body>
 </html>

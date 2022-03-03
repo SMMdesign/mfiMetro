@@ -1,11 +1,20 @@
 :root {
-	--darkestColor:#011126;
-	--medium1Color:#023766;
-	--medium2Color:#03588C;
-	--accentColor:#0DB3D9;
-	--whitestColor:#BEC5ED;
-	
+	--darkestColor:	#202529;
+	--medium1Color:	#363D42;
+	--medium2Color:	#505A61;
+	--accentColor:		#1BC6B4;
+	--whitestColor:	#A1B4C4;
 }  
+
+
+
+
+
+
+
+
+
+
   
   body {
 	height: 100%;
@@ -13,27 +22,117 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
 	background-color: var(--darkestColor);
-	text-align: center;
 	font-family: Verdana, sans-serif;
 	color: var(--whitestColor);
   }
   
-  h1 {
-	  color: var(--whitestColor);
-	  font-size: 28px;
+  
+
+  /* DIV CLASSES */
+  
+  .header {
+	  width: 100%;
+	  background-color: var(--medium1Color);
+	  padding: 10px;
+	  margin: 0 0 10px 0;
+	  font-size: 140%;
+	  text-align: left;
   }
+  
+  .header a {
+	  color: var(--whitest2Color);
+	  text-decoration: none;
+  }
+  
+  .footer {
+	  width: 100%;
+	  margin: 10px auto;
+	  color: var(--medium2Color);
+	  text-align: center;
+	  font-size: 80%;
+  }
+  .footer a {
+	  color: var(--medium2Color);
+  }
+  
+  
+  
+  .bankContainer {
+	  height: 42px;
+	  margin: 5px 10px;
+	  width: auto;
+	  background-color: var(--medium2Color);
+	  padding: 5px 10px 10px;
+	  color: white;
+	  line-height: 140%;
+  }
+  
+  .bank {
+	  width: 50%;
+  }
+  .bank.left {
+	  float: left;
+  }  
+  .bank.right {
+	  float: right;
+  }
+  
+  .bank .description {
+	  color: var(--whitestColor);
+  }
+  
+  
   
   
   .main {
-	  width:100%;
+	  margin: 10px 10px;
+	  width: auto;
 	  background-color: var(--medium1Color);
-	  padding: 10px 0px;
+	  padding: 10px;
   }
   
+  
+    /* INLINE CLASSES */
+  
+  .accent {
+	  color: var(--accentColor);
+	  font-weight: bold;
+  }
+  
+  .description {
+	  font-size: 80%;
+	  margin: 2px 0;
+	  font-style: italic;
+  }
+  
+  
+  
+    /* BUTTON CLASSES */
+  
   .button {
-	  background-color:var(--medium2Color);
-	  border: 1px solid white;
+	  background-color:var(--medium1Color);
+	  border: 1px solid var(--accentColor);
 	  padding: 5px 10px;
 	  color: var(--whitestColor);
 	  font-weight: bold;
+	  margin: 5px 0;
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
