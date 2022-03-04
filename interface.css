@@ -92,6 +92,26 @@
   }
   
   
+  
+  #lineChildContainer {
+	  display:none;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
     /* INLINE CLASSES */
   
   .accent {
@@ -118,21 +138,5 @@
 	  margin: 5px 0;
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   

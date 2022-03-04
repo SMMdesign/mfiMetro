@@ -1,30 +1,29 @@
 
 // Initializing game data variables
 var gameData = {
-	version: '0.2',
-	money: 1000,
+	version: '0.3',
+	money: 10000,
 	ticketPrice: 100,
 	passengers: 0,
 	lines: 0,
 	stations: 0,
-	trains: 0,
+	locomotives: 0,
 	cars: 0,
 	prestige: 0
 }	// remember to add new variables to load function
 
 // non gameData variables
 var pps = 0;
+var maxPassengers = 0;
 var mps = 0;
 var lineCost = 0;
 var stationCost = 0;
-var trainCost = 0;
+var locomotiveCost = 0;
 var carCost = 0;
 
 
 
-function update(id, content) {
-  document.getElementById(id).innerHTML = content;
-}
+
 
 
 
@@ -46,7 +45,7 @@ function load() {
 			if (typeof saveGame.passengers === 'undefined') saveGame.passengers = gameData.passengers;
 			if (typeof saveGame.lines === 'undefined') saveGame.lines = gameData.lines;
 			if (typeof saveGame.stations === 'undefined') saveGame.stations = gameData.stations;
-			if (typeof saveGame.trains === 'undefined') saveGame.trains = gameData.trains;
+			if (typeof saveGame.locomotives === 'undefined') saveGame.locomotives = gameData.locomotives;
 			if (typeof saveGame.cars === 'undefined') saveGame.cars = gameData.cars;			
 			if (typeof saveGame.prestige === 'undefined') saveGame.prestige = gameData.prestige;
 			
@@ -70,18 +69,40 @@ function deleteSave() {
 
 // Defining refresh function to update page after loading game
 function refresh() {
-	makeMoney(0);
-	generatePassengers(0);
-	buyLine(0);		// don't need the other buy functions bc line has all
+	// refreshing values from gameData
+	update("money", gameData.money.toLocaleString("en-US"));
+	update("ticketPrice", gameData.ticketPrice.toLocaleString("en-US"));
+	update("passengers", gameData.passengers.toLocaleString("en-US"));
+	update("lines", gameData.lines.toLocaleString("en-US"));
+	update("stations", gameData.stations.toLocaleString("en-US"));
+	update("locomotives", gameData.locomotives.toLocaleString("en-US"));
+	update("cars", gameData.cars.toLocaleString("en-US"));
+	// refreshing formulas dependent on gameData
 	updatePps();
 	updateMps();
 	updateMaxPassengers();
 	updateLineCost();
 	updateStationCost();
-	updateTrainCost();
+	updateLocomotiveCost();
 	updateCarCost();
+	// making sure proper elements are displayed
+	if(gameData.lines > 0) {show("lineChildContainer");}
 }
 
+
+
+function update(id, content) {
+  document.getElementById(id).innerHTML = content;
+}
+
+
+function show(id) {
+	document.getElementById(id).style.display = "inline"; 
+}
+
+function hide(id) {
+	document.getElementById(id).style.display = "none"; 
+}
 
 
 
@@ -114,17 +135,45 @@ function makeMoney(number) {
 
 function generatePassengers(number) {
 	gameData.passengers += number;
-	// Prevents passengers from exceeding train car max
+	// Prevents passengers from exceeding passenger car max
 	if (gameData.passengers >= gameData.cars * 100) {
 		gameData.passengers = gameData.cars * 100;
 	}
+	
+	// Prevents passengers from going below zero
+	if (gameData.passengers < 0) {
+		gameData.passengers = 0;
+	}
+	
 	update("passengers", gameData.passengers.toLocaleString("en-US"));
 	updateMps();
+	updatePps();
 }
 
 
+
+
+
+
+
+// equilibrium is half capacity and ¥100 price
+
+// (((((gameData.passengers * 2) / maxPassengers) + 1) * (100 / gameData.ticketPrice)) - 1)
+
+// oh god what is this formula, how do I math
+
+
 function updatePps() {
-	pps = gameData.stations * 2;
+	// pps = gameData.stations * 2;
+	pps = Math.ceil( gameData.stations * (((((gameData.passengers * 2) / maxPassengers) + 1) * (100 / gameData.ticketPrice)) - 1) );
+	// prevents errors from dividing by zero
+	if(!pps) {
+		pps = 0;
+	}
+	// always a minimum of 1 passenger once game has started
+	if(gameData.passengers === 0 && gameData.stations > 0) {
+		pps = 1;
+	}
 	update("pps", `(${pps.toLocaleString("en-US")}/s)`)
 }
 
@@ -142,23 +191,33 @@ function updateMaxPassengers() {
 
 
 
+
+
+
+
+
+
+
+
+
+
 function updateLineCost() {
-	lineCost = Math.floor(1000 * (10000 ** gameData.lines));
+	lineCost = Math.floor(10000 * (100 ** gameData.lines));
 	update("lineCost", lineCost.toLocaleString("en-US"));
 }
 
 function updateStationCost() {
-	stationCost = Math.floor(150000 * (1.2 ** gameData.stations));
+	stationCost = Math.floor(150000 * (2.1	** gameData.stations));
 	update("stationCost", stationCost.toLocaleString("en-US"));
 }
 
-function updateTrainCost() {
-	trainCost = Math.floor(100000 * (1.15 ** gameData.trains));
-	update("trainCost", trainCost.toLocaleString("en-US"));
+function updateLocomotiveCost() {
+	locomotiveCost = Math.floor(100000 * (2 ** gameData.locomotives));
+	update("locomotiveCost", locomotiveCost.toLocaleString("en-US"));
 }
 
 function updateCarCost() {
-	carCost = Math.floor(10000 * (1.1 ** gameData.cars));
+	carCost = Math.floor(10000 * (1.085 ** gameData.cars));
 	update("carCost", carCost.toLocaleString("en-US"));
 }
 
@@ -173,22 +232,23 @@ function buyLine(number) {
 	updateLineCost();
 	if(gameData.money >= lineCost) {
 		gameData.lines += number;
-		gameData.money -= lineCost * number;		// allows use of (0) for refreshing values
+		gameData.money -= lineCost * number;
 		updateLineCost();		
-		gameData.stations += 2 * number;			// allows use of (0) for refreshing values
+		gameData.stations += 2 * number;
 		updateStationCost();
-		gameData.trains += 1 * number;				// allows use of (0) for refreshing values
-		updateTrainCost();
-		gameData.cars += 1 * number;					// allows use of (0) for refreshing values
+		gameData.locomotives += 1 * number;
+		updateLocomotiveCost();
+		gameData.cars += 1 * number;	
 		updateCarCost();
+		show("lineChildContainer");
 	}
 		update("money", gameData.money.toLocaleString("en-US"));
 		update("lines", gameData.lines.toLocaleString("en-US"));
 		update("stations", gameData.stations.toLocaleString("en-US"));
-		updatePps();
-		update("trains", gameData.trains.toLocaleString("en-US"));		
+		updatePps();					// because pps is dependent on station number
+		update("locomotives", gameData.locomotives.toLocaleString("en-US"));		
 		update("cars", gameData.cars.toLocaleString("en-US"));
-		updateMaxPassengers();
+		updateMaxPassengers();	// because max is dependent on car number
 }
 
 
@@ -198,41 +258,59 @@ function buyStation(number) {
 	updateStationCost();
 	if(gameData.money >= stationCost) {
 		gameData.stations += number;
-		gameData.money -= stationCost * number;// allows use of (0) for refreshing values		
+		gameData.money -= stationCost * number;	
 		updateStationCost();
 	}
 		update("money", gameData.money.toLocaleString("en-US"));
 		update("stations", gameData.stations.toLocaleString("en-US"));
-		updatePps();  // because pps is dependent on station number
+		updatePps(); 					// because pps is dependent on station number
 }
 
 
-function buyTrain(number) {
-	updateTrainCost();
-	if(gameData.trains >= gameData.stations) {
-		alert ("Can't have more trains than stations!");
-	} else if(gameData.money >= trainCost) {
-		gameData.trains += number;
-		gameData.money -= trainCost * number;// allows use of (0) for refreshing values		
-		updateTrainCost();
+function buyLocomotive(number) {
+	updateLocomotiveCost();
+	if(gameData.locomotives >= gameData.stations) {
+		alert ("Can't have more locomotives than stations!");
+	} else if(gameData.money >= locomotiveCost) {
+		gameData.locomotives += number;
+		gameData.money -= locomotiveCost * number;
+		updateLocomotiveCost();
 	}
 		update("money", gameData.money.toLocaleString("en-US"));
-		update("trains", gameData.trains.toLocaleString("en-US"));
+		update("locomotives", gameData.locomotives.toLocaleString("en-US"));
 }
 
 
 function buyCar(number) {
 	updateCarCost();
-	if(gameData.cars >= gameData.trains * 12) {
-		alert ("Can't have more than 12 cars per train!");
+	if(gameData.cars >= gameData.locomotives * 12) {
+		alert ("Can't have more than 12 cars per locomotive!");
 	} else if(gameData.money >= carCost) {
 		gameData.cars += number;
-		gameData.money -= carCost * number;// allows use of (0) for refreshing values		
+		gameData.money -= carCost * number;	
 		updateCarCost();
 	}
 		update("money", gameData.money.toLocaleString("en-US"));
 		update("cars", gameData.cars.toLocaleString("en-US"));
-		updateMaxPassengers();
+		updateMaxPassengers();	// because max is dependent on car number
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function setTicketPrice() {
+	gameData.ticketPrice = prompt("Set Price","");
+	update("ticketPrice", gameData.ticketPrice);
+	updatePps();					// because pps is dependent on ticket price
 }
 
 

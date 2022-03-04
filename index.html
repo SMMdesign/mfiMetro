@@ -50,34 +50,48 @@
 
 
 <div class="main">
-<span class="accent">Train Lines</span>
-: <span id="lines">X</span>
-<p class="description">Comes with 2 Stations, 1 Train, and 1 Train Car</p>
-<button class="button" onClick="buyLine(1)">Buy  ¥<span id="lineCost">XXX</span></button>
-<br><span style="font-size: 70%;">Note: Currently no benefit to buying more than 1 line.</span>
-<br><br>
+
+<div id="lineContainer">
+	<span class="accent">Train Lines</span>
+	: <span id="lines">X</span>
+	<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car</p>
+	<button class="button" onClick="buyLine(1)">Buy  ¥<span id="lineCost">XXX</span></button>
+	<br><br>
+</div>
 
 
-<span class="accent">Stations</span>
-: <span id="stations">X</span>
-<p class="description">Generates 2 passengers per second</p>
-<button class="button" onClick="buyStation(1)">Buy  ¥<span id="stationCost">XXX</span></button>
 
-<br><br>
+<div id="lineChildContainer">
+	<span class="accent">Stations</span>
+	: <span id="stations">X</span>
+	<p class="description">Generates passengers</p>
+	<button class="button" onClick="buyStation(1)">Buy  ¥<span id="stationCost">XXX</span></button>
 
-<span class="accent">Trains</span>
-: <span id="trains">X</span>
-<p class="description">Can not exceed number of stations</p>
-<button class="button" onClick="buyTrain(1)">Buy  ¥<span id="trainCost">XXX</span></button>
-<br><br>
+	<br><br>
 
-<span class="accent">Train Cars</span>
-: <span id="cars">X</span> <small>(Max 12 per train)</small>
-<p class="description">Can carry 100 passengers</p>
-<button class="button" onClick="buyCar(1)">Buy  ¥<span id="carCost">XXX</span></button>
-<br><br>
+	<span class="accent">Locomotives</span>
+	: <span id="locomotives">X</span>
+	<p class="description">Can not exceed number of stations</p>
+	<button class="button" onClick="buyLocomotive(1)">Buy  ¥<span id="locomotiveCost">XXX</span></button>
 
-Ticket Price is currently ¥100.
+	<br><br>
+
+	<span class="accent">Passenger Cars</span>
+	: <span id="cars">X</span> <small>(Max 12 per Locomotive)</small>
+	<p class="description">Can carry 100 passengers</p>
+	<button class="button" onClick="buyCar(1)">Buy  ¥<span id="carCost">XXX</span></button>
+	<br><br>
+
+
+	<span class="accent">Ticket Price</span>
+	 : ¥<span id="ticketPrice">100</span>
+	 <p class="description">Be mindful of supply and demand!</p>
+	<button class="button" onClick="setTicketPrice()">Set Price</button>
+
+
+</div>
+
+
 
 
 <br>
