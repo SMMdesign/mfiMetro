@@ -1,7 +1,7 @@
 
 // Initializing game data variables
 var gameData = {
-	version: '0.3',
+	version: '0.31',
 	money: 10000,
 	ticketPrice: 100,
 	passengers: 0,
@@ -156,23 +156,23 @@ function generatePassengers(number) {
 
 
 
-// equilibrium is half capacity and ¥100 price
-
-// (((((gameData.passengers * 2) / maxPassengers) + 1) * (100 / gameData.ticketPrice)) - 1)
+// equilibrium is ¥200 price
 
 // oh god what is this formula, how do I math
+
+// Math.ceil((((0.5 ** (gameData.ticketPrice/200)) - 0.5)*((gameData.passengers / maxPassengers) + 1)) * 2)
 
 
 function updatePps() {
 	// pps = gameData.stations * 2;
-	pps = Math.ceil( gameData.stations * (((((gameData.passengers * 2) / maxPassengers) + 1) * (100 / gameData.ticketPrice)) - 1) );
+	pps = Math.ceil((((0.5 ** (gameData.ticketPrice/200)) - 0.5)*((gameData.passengers / maxPassengers) + 1)) * 5);
 	// prevents errors from dividing by zero
 	if(!pps) {
 		pps = 0;
 	}
-	// always a minimum of 1 passenger once game has started
+	// prevents stalling at 0 passengers once game has started
 	if(gameData.passengers === 0 && gameData.stations > 0) {
-		pps = 1;
+		gameData.passengers = 1;
 	}
 	update("pps", `(${pps.toLocaleString("en-US")}/s)`)
 }
@@ -308,7 +308,11 @@ function buyCar(number) {
 
 
 function setTicketPrice() {
-	gameData.ticketPrice = prompt("Set Price","");
+	gameData.ticketPrice = prompt("Set Price ( 1 - 1,000 )","100");
+	while(gameData.ticketPrice < 1 || gameData.ticketPrice > 1000 || isNaN(gameData.ticketPrice) ) {
+		alert("Please enter a number between 1 and 1,000.");
+		gameData.ticketPrice = prompt("Set Price ( 1 - 1,000 )","100");
+	}
 	update("ticketPrice", gameData.ticketPrice);
 	updatePps();					// because pps is dependent on ticket price
 }
