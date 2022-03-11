@@ -1,9 +1,7 @@
-Version 0.35
+#### Version 0.35 - 2022/03/10
 
-Redesigned Bank to better prevent values from visually overflowing.
-
-Rewrote ticket price formula for better balance.
-
-Removed pop-up alerts when buying something that is limited by another item.
-
-Adjusted general cost balance.
+- Redesigned Bank to better prevent values from visually overflowing.
+- Rewrote ticket price formula for better balance.
+- Removed pop-up alerts when buying something that is limited by another item.
+- Adjusted general cost balance.
+- Added a confirmation to the Delete Save button.

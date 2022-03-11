@@ -18,3 +18,4 @@ If you encounter an issue of any kind, please submit it as a github issue, or co
 - Rewrote ticket price formula for better balance.
 - Removed pop-up alerts when buying something that is limited by another item.
 - Adjusted general cost balance.
+- Added a confirmation to the Delete Save button.

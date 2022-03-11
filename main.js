@@ -1,7 +1,7 @@
 
 // Initializing game data variables
 var gameData = {
-	version: '0.31',
+	version: '0.35',
 	money: 10000,
 	ticketPrice: 100,
 	passengers: 0,
@@ -61,9 +61,13 @@ function load() {
 
 // Defining delete save function
 function deleteSave() {
-	localStorage.removeItem("mfiSave");
-	console.log('Save Deleted!');
-	location.reload();
+	if(confirm("This will delete your progress, are you sure?") === true) {
+		localStorage.removeItem("mfiSave");
+		console.log('Save Deleted!');
+		location.reload();
+	} else {
+		console.log('Delete Cancelled.')
+	}
 }
 
 
@@ -158,14 +162,11 @@ function generatePassengers(number) {
 
 // equilibrium is ¥200 price
 
-// oh god what is this formula, how do I math
-
-// Math.ceil((((0.5 ** (gameData.ticketPrice/200)) - 0.5)*((gameData.passengers / maxPassengers) + 1)) * 2)
 
 
 function updatePps() {
 	// pps = gameData.stations * 2;
-	pps = Math.ceil((((0.5 ** (gameData.ticketPrice/200)) - 0.5)*((gameData.passengers / maxPassengers) + 1)) * 5);
+	pps = Math.ceil( (( 200 - gameData.ticketPrice ) / 200 ) * ( gameData.stations * 2 ) );
 	// prevents errors from dividing by zero
 	if(!pps) {
 		pps = 0;
@@ -179,7 +180,7 @@ function updatePps() {
 
 function updateMps() {
 	mps = gameData.passengers * gameData.ticketPrice;
-	update("mps", `(${mps.toLocaleString("en-US")}/s)`)
+	update("mps", `(¥${mps.toLocaleString("en-US")}/s)`)
 }
 
 function updateMaxPassengers() {
@@ -207,17 +208,17 @@ function updateLineCost() {
 }
 
 function updateStationCost() {
-	stationCost = Math.floor(150000 * (2.1	** gameData.stations));
+	stationCost = Math.floor(150000 * (2.1	** gameData.stations ));
 	update("stationCost", stationCost.toLocaleString("en-US"));
 }
 
 function updateLocomotiveCost() {
-	locomotiveCost = Math.floor(100000 * (2 ** gameData.locomotives));
+	locomotiveCost = Math.floor(100000 * (2 ** gameData.locomotives ));
 	update("locomotiveCost", locomotiveCost.toLocaleString("en-US"));
 }
 
 function updateCarCost() {
-	carCost = Math.floor(10000 * (1.085 ** gameData.cars));
+	carCost = Math.floor(5000 * (1.075 ** gameData.cars ));
 	update("carCost", carCost.toLocaleString("en-US"));
 }
 
@@ -269,9 +270,7 @@ function buyStation(number) {
 
 function buyLocomotive(number) {
 	updateLocomotiveCost();
-	if(gameData.locomotives >= gameData.stations) {
-		alert ("Can't have more locomotives than stations!");
-	} else if(gameData.money >= locomotiveCost) {
+	if(gameData.locomotives < gameData.stations && gameData.money >= locomotiveCost) {
 		gameData.locomotives += number;
 		gameData.money -= locomotiveCost * number;
 		updateLocomotiveCost();
@@ -283,9 +282,7 @@ function buyLocomotive(number) {
 
 function buyCar(number) {
 	updateCarCost();
-	if(gameData.cars >= gameData.locomotives * 12) {
-		alert ("Can't have more than 12 cars per locomotive!");
-	} else if(gameData.money >= carCost) {
+	if(gameData.cars < gameData.locomotives * 12 && gameData.money >= carCost) {
 		gameData.cars += number;
 		gameData.money -= carCost * number;	
 		updateCarCost();
@@ -334,6 +331,13 @@ window.setInterval(function() {
 	generatePassengers(pps);
 	
 	
-	save();
 }, 1000);
 
+
+
+// Autosave Loop
+window.setInterval(function() {
+	save();
+	
+	
+}, 5000);
