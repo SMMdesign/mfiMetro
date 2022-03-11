@@ -2,7 +2,7 @@
 // Initializing game data variables
 var gameData = {
 	version: '0.35',
-	money: 10000,
+	money: 50000,
 	ticketPrice: 100,
 	passengers: 0,
 	lines: 0,
@@ -203,17 +203,17 @@ function updateMaxPassengers() {
 
 
 function updateLineCost() {
-	lineCost = Math.floor(10000 * (100 ** gameData.lines));
+	lineCost = Math.floor(50000 * (100 ** gameData.lines));
 	update("lineCost", lineCost.toLocaleString("en-US"));
 }
 
 function updateStationCost() {
-	stationCost = Math.floor(150000 * (2.1	** gameData.stations ));
+	stationCost = Math.floor(15000 * (2.1	** gameData.stations ));
 	update("stationCost", stationCost.toLocaleString("en-US"));
 }
 
 function updateLocomotiveCost() {
-	locomotiveCost = Math.floor(100000 * (2 ** gameData.locomotives ));
+	locomotiveCost = Math.floor(10000 * (2 ** gameData.locomotives ));
 	update("locomotiveCost", locomotiveCost.toLocaleString("en-US"));
 }
 
@@ -305,14 +305,21 @@ function buyCar(number) {
 
 
 function setTicketPrice() {
-	gameData.ticketPrice = prompt("Set Price ( 1 - 1,000 )","100");
-	while(gameData.ticketPrice < 1 || gameData.ticketPrice > 1000 || isNaN(gameData.ticketPrice) ) {
-		alert("Please enter a number between 1 and 1,000.");
-		gameData.ticketPrice = prompt("Set Price ( 1 - 1,000 )","100");
+	let userPrice = prompt("Set Price ( 1 - 1,000 )","100");
+	if(userPrice === null || isNaN(userPrice)) {
+		return;
 	}
+	if(userPrice < 1 || userPrice > 1000) {
+		alert("Please enter a number between 1 and 1,000.")
+		return;
+	}
+	gameData.ticketPrice = Math.round(userPrice);
 	update("ticketPrice", gameData.ticketPrice);
 	updatePps();					// because pps is dependent on ticket price
 }
+
+
+
 
 
 
