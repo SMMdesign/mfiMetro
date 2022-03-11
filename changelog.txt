@@ -1,0 +1,9 @@
+Version 0.35
+
+Redesigned Bank to better prevent values from visually overflowing.
+
+Rewrote ticket price formula for better balance.
+
+Removed pop-up alerts when buying something that is limited by another item.
+
+Adjusted general cost balance.
