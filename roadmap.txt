@@ -1,1 +1,9 @@
-WIP
+Roadmap
+----------
+
+- Add a visual representation of each building's max amount
+- Balance costs
+- Change number scaling to better differentiate between big numbers (and take up less room)
+- Add prestige mechanic (spawn a new timeline and gain currency that will allow you to buy upgrades that do various things)
+- Add the ability to name your own lines (and maybe change color?)
+- Add tab with Options

@@ -12,6 +12,13 @@ If you encounter an issue of any kind, please submit it as a github issue, or co
 
 ## Changelog
 
+#### Version 0.40 - 2022/03/12
+
+- Big Update! Introduced the unique line function which expands the gameplay by a factor of 9!
+- Each line has it's own building and vehicles that have their own cost scaling, but each new line has an increasing cost.
+- UI update to highlight the unique lines and be responsive to mobile and desktop browsers.
+
+
 #### Version 0.35 - 2022/03/10
 
 - Redesigned Bank to better prevent values from visually overflowing.
