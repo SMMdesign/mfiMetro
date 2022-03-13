@@ -173,7 +173,7 @@ html, body {
 .bodyItem {
 	/* background-color: var(--medium2Color); */
 	max-width: 30%;
-	min-width: 110px;
+	min-width: 25%;
 	/* height: 130px; */
 	margin: 7px 10px;
 	font-size: 84%;
