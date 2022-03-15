@@ -179,6 +179,7 @@ html, body {
 	/* height: 130px; */
 	margin: 7px 10px;
 	font-size: 84%;
+	overflow:hidden;
 }
 .bodyItem.one {float:left;}
 .bodyItem.two {float:none; overflow:hidden; margin: 7px auto 7px;}
