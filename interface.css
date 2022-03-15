@@ -35,6 +35,8 @@ html, body {
 	background-color: var(--darkestColor);
 	font-family: Verdana, sans-serif;
 	color: var(--whitestColor);
+	touch-events: manipulation;
+
 }
 
 
@@ -322,7 +324,6 @@ span {
 	color: var(--whitestColor);
 	font-weight: bold;
 	margin: 5px 0;
-	touch-events: manipulation;
 }
 
 
