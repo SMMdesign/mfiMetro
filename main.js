@@ -1,7 +1,7 @@
 
 // Initializing game data variables
 var gameData = {
-	version: '0.40',
+	version: '0.41',
 	money: 50000,
 	ticketPrice: 100,
 	passengers: 0,
@@ -320,7 +320,7 @@ function setTicketPrice() {
 
 function updatePps() {
 	// pps = gameData.ginza.stations * 2;
-	pps = Math.ceil( (( 200 - gameData.ticketPrice ) / 200 ) * ( calcTotalStations() * 2 ) );
+	pps = Math.ceil( (( 200 - gameData.ticketPrice ) / 200 ) * ( calcTotalStations() * 5 ) );
 	// prevents errors from dividing by zero
 	if(!pps) {
 		pps = 0;
@@ -363,11 +363,11 @@ function calcTotalCars() {
 
 
 function calcLineCost() {
-	return Math.floor(50000 * (100 ** calcTotalLines()));
+	return Math.floor(50000 * (24 ** calcTotalLines()));
 }
 
 function calcStationCost(stations) {
-	return Math.floor(15000 * (2.1	** stations ));
+	return Math.floor(10000 * (4	** stations ));
 }
 
 function calcLocomotiveCost(locomotives) {
@@ -375,7 +375,7 @@ function calcLocomotiveCost(locomotives) {
 }
 
 function calcCarCost(cars) {
-	return Math.floor(5000 * (1.075 ** cars ));
+	return Math.floor(5000 * (1.06 ** cars ));
 }
 
 
@@ -428,7 +428,7 @@ function buyGinStation(number) {
 
 
 function buyGinLocomotive(number) {
-	if(gameData.ginza.locomotives < gameData.ginza.stations && gameData.money >= ginLocomotiveCost) {
+	if(gameData.ginza.locomotives < gameData.ginza.stations * 2 && gameData.money >= ginLocomotiveCost) {
 		gameData.ginza.locomotives += number;
 		gameData.money -= ginLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));
@@ -497,7 +497,7 @@ function buyMaruStation(number) {
 
 
 function buyMaruLocomotive(number) {
-	if(gameData.marunouchi.locomotives < gameData.marunouchi.stations && gameData.money >= maruLocomotiveCost) {
+	if(gameData.marunouchi.locomotives < gameData.marunouchi.stations * 2 && gameData.money >= maruLocomotiveCost) {
 		gameData.marunouchi.locomotives += number;
 		gameData.money -= maruLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));
@@ -566,7 +566,7 @@ function buyHibiStation(number) {
 
 
 function buyHibiLocomotive(number) {
-	if(gameData.hibiya.locomotives < gameData.hibiya.stations && gameData.money >= hibiLocomotiveCost) {
+	if(gameData.hibiya.locomotives < gameData.hibiya.stations * 2 && gameData.money >= hibiLocomotiveCost) {
 		gameData.hibiya.locomotives += number;
 		gameData.money -= hibiLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));
@@ -635,7 +635,7 @@ function buyTozaStation(number) {
 
 
 function buyTozaLocomotive(number) {
-	if(gameData.tozai.locomotives < gameData.tozai.stations && gameData.money >= tozaLocomotiveCost) {
+	if(gameData.tozai.locomotives < gameData.tozai.stations * 2 && gameData.money >= tozaLocomotiveCost) {
 		gameData.tozai.locomotives += number;
 		gameData.money -= tozaLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));
@@ -704,7 +704,7 @@ function buyChiyoStation(number) {
 
 
 function buyChiyoLocomotive(number) {
-	if(gameData.chiyoda.locomotives < gameData.chiyoda.stations && gameData.money >= chiyoLocomotiveCost) {
+	if(gameData.chiyoda.locomotives < gameData.chiyoda.stations * 2 && gameData.money >= chiyoLocomotiveCost) {
 		gameData.chiyoda.locomotives += number;
 		gameData.money -= chiyoLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));
@@ -773,7 +773,7 @@ function buyYuraStation(number) {
 
 
 function buyYuraLocomotive(number) {
-	if(gameData.yurakucho.locomotives < gameData.yurakucho.stations && gameData.money >= yuraLocomotiveCost) {
+	if(gameData.yurakucho.locomotives < gameData.yurakucho.stations * 2 && gameData.money >= yuraLocomotiveCost) {
 		gameData.yurakucho.locomotives += number;
 		gameData.money -= yuraLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));
@@ -842,7 +842,7 @@ function buyHanStation(number) {
 
 
 function buyHanLocomotive(number) {
-	if(gameData.hanzomon.locomotives < gameData.hanzomon.stations && gameData.money >= hanLocomotiveCost) {
+	if(gameData.hanzomon.locomotives < gameData.hanzomon.stations * 2 && gameData.money >= hanLocomotiveCost) {
 		gameData.hanzomon.locomotives += number;
 		gameData.money -= hanLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));
@@ -911,7 +911,7 @@ function buyNamStation(number) {
 
 
 function buyNamLocomotive(number) {
-	if(gameData.namboku.locomotives < gameData.namboku.stations && gameData.money >= namLocomotiveCost) {
+	if(gameData.namboku.locomotives < gameData.namboku.stations * 2 && gameData.money >= namLocomotiveCost) {
 		gameData.namboku.locomotives += number;
 		gameData.money -= namLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));
@@ -978,7 +978,7 @@ function buyFukuStation(number) {
 
 
 function buyFukuLocomotive(number) {
-	if(gameData.fukutoshin.locomotives < gameData.fukutoshin.stations && gameData.money >= fukuLocomotiveCost) {
+	if(gameData.fukutoshin.locomotives < gameData.fukutoshin.stations * 2 && gameData.money >= fukuLocomotiveCost) {
 		gameData.fukutoshin.locomotives += number;
 		gameData.money -= fukuLocomotiveCost * number;
 		update("money", gameData.money.toLocaleString("en-US"));

@@ -12,6 +12,12 @@ If you encounter an issue of any kind, please submit it as a github issue, or co
 
 ## Changelog
 
+#### Version 0.41 - 2022/03/14
+
+-  Adjusted game balance
+- Prevented double-tap to zoom on mobile buttons
+
+
 #### Version 0.40 - 2022/03/12
 
 - Big Update! Introduced the unique line function which expands the gameplay by a factor of 9!

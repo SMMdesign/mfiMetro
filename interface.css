@@ -322,6 +322,7 @@ span {
 	color: var(--whitestColor);
 	font-weight: bold;
 	margin: 5px 0;
+	touch-events: none;
 }
 
 
