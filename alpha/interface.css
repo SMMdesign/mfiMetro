@@ -1,0 +1,330 @@
+:root {
+	--darkestColor:	#202529;
+	--medium1Color:	#363D42;
+	--medium2Color:	#505A61;
+	/* --accentColor:		#1BC6B4; */
+	--accentColor:		#40CFFF;
+	--whitestColor:	#A1B4C4;
+	
+	--ginzaColor: #ff9500;
+	--marunouchiColor: #f62e36;
+	--hibiyaColor: #b5b5ac;
+	--tozaiColor: #009bbf;
+	--chiyodaColor: #00bb85;
+	--yurakuchoColor: #c1a470;
+	--hanzomonColor: #8f76d6;
+	--nambokuColor: #00ac9b;
+	--fukutoshinColor: #9c5e31;
+}  
+
+
+
+
+
+
+
+
+
+
+  
+html, body {
+	/* height: 100%; */
+	margin: 0;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-color: var(--darkestColor);
+	font-family: Verdana, sans-serif;
+	color: var(--whitestColor);
+	touch-events: manipulation;
+
+}
+
+
+
+/* DIV CLASSES */
+
+.header {
+	background-color: var(--medium1Color);
+	padding: 10px;
+	margin: 0 0 10px 0;
+	font-size: 140%;
+	text-align: left;
+}
+
+.header a {
+	color: var(--whitest2Color);
+	text-decoration: none;
+}
+
+.footer {
+	width: 100%;
+	margin: 10px auto;
+	color: var(--medium2Color);
+	text-align: center;
+	font-size: 80%;
+}
+.footer a {
+	color: var(--medium2Color);
+}
+
+
+
+.bankContainer {
+	height: 44px;
+	margin: 5px 10px;
+	width: auto;
+	background-color: var(--medium2Color);
+	padding: 5px 10px 10px;
+	color: white;
+	line-height: 140%;
+}
+
+.bank {
+	width: 50%;
+}
+.bank.left {
+	float: left;
+}  
+.bank.right {
+	float: right;
+}
+
+.bank .description {
+	color: var(--whitestColor);
+}
+
+
+
+
+.main {
+	margin: 10px;
+	/* box-sizing: border-box; */
+	background-color: var(--medium1Color);
+	padding: 10px 0px 10px 10px;
+}
+
+
+
+/* 3 columns */
+.lineContainer {
+	display: inline-block;
+	float:left;
+	box-sizing: border-box;
+	/* height: 160px; */
+	max-width: 33.33%;
+	min-width: 33.33%;
+	padding-right: 10px;
+	margin: 10px 0px;
+	/* margin-right: -10px; */
+}
+
+/* 400 px min, 10px center gutter, 20px on each side of window */
+
+/* 2 columns */
+@media screen and (max-width: 1260px) {
+	.lineContainer {
+		max-width: 50%;
+		min-width: 50%;
+		/* padding-right: 10px; */
+		/* margin-right: -5px; */
+	}
+}
+
+/* 1 column */
+@media screen and (max-width: 850px) {
+	.lineContainer {
+		min-width: 100%;
+		max-width: 100%;
+	}
+}
+
+
+.line	{
+	border: 1px solid var(--accentColor);
+	/* background-color: var(--medium2Color); */
+	/* border-radius: 0px 0px 10px 10px; */
+	width: 100%;
+	box-sizing: border-box;
+	display: inline-block;
+	float: left;
+	/* margin: 15px 0px; */
+}
+
+
+.lineHead {
+	background-color: var(--accentColor);
+	color: white;
+	font-weight: bold;
+	/* margin: -10px -10px 10px -10px; */
+	padding: 5px 10px;
+}
+
+.lineIcon {
+	background-color: white;
+	color: black;
+	font-family: 'Lato', sans-serif;
+	width: fit-content;
+	border-radius: 15px;
+	margin: -1px;
+	padding: 1px 5px;
+	font-size: 100%;
+	display: inline;
+	float: right;
+}
+
+.bodyItem {
+	/* background-color: var(--medium2Color); */
+	max-width: 30%;
+	min-width: 25%;
+	/* height: 130px; */
+	margin: 7px 10px;
+	font-size: 84%;
+	overflow:hidden;
+}
+.bodyItem.one {float:left;}
+.bodyItem.two {float:none; overflow:hidden; margin: 7px auto 7px;}
+.bodyItem.three {float:right;}
+
+
+
+
+#ginza {
+	--accentColor: var(--ginzaColor);
+}
+#marunouchi {
+	--accentColor: var(--marunouchiColor);
+}
+#hibiya {
+	--accentColor: var(--hibiyaColor);
+}
+#tozai {
+	--accentColor: var(--tozaiColor);
+}
+#chiyoda {
+	--accentColor: var(--chiyodaColor);
+}
+#yurakucho {
+	--accentColor: var(--yurakuchoColor);
+}
+#hanzomon {
+	--accentColor: var(--hanzomonColor);
+}
+#namboku {
+	--accentColor: var(--nambokuColor);
+}
+#fukutoshin {
+	--accentColor: var(--fukutoshinColor);
+}
+
+
+
+
+
+
+
+#ginzaBody {
+	display:none;
+}
+
+#marunouchiHead {
+	display:none;
+}
+#marunouchiBody {
+	display:none;
+}
+
+#hibiyaHead {
+	display:none;
+}
+#hibiyaBody {
+	display:none;
+}
+
+#tozaiHead {
+	display:none;
+}
+#tozaiBody {
+	display:none;
+}
+
+#chiyodaHead {
+	display:none;
+}
+#chiyodaBody {
+	display:none;
+}
+
+#yurakuchoHead {
+	display:none;
+}
+#yurakuchoBody {
+	display:none;
+}
+
+#hanzomonHead {
+	display:none;
+}
+#hanzomonBody {
+	display:none;
+}
+
+#nambokuHead {
+	display:none;
+}
+#nambokuBody {
+	display:none;
+}
+
+#fukutoshinHead {
+	display:none;
+}
+#fukutoshinBody {
+	display:none;
+}  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* INLINE CLASSES */
+
+.accent {
+	color: var(--accentColor);
+	font-weight: bold;
+}
+
+.description {
+	font-size: 80%;
+	margin: 2px 0;
+	font-style: italic;
+}
+
+span {
+	color:white;
+}
+
+
+
+
+
+/* BUTTON CLASSES */
+
+.button {
+	background-color:var(--medium1Color);
+	border: 1px solid var(--accentColor);
+	padding: 5px 10px;
+	color: var(--whitestColor);
+	font-weight: bold;
+	margin: 5px 0;
+}
+
+
