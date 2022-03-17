@@ -15,7 +15,6 @@ If you encounter an issue of any kind, please submit it as a github issue, or co
 #### Version 0.41 - 2022/03/14
 
 - Adjusted game balance
-- Attempted to prevent double-tap to zoom on mobile buttons
 
 
 #### Version 0.40 - 2022/03/12
