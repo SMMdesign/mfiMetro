@@ -2,13 +2,9 @@
 <html>
 <head>
 <title>MFI Metro by SMMDesign</title>
-<meta name="description" content="MFI Metro is a browser-based incremental game about trains created by an aspiring gamedev.">
-
+<meta name="description" content="MFI Metro is a browser-based incremental game about building an ever-expanding train empire created by an aspiring gamedev.">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, minimum-scale=1, user-scalable=no">
-
-
-
 
 
 <link rel="stylesheet" type="text/css" href="interface.css" />
@@ -28,6 +24,12 @@
 </head>
 
 <body>
+
+
+
+
+
+
 
 
 <div class="header">
@@ -99,14 +101,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="ginCars">X</span>
+			<br><span id="ginCars">X</span> / <span id="ginMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyGinCar(1)">¥<span id="ginCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="ginLocomotives">X</span>
+			<br><span id="ginLocomotives">X</span> / <span id="ginMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyGinLocomotive(1)">¥<span id="ginLocomotiveCost">XXX</span></button>
 		</div>
@@ -136,14 +138,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="maruCars">X</span>
+			<br><span id="maruCars">X</span> / <span id="maruMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyMaruCar(1)">¥<span id="maruCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="maruLocomotives">X</span>
+			<br><span id="maruLocomotives">X</span> / <span id="maruMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyMaruLocomotive(1)">¥<span id="maruLocomotiveCost">XXX</span></button>
 		</div>
@@ -173,14 +175,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="hibiCars">X</span>
+			<br><span id="hibiCars">X</span> / <span id="hibiMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyHibiCar(1)">¥<span id="hibiCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="hibiLocomotives">X</span>
+			<br><span id="hibiLocomotives">X</span> / <span id="hibiMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyHibiLocomotive(1)">¥<span id="hibiLocomotiveCost">XXX</span></button>
 		</div>
@@ -210,14 +212,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="tozaCars">X</span>
+			<br><span id="tozaCars">X</span> / <span id="tozaMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyTozaCar(1)">¥<span id="tozaCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="tozaLocomotives">X</span>
+			<br><span id="tozaLocomotives">X</span> / <span id="tozaMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyTozaLocomotive(1)">¥<span id="tozaLocomotiveCost">XXX</span></button>
 		</div>
@@ -247,14 +249,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="chiyoCars">X</span>
+			<br><span id="chiyoCars">X</span> / <span id="tozaMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyChiyoCar(1)">¥<span id="chiyoCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="chiyoLocomotives">X</span>
+			<br><span id="chiyoLocomotives">X</span> / <span id="tozaMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyChiyoLocomotive(1)">¥<span id="chiyoLocomotiveCost">XXX</span></button>
 		</div>
@@ -284,14 +286,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="yuraCars">X</span>
+			<br><span id="yuraCars">X</span> / <span id="yuraMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyYuraCar(1)">¥<span id="yuraCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="yuraLocomotives">X</span>
+			<br><span id="yuraLocomotives">X</span> / <span id="yuraMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyYuraLocomotive(1)">¥<span id="yuraLocomotiveCost">XXX</span></button>
 		</div>
@@ -321,14 +323,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="hanCars">X</span>
+			<br><span id="hanCars">X</span> / <span id="hanMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyHanCar(1)">¥<span id="hanCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="hanLocomotives">X</span>
+			<br><span id="hanLocomotives">X</span> / <span id="hanMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyHanLocomotive(1)">¥<span id="hanLocomotiveCost">XXX</span></button>
 		</div>
@@ -358,14 +360,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="namCars">X</span>
+			<br><span id="namCars">X</span> / <span id="namMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyNamCar(1)">¥<span id="namCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="namLocomotives">X</span>
+			<br><span id="namLocomotives">X</span> / <span id="namMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyNamLocomotive(1)">¥<span id="namLocomotiveCost">XXX</span></button>
 		</div>
@@ -395,14 +397,14 @@
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="fukuCars">X</span>
+			<br><span id="fukuCars">X</span> / <span id="fukuMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
 			<button class="button" onClick="buyFukuCar(1)">¥<span id="fukuCarCost">XXX</span></button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="fukuLocomotives">X</span>
+			<br><span id="fukuLocomotives">X</span> / <span id="fukuMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
 			<button class="button" onClick="buyFukuLocomotive(1)">¥<span id="fukuLocomotiveCost">XXX</span></button>
 		</div>
@@ -457,7 +459,6 @@
 
 <div class="footer">
 © <a href="https://twitter.com/SMMdesigner">SMMDesign</a> 2022
-<br> Number format by <a href="https://github.com/erosson/swarm-numberformat">swarm-numberformat</a>
 <br>
 Created with help from <a href="https://kastark.co.uk/articles/incrementals.html">kastark</a>, <a href="https://www.reddit.com/r/incremental_games/comments/ahf6nx/how_to_make_an_incremental_game/">YhvrTheSecond</a>, and <a href="https://www.reddit.com/r/incremental_games/">/r/incremental_games</a>
 </div>

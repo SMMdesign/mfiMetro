@@ -307,6 +307,13 @@ html, body {
 	font-style: italic;
 }
 
+.maxStock {
+	/* font-size: 80%; */
+	color: var(--whitestColor);
+	/* font-style: italic; */
+}
+
+
 span {
 	color:white;
 }
