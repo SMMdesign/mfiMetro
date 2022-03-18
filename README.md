@@ -12,7 +12,7 @@ If you encounter an issue of any kind, please submit it as a github issue, or co
 
 ## Changelog
 
-#### Version 0.42 - 2022/03/XX
+#### Version 0.42 - 2022/03/18
 
 - Fixed bug that prevented the delete save button from working correctly sometimes.
 - Added number formatting for Million through Sextillion. Numbers larger than that will show in exponential form.
