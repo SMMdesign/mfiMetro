@@ -65,7 +65,7 @@ html, body {
 
 .bankContainer {
 	box-sizing: border-box;
-	height: 44px;
+	height: 45px;
 	/* margin: 5px; */
 	width: 100%;
 	background-color: var(--medium2Color);
