@@ -410,7 +410,7 @@ function updatePps() {
 
 function updateMps() {
 	mps = gameData.passengers * gameData.ticketPrice;
-	update("mps", `(¥${mps.toLocaleString("en-US")}/s)`)
+	update("mps", `(¥${format(mps)}/s)`)
 }
 
 function updateMaxPassengers() {
