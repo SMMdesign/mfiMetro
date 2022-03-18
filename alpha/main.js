@@ -28,7 +28,6 @@ var pps = 0;
 var maxPassengers = 0;
 var mps = 0;
 var lineCost = 0;			// dont forget this exists
-var buyMax = false;
 var locoPerStat = 2;
 var carPerLoco = 12;
 var passPerCar = 100;
@@ -388,11 +387,6 @@ function setTicketPrice() {
 	updatePps();					// because pps is dependent on ticket price
 }
 
-function toggleBuyMax() {
-	buyMax = !buyMax;
-	if(buyMax) {update("buyMaxToggle", "ON"); }
-	if(!buyMax) {update("buyMaxToggle", "OFF"); }
-}
 
 
 
@@ -484,40 +478,37 @@ function buyGinLine() {
 		refreshGinza();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-function buyGinStation(number) {
+}}
+function buyGinStation(x) {
 	if(gameData.money >= ginStationCost) {
-		gameData.ginza.stations += number;
-		gameData.money -= ginStationCost * number;
+		gameData.ginza.stations += 1;
+		gameData.money -= ginStationCost;
+		ginStationCost = calcStationCost(gameData.ginza.stations);
+		if(x === 'max' && gameData.money >= ginStationCost) { buyGinStation('max'); }
 		update("money", format(gameData.money));
 		refreshGinza();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-function buyGinLocomotive(number) {
-	if(gameData.ginza.locomotives < gameData.ginza.stations * 2 && gameData.money >= ginLocomotiveCost) {
-		gameData.ginza.locomotives += number;
-		gameData.money -= ginLocomotiveCost * number;
+}}
+function buyGinLocomotive(x) {
+	if(gameData.ginza.locomotives < gameData.ginza.stations * locoPerStat && gameData.money >= ginLocomotiveCost) {
+		gameData.ginza.locomotives += 1;
+		gameData.money -= ginLocomotiveCost;
+		ginLocomotiveCost = calcLocomotiveCost(gameData.ginza.locomotives);
+		if(x === 'max' && gameData.money >= ginLocomotiveCost) { buyGinLocomotive('max'); }
 		update("money", format(gameData.money));
 		refreshGinza();
-	}
-}
-
-function buyGinCar(number) {
-	if(gameData.ginza.cars < gameData.ginza.locomotives * 12 && gameData.money >= ginCarCost) {
-		gameData.ginza.cars += number;
-		gameData.money -= ginCarCost * number;
-		if(buyMax && gameData.money >= ginCarCost) { buyGinCar(1); }
+}}
+function buyGinCar(x) {
+	if(gameData.ginza.cars < gameData.ginza.locomotives * carPerLoco && gameData.money >= ginCarCost) {
+		gameData.ginza.cars += 1;
+		gameData.money -= ginCarCost;
+		ginCarCost = calcCarCost(gameData.ginza.cars);
+		if(x === 'max' && gameData.money >= ginCarCost) { buyGinCar('max'); }
 		update("money", format(gameData.money));
 		refreshGinza();
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
+}}
 // end of ginza buying functions
-
 
 
 // marunouchi buying functions
@@ -534,62 +525,40 @@ function buyMaruLine() {
 		update("money", format(gameData.money));
 		lineCost = calcLineCost();
 		update("hibiLineCost", format(lineCost));
-		update("maruStations", gameData.marunouchi.stations.toLocaleString("en-US"));
-		maruStationCost = calcStationCost(gameData.marunouchi.stations);
-		update("maruStationCost", format(maruStationCost));
+		refreshMarunouchi();
 		updatePps();					// because pps is dependent on station number
-		update("maruLocomotives", gameData.marunouchi.locomotives.toLocaleString("en-US"));
-		maruLocomotiveCost = calcLocomotiveCost(gameData.marunouchi.locomotives);
-		update("maruLocomotiveCost", format(maruLocomotiveCost));
-		update("maruCars", gameData.marunouchi.cars.toLocaleString("en-US"));
-		maruCarCost = calcCarCost(gameData.marunouchi.cars);
-		update("maruCarCost", format(maruCarCost));
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-
-function buyMaruStation(number) {
+}}
+function buyMaruStation(x) {
 	if(gameData.money >= maruStationCost) {
-		gameData.marunouchi.stations += number;
-		gameData.money -= maruStationCost * number;
-		update("money", format(gameData.money));
-		update("maruStations", gameData.marunouchi.stations.toLocaleString("en-US"));
+		gameData.marunouchi.stations += 1;
+		gameData.money -= maruStationCost;
 		maruStationCost = calcStationCost(gameData.marunouchi.stations);
-		update("maruStationCost", format(maruStationCost));
+		if(x === 'max' && gameData.money >= maruStationCost) { buyMaruStation('max'); }
+		update("money", format(gameData.money));
+		refreshMarunouchi();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-
-function buyMaruLocomotive(number) {
-	if(gameData.marunouchi.locomotives < gameData.marunouchi.stations * 2 && gameData.money >= maruLocomotiveCost) {
-		gameData.marunouchi.locomotives += number;
-		gameData.money -= maruLocomotiveCost * number;
-		update("money", format(gameData.money));
-		update("maruLocomotives", gameData.marunouchi.locomotives.toLocaleString("en-US"));
+}}
+function buyMaruLocomotive(x) {
+	if(gameData.marunouchi.locomotives < gameData.marunouchi.stations * locoPerStat && gameData.money >= maruLocomotiveCost) {
+		gameData.marunouchi.locomotives += 1;
+		gameData.money -= maruLocomotiveCost;
 		maruLocomotiveCost = calcLocomotiveCost(gameData.marunouchi.locomotives);
-		update("maruLocomotiveCost", format(maruLocomotiveCost));
-	}
-}
-
-
-function buyMaruCar(number) {
-	if(gameData.marunouchi.cars < gameData.marunouchi.locomotives * 12 && gameData.money >= maruCarCost) {
-		gameData.marunouchi.cars += number;
-		gameData.money -= maruCarCost * number;
+		if(x === 'max' && gameData.money >= maruLocomotiveCost) { buyMaruLocomotive('max'); }
 		update("money", format(gameData.money));
-		update("maruCars", gameData.marunouchi.cars.toLocaleString("en-US"));
+		refreshMarunouchi();
+}}
+function buyMaruCar(x) {
+	if(gameData.marunouchi.cars < gameData.marunouchi.locomotives * carPerLoco && gameData.money >= maruCarCost) {
+		gameData.marunouchi.cars += 1;
+		gameData.money -= maruCarCost;
 		maruCarCost = calcCarCost(gameData.marunouchi.cars);
-		update("maruCarCost", format(maruCarCost));
+		if(x === 'max' && gameData.money >= maruCarCost) { buyMaruCar('max'); }
+		update("money", format(gameData.money));
+		refreshMarunouchi();
 		updateMaxPassengers();	// because max is dependent on car number
-		if(buyMax && gameData.money >= maruCarCost) {
-			buyMaruCar(1);
-		}
-	}
-}
+}}
 // end of marunouchi buying functions
-
 
 
 // hibiya buying functions
@@ -606,62 +575,40 @@ function buyHibiLine() {
 		update("money", format(gameData.money));
 		lineCost = calcLineCost();
 		update("tozaLineCost", format(lineCost));
-		update("hibiStations", gameData.hibiya.stations.toLocaleString("en-US"));
-		hibiStationCost = calcStationCost(gameData.hibiya.stations);
-		update("hibiStationCost", format(hibiStationCost));
+		refreshHibiya();
 		updatePps();					// because pps is dependent on station number
-		update("hibiLocomotives", gameData.hibiya.locomotives.toLocaleString("en-US"));
-		hibiLocomotiveCost = calcLocomotiveCost(gameData.hibiya.locomotives);
-		update("hibiLocomotiveCost", format(hibiLocomotiveCost));
-		update("hibiCars", gameData.hibiya.cars.toLocaleString("en-US"));
-		hibiCarCost = calcCarCost(gameData.hibiya.cars);
-		update("hibiCarCost", format(hibiCarCost));
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-
-function buyHibiStation(number) {
+}}
+function buyHibiStation(x) {
 	if(gameData.money >= hibiStationCost) {
-		gameData.hibiya.stations += number;
-		gameData.money -= hibiStationCost * number;
-		update("money", format(gameData.money));
-		update("hibiStations", gameData.hibiya.stations.toLocaleString("en-US"));
+		gameData.hibiya.stations += 1;
+		gameData.money -= hibiStationCost;
 		hibiStationCost = calcStationCost(gameData.hibiya.stations);
-		update("hibiStationCost", format(hibiStationCost));
+		if(x === 'max' && gameData.money >= hibiStationCost) { buyHibiStation('max'); }
+		update("money", format(gameData.money));
+		refreshHibiya();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-
-function buyHibiLocomotive(number) {
-	if(gameData.hibiya.locomotives < gameData.hibiya.stations * 2 && gameData.money >= hibiLocomotiveCost) {
-		gameData.hibiya.locomotives += number;
-		gameData.money -= hibiLocomotiveCost * number;
-		update("money", format(gameData.money));
-		update("hibiLocomotives", gameData.hibiya.locomotives.toLocaleString("en-US"));
+}}
+function buyHibiLocomotive(x) {
+	if(gameData.hibiya.locomotives < gameData.hibiya.stations * locoPerStat && gameData.money >= hibiLocomotiveCost) {
+		gameData.hibiya.locomotives += 1;
+		gameData.money -= hibiLocomotiveCost;
 		hibiLocomotiveCost = calcLocomotiveCost(gameData.hibiya.locomotives);
-		update("hibiLocomotiveCost", format(hibiLocomotiveCost));
-	}
-}
-
-
-function buyHibiCar(number) {
-	if(gameData.hibiya.cars < gameData.hibiya.locomotives * 12 && gameData.money >= hibiCarCost) {
-		gameData.hibiya.cars += number;
-		gameData.money -= hibiCarCost * number;
+		if(x === 'max' && gameData.money >= hibiLocomotiveCost) { buyHibiLocomotive('max'); }
 		update("money", format(gameData.money));
-		update("hibiCars", gameData.hibiya.cars.toLocaleString("en-US"));
+		refreshHibiya();
+}}
+function buyHibiCar(x) {
+	if(gameData.hibiya.cars < gameData.hibiya.locomotives * carPerLoco && gameData.money >= hibiCarCost) {
+		gameData.hibiya.cars += 1;
+		gameData.money -= hibiCarCost;
 		hibiCarCost = calcCarCost(gameData.hibiya.cars);
-		update("hibiCarCost", format(hibiCarCost));
+		if(x === 'max' && gameData.money >= hibiCarCost) { buyHibiCar('max'); }
+		update("money", format(gameData.money));
+		refreshHibiya();
 		updateMaxPassengers();	// because max is dependent on car number
-		if(buyMax && gameData.money >= hibiCarCost) {
-			buyHibiCar(1);
-		}
-	}
-}
+}}
 // end of hibiya buying functions
-
 
 
 // tozai buying functions
@@ -678,62 +625,40 @@ function buyTozaLine() {
 		update("money", format(gameData.money));
 		lineCost = calcLineCost();
 		update("chiyoLineCost", format(lineCost));
-		update("tozaStations", gameData.tozai.stations.toLocaleString("en-US"));
-		tozaStationCost = calcStationCost(gameData.tozai.stations);
-		update("tozaStationCost", format(tozaStationCost));
+		refreshTozai();
 		updatePps();					// because pps is dependent on station number
-		update("tozaLocomotives", gameData.tozai.locomotives.toLocaleString("en-US"));
-		tozaLocomotiveCost = calcLocomotiveCost(gameData.tozai.locomotives);
-		update("tozaLocomotiveCost", format(tozaLocomotiveCost));
-		update("tozaCars", gameData.tozai.cars.toLocaleString("en-US"));
-		tozaCarCost = calcCarCost(gameData.tozai.cars);
-		update("tozaCarCost", format(tozaCarCost));
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-
-function buyTozaStation(number) {
+}}
+function buyTozaStation(x) {
 	if(gameData.money >= tozaStationCost) {
-		gameData.tozai.stations += number;
-		gameData.money -= tozaStationCost * number;
-		update("money", format(gameData.money));
-		update("tozaStations", gameData.tozai.stations.toLocaleString("en-US"));
+		gameData.tozai.stations += 1;
+		gameData.money -= tozaStationCost;
 		tozaStationCost = calcStationCost(gameData.tozai.stations);
-		update("tozaStationCost", format(tozaStationCost));
+		if(x === 'max' && gameData.money >= tozaStationCost) { buyTozaStation('max'); }
+		update("money", format(gameData.money));
+		refreshTozai();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-
-function buyTozaLocomotive(number) {
-	if(gameData.tozai.locomotives < gameData.tozai.stations * 2 && gameData.money >= tozaLocomotiveCost) {
-		gameData.tozai.locomotives += number;
-		gameData.money -= tozaLocomotiveCost * number;
-		update("money", format(gameData.money));
-		update("tozaLocomotives", gameData.tozai.locomotives.toLocaleString("en-US"));
+}}
+function buyTozaLocomotive(x) {
+	if(gameData.tozai.locomotives < gameData.tozai.stations * locoPerStat && gameData.money >= tozaLocomotiveCost) {
+		gameData.tozai.locomotives += 1;
+		gameData.money -= tozaLocomotiveCost;
 		tozaLocomotiveCost = calcLocomotiveCost(gameData.tozai.locomotives);
-		update("tozaLocomotiveCost", format(tozaLocomotiveCost));
-	}
-}
-
-
-function buyTozaCar(number) {
-	if(gameData.tozai.cars < gameData.tozai.locomotives * 12 && gameData.money >= tozaCarCost) {
-		gameData.tozai.cars += number;
-		gameData.money -= tozaCarCost * number;
+		if(x === 'max' && gameData.money >= tozaLocomotiveCost) { buyTozaLocomotive('max'); }
 		update("money", format(gameData.money));
-		update("tozaCars", gameData.tozai.cars.toLocaleString("en-US"));
+		refreshTozai();
+}}
+function buyTozaCar(x) {
+	if(gameData.tozai.cars < gameData.tozai.locomotives * carPerLoco && gameData.money >= tozaCarCost) {
+		gameData.tozai.cars += 1;
+		gameData.money -= tozaCarCost;
 		tozaCarCost = calcCarCost(gameData.tozai.cars);
-		update("tozaCarCost", format(tozaCarCost));
+		if(x === 'max' && gameData.money >= tozaCarCost) { buyTozaCar('max'); }
+		update("money", format(gameData.money));
+		refreshTozai();
 		updateMaxPassengers();	// because max is dependent on car number
-		if(buyMax && gameData.money >= tozaCarCost) {
-			buyTozaCar(1);
-		}
-	}
-}
+}}
 // end of tozai buying functions
-
 
 
 // chiyoda buying functions
@@ -750,62 +675,40 @@ function buyChiyoLine() {
 		update("money", format(gameData.money));
 		lineCost = calcLineCost();
 		update("yuraLineCost", format(lineCost));
-		update("chiyoStations", gameData.chiyoda.stations.toLocaleString("en-US"));
-		chiyoStationCost = calcStationCost(gameData.chiyoda.stations);
-		update("chiyoStationCost", format(chiyoStationCost));
+		refreshChiyoda();
 		updatePps();					// because pps is dependent on station number
-		update("chiyoLocomotives", gameData.chiyoda.locomotives.toLocaleString("en-US"));
-		chiyoLocomotiveCost = calcLocomotiveCost(gameData.chiyoda.locomotives);
-		update("chiyoLocomotiveCost", format(chiyoLocomotiveCost));
-		update("chiyoCars", gameData.chiyoda.cars.toLocaleString("en-US"));
-		chiyoCarCost = calcCarCost(gameData.chiyoda.cars);
-		update("chiyoCarCost", format(chiyoCarCost));
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-
-function buyChiyoStation(number) {
+}}
+function buyChiyoStation(x) {
 	if(gameData.money >= chiyoStationCost) {
-		gameData.chiyoda.stations += number;
-		gameData.money -= chiyoStationCost * number;
-		update("money", format(gameData.money));
-		update("chiyoStations", gameData.chiyoda.stations.toLocaleString("en-US"));
+		gameData.chiyoda.stations += 1;
+		gameData.money -= chiyoStationCost;
 		chiyoStationCost = calcStationCost(gameData.chiyoda.stations);
-		update("chiyoStationCost", format(chiyoStationCost));
+		if(x === 'max' && gameData.money >= chiyoStationCost) { buyChiyoStation('max'); }
+		update("money", format(gameData.money));
+		refreshChiyoda();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-
-function buyChiyoLocomotive(number) {
-	if(gameData.chiyoda.locomotives < gameData.chiyoda.stations * 2 && gameData.money >= chiyoLocomotiveCost) {
-		gameData.chiyoda.locomotives += number;
-		gameData.money -= chiyoLocomotiveCost * number;
-		update("money", format(gameData.money));
-		update("chiyoLocomotives", gameData.chiyoda.locomotives.toLocaleString("en-US"));
+}}
+function buyChiyoLocomotive(x) {
+	if(gameData.chiyoda.locomotives < gameData.chiyoda.stations * locoPerStat && gameData.money >= chiyoLocomotiveCost) {
+		gameData.chiyoda.locomotives += 1;
+		gameData.money -= chiyoLocomotiveCost;
 		chiyoLocomotiveCost = calcLocomotiveCost(gameData.chiyoda.locomotives);
-		update("chiyoLocomotiveCost", format(chiyoLocomotiveCost));
-	}
-}
-
-
-function buyChiyoCar(number) {
-	if(gameData.chiyoda.cars < gameData.chiyoda.locomotives * 12 && gameData.money >= chiyoCarCost) {
-		gameData.chiyoda.cars += number;
-		gameData.money -= chiyoCarCost * number;
+		if(x === 'max' && gameData.money >= chiyoLocomotiveCost) { buyChiyoLocomotive('max'); }
 		update("money", format(gameData.money));
-		update("chiyoCars", gameData.chiyoda.cars.toLocaleString("en-US"));
+		refreshChiyoda();
+}}
+function buyChiyoCar(x) {
+	if(gameData.chiyoda.cars < gameData.chiyoda.locomotives * carPerLoco && gameData.money >= chiyoCarCost) {
+		gameData.chiyoda.cars += 1;
+		gameData.money -= chiyoCarCost;
 		chiyoCarCost = calcCarCost(gameData.chiyoda.cars);
-		update("chiyoCarCost", format(chiyoCarCost));
+		if(x === 'max' && gameData.money >= chiyoCarCost) { buyChiyoCar('max'); }
+		update("money", format(gameData.money));
+		refreshChiyoda();
 		updateMaxPassengers();	// because max is dependent on car number
-		if(buyMax && gameData.money >= chiyoCarCost) {
-			buyChiyoCar(1);
-		}
-	}
-}
+}}
 // end of chiyoda buying functions
-
 
 
 // yurakucho buying functions
@@ -822,62 +725,40 @@ function buyYuraLine() {
 		update("money", format(gameData.money));
 		lineCost = calcLineCost();
 		update("hanLineCost", format(lineCost));
-		update("yuraStations", gameData.yurakucho.stations.toLocaleString("en-US"));
-		yuraStationCost = calcStationCost(gameData.yurakucho.stations);
-		update("yuraStationCost", format(yuraStationCost));
+		refreshYurakucho();
 		updatePps();					// because pps is dependent on station number
-		update("yuraLocomotives", gameData.yurakucho.locomotives.toLocaleString("en-US"));
-		yuraLocomotiveCost = calcLocomotiveCost(gameData.yurakucho.locomotives);
-		update("yuraLocomotiveCost", format(yuraLocomotiveCost));
-		update("yuraCars", gameData.yurakucho.cars.toLocaleString("en-US"));
-		yuraCarCost = calcCarCost(gameData.yurakucho.cars);
-		update("yuraCarCost", format(yuraCarCost));
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-
-function buyYuraStation(number) {
+}}
+function buyYuraStation(x) {
 	if(gameData.money >= yuraStationCost) {
-		gameData.yurakucho.stations += number;
-		gameData.money -= yuraStationCost * number;
-		update("money", format(gameData.money));
-		update("yuraStations", gameData.yurakucho.stations.toLocaleString("en-US"));
+		gameData.yurakucho.stations += 1;
+		gameData.money -= yuraStationCost;
 		yuraStationCost = calcStationCost(gameData.yurakucho.stations);
-		update("yuraStationCost", format(yuraStationCost));
+		if(x === 'max' && gameData.money >= yuraStationCost) { buyYuraStation('max'); }
+		update("money", format(gameData.money));
+		refreshYurakucho();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-
-function buyYuraLocomotive(number) {
-	if(gameData.yurakucho.locomotives < gameData.yurakucho.stations * 2 && gameData.money >= yuraLocomotiveCost) {
-		gameData.yurakucho.locomotives += number;
-		gameData.money -= yuraLocomotiveCost * number;
-		update("money", format(gameData.money));
-		update("yuraLocomotives", gameData.yurakucho.locomotives.toLocaleString("en-US"));
+}}
+function buyYuraLocomotive(x) {
+	if(gameData.yurakucho.locomotives < gameData.yurakucho.stations * locoPerStat && gameData.money >= yuraLocomotiveCost) {
+		gameData.yurakucho.locomotives += 1;
+		gameData.money -= yuraLocomotiveCost;
 		yuraLocomotiveCost = calcLocomotiveCost(gameData.yurakucho.locomotives);
-		update("yuraLocomotiveCost", format(yuraLocomotiveCost));
-	}
-}
-
-
-function buyYuraCar(number) {
-	if(gameData.yurakucho.cars < gameData.yurakucho.locomotives * 12 && gameData.money >= yuraCarCost) {
-		gameData.yurakucho.cars += number;
-		gameData.money -= yuraCarCost * number;
+		if(x === 'max' && gameData.money >= yuraLocomotiveCost) { buyYuraLocomotive('max'); }
 		update("money", format(gameData.money));
-		update("yuraCars", gameData.yurakucho.cars.toLocaleString("en-US"));
+		refreshYurakucho();
+}}
+function buyYuraCar(x) {
+	if(gameData.yurakucho.cars < gameData.yurakucho.locomotives * carPerLoco && gameData.money >= yuraCarCost) {
+		gameData.yurakucho.cars += 1;
+		gameData.money -= yuraCarCost;
 		yuraCarCost = calcCarCost(gameData.yurakucho.cars);
-		update("yuraCarCost", format(yuraCarCost));
+		if(x === 'max' && gameData.money >= yuraCarCost) { buyYuraCar('max'); }
+		update("money", format(gameData.money));
+		refreshYurakucho();
 		updateMaxPassengers();	// because max is dependent on car number
-		if(buyMax && gameData.money >= yuraCarCost) {
-			buyYuraCar(1);
-		}
-	}
-}
+}}
 // end of yurakucho buying functions
-
 
 
 // hanzomon buying functions
@@ -894,62 +775,40 @@ function buyHanLine() {
 		update("money", format(gameData.money));
 		lineCost = calcLineCost();
 		update("namLineCost", format(lineCost));
-		update("hanStations", gameData.hanzomon.stations.toLocaleString("en-US"));
-		hanStationCost = calcStationCost(gameData.hanzomon.stations);
-		update("hanStationCost", format(hanStationCost));
+		refreshHanzomon();
 		updatePps();					// because pps is dependent on station number
-		update("hanLocomotives", gameData.hanzomon.locomotives.toLocaleString("en-US"));
-		hanLocomotiveCost = calcLocomotiveCost(gameData.hanzomon.locomotives);
-		update("hanLocomotiveCost", format(hanLocomotiveCost));
-		update("hanCars", gameData.hanzomon.cars.toLocaleString("en-US"));
-		hanCarCost = calcCarCost(gameData.hanzomon.cars);
-		update("hanCarCost", format(hanCarCost));
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-
-function buyHanStation(number) {
+}}
+function buyHanStation(x) {
 	if(gameData.money >= hanStationCost) {
-		gameData.hanzomon.stations += number;
-		gameData.money -= hanStationCost * number;
-		update("money", format(gameData.money));
-		update("hanStations", gameData.hanzomon.stations.toLocaleString("en-US"));
+		gameData.hanzomon.stations += 1;
+		gameData.money -= hanStationCost;
 		hanStationCost = calcStationCost(gameData.hanzomon.stations);
-		update("hanStationCost", format(hanStationCost));
+		if(x === 'max' && gameData.money >= hanStationCost) { buyHanStation('max'); }
+		update("money", format(gameData.money));
+		refreshHanzomon();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-
-function buyHanLocomotive(number) {
-	if(gameData.hanzomon.locomotives < gameData.hanzomon.stations * 2 && gameData.money >= hanLocomotiveCost) {
-		gameData.hanzomon.locomotives += number;
-		gameData.money -= hanLocomotiveCost * number;
-		update("money", format(gameData.money));
-		update("hanLocomotives", gameData.hanzomon.locomotives.toLocaleString("en-US"));
+}}
+function buyHanLocomotive(x) {
+	if(gameData.hanzomon.locomotives < gameData.hanzomon.stations * locoPerStat && gameData.money >= hanLocomotiveCost) {
+		gameData.hanzomon.locomotives += 1;
+		gameData.money -= hanLocomotiveCost;
 		hanLocomotiveCost = calcLocomotiveCost(gameData.hanzomon.locomotives);
-		update("hanLocomotiveCost", format(hanLocomotiveCost));
-	}
-}
-
-
-function buyHanCar(number) {
-	if(gameData.hanzomon.cars < gameData.hanzomon.locomotives * 12 && gameData.money >= hanCarCost) {
-		gameData.hanzomon.cars += number;
-		gameData.money -= hanCarCost * number;
+		if(x === 'max' && gameData.money >= hanLocomotiveCost) { buyHanLocomotive('max'); }
 		update("money", format(gameData.money));
-		update("hanCars", gameData.hanzomon.cars.toLocaleString("en-US"));
+		refreshHanzomon();
+}}
+function buyHanCar(x) {
+	if(gameData.hanzomon.cars < gameData.hanzomon.locomotives * carPerLoco && gameData.money >= hanCarCost) {
+		gameData.hanzomon.cars += 1;
+		gameData.money -= hanCarCost;
 		hanCarCost = calcCarCost(gameData.hanzomon.cars);
-		update("hanCarCost", format(hanCarCost));
+		if(x === 'max' && gameData.money >= hanCarCost) { buyHanCar('max'); }
+		update("money", format(gameData.money));
+		refreshHanzomon();
 		updateMaxPassengers();	// because max is dependent on car number
-		if(buyMax && gameData.money >= hanCarCost) {
-			buyHanCar(1);
-		}
-	}
-}
+}}
 // end of hanzomon buying functions
-
 
 
 // namboku buying functions
@@ -966,62 +825,40 @@ function buyNamLine() {
 		update("money", format(gameData.money));
 		lineCost = calcLineCost();
 		update("fukuLineCost", format(lineCost));
-		update("namStations", gameData.namboku.stations.toLocaleString("en-US"));
-		namStationCost = calcStationCost(gameData.namboku.stations);
-		update("namStationCost", format(namStationCost));
+		refreshNamboku();
 		updatePps();					// because pps is dependent on station number
-		update("namLocomotives", gameData.namboku.locomotives.toLocaleString("en-US"));
-		namLocomotiveCost = calcLocomotiveCost(gameData.namboku.locomotives);
-		update("namLocomotiveCost", format(namLocomotiveCost));
-		update("namCars", gameData.namboku.cars.toLocaleString("en-US"));
-		namCarCost = calcCarCost(gameData.namboku.cars);
-		update("namCarCost", format(namCarCost));
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-
-function buyNamStation(number) {
+}}
+function buyNamStation(x) {
 	if(gameData.money >= namStationCost) {
-		gameData.namboku.stations += number;
-		gameData.money -= namStationCost * number;
-		update("money", format(gameData.money));
-		update("namStations", gameData.namboku.stations.toLocaleString("en-US"));
+		gameData.namboku.stations += 1;
+		gameData.money -= namStationCost;
 		namStationCost = calcStationCost(gameData.namboku.stations);
-		update("namStationCost", format(namStationCost));
+		if(x === 'max' && gameData.money >= namStationCost) { buyNamStation('max'); }
+		update("money", format(gameData.money));
+		refreshNamboku();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-
-function buyNamLocomotive(number) {
-	if(gameData.namboku.locomotives < gameData.namboku.stations * 2 && gameData.money >= namLocomotiveCost) {
-		gameData.namboku.locomotives += number;
-		gameData.money -= namLocomotiveCost * number;
-		update("money", format(gameData.money));
-		update("namLocomotives", gameData.namboku.locomotives.toLocaleString("en-US"));
+}}
+function buyNamLocomotive(x) {
+	if(gameData.namboku.locomotives < gameData.namboku.stations * locoPerStat && gameData.money >= namLocomotiveCost) {
+		gameData.namboku.locomotives += 1;
+		gameData.money -= namLocomotiveCost;
 		namLocomotiveCost = calcLocomotiveCost(gameData.namboku.locomotives);
-		update("namLocomotiveCost", format(namLocomotiveCost));
-	}
-}
-
-
-function buyNamCar(number) {
-	if(gameData.namboku.cars < gameData.namboku.locomotives * 12 && gameData.money >= namCarCost) {
-		gameData.namboku.cars += number;
-		gameData.money -= namCarCost * number;
+		if(x === 'max' && gameData.money >= namLocomotiveCost) { buyNamLocomotive('max'); }
 		update("money", format(gameData.money));
-		update("namCars", gameData.namboku.cars.toLocaleString("en-US"));
+		refreshNamboku();
+}}
+function buyNamCar(x) {
+	if(gameData.namboku.cars < gameData.namboku.locomotives * carPerLoco && gameData.money >= namCarCost) {
+		gameData.namboku.cars += 1;
+		gameData.money -= namCarCost;
 		namCarCost = calcCarCost(gameData.namboku.cars);
-		update("namCarCost", format(namCarCost));
+		if(x === 'max' && gameData.money >= namCarCost) { buyNamCar('max'); }
+		update("money", format(gameData.money));
+		refreshNamboku();
 		updateMaxPassengers();	// because max is dependent on car number
-		if(buyMax && gameData.money >= namCarCost) {
-			buyNamCar(1);
-		}
-	}
-}
+}}
 // end of namboku buying functions
-
 
 
 // fukutoshin buying functions
@@ -1035,110 +872,40 @@ function buyFukuLine() {
 		show("fukutoshinBody");
 		hide("fukutoshinHead");
 		update("money", format(gameData.money));
-		lineCost = calcLineCost();
-		update("fukuStations", gameData.fukutoshin.stations.toLocaleString("en-US"));
-		fukuStationCost = calcStationCost(gameData.fukutoshin.stations);
-		update("fukuStationCost", format(fukuStationCost));
+		refreshFukutoshin();
 		updatePps();					// because pps is dependent on station number
-		update("fukuLocomotives", gameData.fukutoshin.locomotives.toLocaleString("en-US"));
-		fukuLocomotiveCost = calcLocomotiveCost(gameData.fukutoshin.locomotives);
-		update("fukuLocomotiveCost", format(fukuLocomotiveCost));
-		update("fukuCars", gameData.fukutoshin.cars.toLocaleString("en-US"));
-		fukuCarCost = calcCarCost(gameData.fukutoshin.cars);
-		update("fukuCarCost", format(fukuCarCost));
 		updateMaxPassengers();	// because max is dependent on car number
-	}
-}
-
-
-function buyFukuStation(number) {
+}}
+function buyFukuStation(x) {
 	if(gameData.money >= fukuStationCost) {
-		gameData.fukutoshin.stations += number;
-		gameData.money -= fukuStationCost * number;
-		update("money", format(gameData.money));
-		update("fukuStations", gameData.fukutoshin.stations.toLocaleString("en-US"));
+		gameData.fukutoshin.stations += 1;
+		gameData.money -= fukuStationCost;
 		fukuStationCost = calcStationCost(gameData.fukutoshin.stations);
-		update("fukuStationCost", format(fukuStationCost));
+		if(x === 'max' && gameData.money >= fukuStationCost) { buyFukuStation('max'); }
+		update("money", format(gameData.money));
+		refreshFukutoshin();
 		updatePps();					// because pps is dependent on station number
-	}
-}
-
-
-function buyFukuLocomotive(number) {
-	if(gameData.fukutoshin.locomotives < gameData.fukutoshin.stations * 2 && gameData.money >= fukuLocomotiveCost) {
-		gameData.fukutoshin.locomotives += number;
-		gameData.money -= fukuLocomotiveCost * number;
-		update("money", format(gameData.money));
-		update("fukuLocomotives", gameData.fukutoshin.locomotives.toLocaleString("en-US"));
+}}
+function buyFukuLocomotive(x) {
+	if(gameData.fukutoshin.locomotives < gameData.fukutoshin.stations * locoPerStat && gameData.money >= fukuLocomotiveCost) {
+		gameData.fukutoshin.locomotives += 1;
+		gameData.money -= fukuLocomotiveCost;
 		fukuLocomotiveCost = calcLocomotiveCost(gameData.fukutoshin.locomotives);
-		update("fukuLocomotiveCost", format(fukuLocomotiveCost));
-	}
-}
-
-
-function buyFukuCar(number) {
-	if(gameData.fukutoshin.cars < gameData.fukutoshin.locomotives * 12 && gameData.money >= fukuCarCost) {
-		gameData.fukutoshin.cars += number;
-		gameData.money -= fukuCarCost * number;
+		if(x === 'max' && gameData.money >= fukuLocomotiveCost) { buyFukuLocomotive('max'); }
 		update("money", format(gameData.money));
-		update("fukuCars", gameData.fukutoshin.cars.toLocaleString("en-US"));
+		refreshFukutoshin();
+}}
+function buyFukuCar(x) {
+	if(gameData.fukutoshin.cars < gameData.fukutoshin.locomotives * carPerLoco && gameData.money >= fukuCarCost) {
+		gameData.fukutoshin.cars += 1;
+		gameData.money -= fukuCarCost;
 		fukuCarCost = calcCarCost(gameData.fukutoshin.cars);
-		update("fukuCarCost", format(fukuCarCost));
+		if(x === 'max' && gameData.money >= fukuCarCost) { buyFukuCar('max'); }
+		update("money", format(gameData.money));
+		refreshFukutoshin();
 		updateMaxPassengers();	// because max is dependent on car number
-		if(buyMax && gameData.money >= fukuCarCost) {
-			buyFukuCar(1);
-		}
-
-	}
-}
+}}
 // end of fukutoshin buying functions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -314,6 +314,7 @@ html, body {
 }
 
 
+
 span {
 	color:white;
 }
@@ -325,12 +326,31 @@ span {
 /* BUTTON CLASSES */
 
 .button {
+	display: inline-block;
 	background-color:var(--medium1Color);
 	border: 1px solid var(--accentColor);
+	margin: 5px 0px 0px;
 	padding: 5px 10px;
 	color: var(--whitestColor);
 	font-weight: bold;
-	margin: 5px 0;
+}
+
+.button.buy {
+	padding: 5px 1px;
+	width: 74%;
+	height: 30px;
+	float: left;
+	font-size: 80%;
+	overflow: hidden;
+}
+
+.button.buy.max {
+	padding: 3px 1px;
+	width: 24%;
+	color: white;
+	font-size: 75%;
+	line-height: 100%;
+	float: right;
 }
 
 
