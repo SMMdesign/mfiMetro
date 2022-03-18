@@ -12,6 +12,15 @@ If you encounter an issue of any kind, please submit it as a github issue, or co
 
 ## Changelog
 
+#### Version 0.42 - 2022/03/XX
+
+- Fixed bug that prevented the delete save button from working correctly sometimes.
+- Added number formatting for Million through Sextillion. Numbers larger than that will show in exponential form.
+- Locomotives and Cars now show their max possible capacity.
+- Added max buy buttons.
+- Pinned the bank to the top of the screen to keep it visible when scrolling on mobile.
+
+
 #### Version 0.41 - 2022/03/14
 
 - Adjusted game balance

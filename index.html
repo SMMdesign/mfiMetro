@@ -2,13 +2,9 @@
 <html>
 <head>
 <title>MFI Metro by SMMDesign</title>
-<meta name="description" content="MFI Metro is a browser-based incremental game about trains created by an aspiring gamedev.">
-
+<meta name="description" content="MFI Metro is a browser-based incremental game about building an ever-expanding train empire created by an aspiring gamedev.">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, minimum-scale=1, user-scalable=no">
-
-
-
 
 
 <link rel="stylesheet" type="text/css" href="interface.css" />
@@ -30,25 +26,35 @@
 <body>
 
 
+
+
+
+
+
+
 <div class="header">
-<a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a>
+	<div class="title"><a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a></div>
+	
+	<div class="bankContainer">
+		<div class="bank left">
+			<span class="accent">Bank </span>
+			<span id="mps" class="description">XXX/s</span>
+			<br>
+			¥<span id="money">X</span>
+		</div>
+		<div class="bank right">
+			<span class="accent">Passengers</span>
+			<span id="pps" class="description">XXX/s</span>
+			<br>
+			<span id="passengers" >X</span> <span id="maxPassengers" class="description">XXX</span>
+		</div>
+	</div>
+
+	
+	
 </div>
 
 
-<div class="bankContainer">
-<div class="bank left">
-<span class="accent">Bank </span>
-<span id="mps" class="description">XXX/s</span>
-<br>
-¥<span id="money">X</span>
-</div>
-<div class="bank right">
-<span class="accent">Passengers</span>
-<span id="pps" class="description">XXX/s</span>
-<br>
-<span id="passengers" >X</span> <span id="maxPassengers" class="description">XXX</span>
-</div>
-</div>
 
 
 
@@ -81,9 +87,8 @@
 	<div id="ginzaHead">
 		<span class="accent">Ginza Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyGinLine()">¥<span id="ginLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyGinLine()" style="width:100%;">¥<span id="ginLineCost">XXX</span></button>
 	</div>
-
 
 	<div id="ginzaBody" class="line" >
 		<div class="lineHead"> Ginza Line<div class="lineIcon">G</div></div>
@@ -92,336 +97,332 @@
 			<span class="accent">Stations</span>
 			<br><span id="ginStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyGinStation(1)">¥<span id="ginStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyGinStation()">¥<span id="ginStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyGinStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="ginCars">X</span>
+			<br><span id="ginCars">X</span> / <span id="ginMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyGinCar(1)">¥<span id="ginCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyGinCar()">¥<span id="ginCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyGinCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="ginLocomotives">X</span>
+			<br><span id="ginLocomotives">X</span> / <span id="ginMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyGinLocomotive(1)">¥<span id="ginLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyGinLocomotive(1)">¥<span id="ginLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyGinLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of ginza -->
 
 
-
 <div id="marunouchi" class="lineContainer">
 	<div id="marunouchiHead">
 		<span class="accent">Marunouchi Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyMaruLine()">¥<span id="maruLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyMaruLine()" style="width:100%;">¥<span id="maruLineCost">XXX</span></button>
 	</div>
 
-
 	<div id="marunouchiBody" class="line" >
-		<div class="lineHead"> Marunouchi Line<div class="lineIcon">M</div></div>
+		<div class="lineHead"> Marunouchi Line<div class="lineIcon">G</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
 			<br><span id="maruStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyMaruStation(1)">¥<span id="maruStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyMaruStation()">¥<span id="maruStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyMaruStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="maruCars">X</span>
+			<br><span id="maruCars">X</span> / <span id="maruMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyMaruCar(1)">¥<span id="maruCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyMaruCar()">¥<span id="maruCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyMaruCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="maruLocomotives">X</span>
+			<br><span id="maruLocomotives">X</span> / <span id="maruMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyMaruLocomotive(1)">¥<span id="maruLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyMaruLocomotive(1)">¥<span id="maruLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyMaruLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of marunouchi -->
 
 
-
 <div id="hibiya" class="lineContainer">
 	<div id="hibiyaHead">
 		<span class="accent">Hibiya Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyHibiLine()">¥<span id="hibiLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyHibiLine()" style="width:100%;">¥<span id="hibiLineCost">XXX</span></button>
 	</div>
 
-
 	<div id="hibiyaBody" class="line" >
-		<div class="lineHead"> Hibiya Line<div class="lineIcon">H</div></div>
+		<div class="lineHead"> Hibiya Line<div class="lineIcon">G</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
 			<br><span id="hibiStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyHibiStation(1)">¥<span id="hibiStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyHibiStation()">¥<span id="hibiStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyHibiStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="hibiCars">X</span>
+			<br><span id="hibiCars">X</span> / <span id="hibiMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyHibiCar(1)">¥<span id="hibiCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyHibiCar()">¥<span id="hibiCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyHibiCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="hibiLocomotives">X</span>
+			<br><span id="hibiLocomotives">X</span> / <span id="hibiMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyHibiLocomotive(1)">¥<span id="hibiLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyHibiLocomotive(1)">¥<span id="hibiLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyHibiLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of hibiya -->
 
 
-
 <div id="tozai" class="lineContainer">
 	<div id="tozaiHead">
 		<span class="accent">Tozai Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyTozaLine()">¥<span id="tozaLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyTozaLine()" style="width:100%;">¥<span id="tozaLineCost">XXX</span></button>
 	</div>
 
-
 	<div id="tozaiBody" class="line" >
-		<div class="lineHead"> Tozai Line<div class="lineIcon">T</div></div>
+		<div class="lineHead"> Tozai Line<div class="lineIcon">G</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
 			<br><span id="tozaStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyTozaStation(1)">¥<span id="tozaStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyTozaStation()">¥<span id="tozaStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyTozaStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="tozaCars">X</span>
+			<br><span id="tozaCars">X</span> / <span id="tozaMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyTozaCar(1)">¥<span id="tozaCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyTozaCar()">¥<span id="tozaCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyTozaCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="tozaLocomotives">X</span>
+			<br><span id="tozaLocomotives">X</span> / <span id="tozaMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyTozaLocomotive(1)">¥<span id="tozaLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyTozaLocomotive(1)">¥<span id="tozaLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyTozaLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of tozai -->
 
 
-
 <div id="chiyoda" class="lineContainer">
 	<div id="chiyodaHead">
 		<span class="accent">Chiyoda Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyChiyoLine()">¥<span id="chiyoLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyChiyoLine()" style="width:100%;">¥<span id="chiyoLineCost">XXX</span></button>
 	</div>
 
-
 	<div id="chiyodaBody" class="line" >
-		<div class="lineHead"> Chiyoda Line<div class="lineIcon">C</div></div>
+		<div class="lineHead"> Chiyoda Line<div class="lineIcon">G</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
 			<br><span id="chiyoStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyChiyoStation(1)">¥<span id="chiyoStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyChiyoStation()">¥<span id="chiyoStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyChiyoStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="chiyoCars">X</span>
+			<br><span id="chiyoCars">X</span> / <span id="chiyoMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyChiyoCar(1)">¥<span id="chiyoCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyChiyoCar()">¥<span id="chiyoCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyChiyoCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="chiyoLocomotives">X</span>
+			<br><span id="chiyoLocomotives">X</span> / <span id="chiyoMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyChiyoLocomotive(1)">¥<span id="chiyoLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyChiyoLocomotive(1)">¥<span id="chiyoLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyChiyoLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of chiyoda -->
 
 
-
 <div id="yurakucho" class="lineContainer">
 	<div id="yurakuchoHead">
 		<span class="accent">Yurakucho Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyYuraLine()">¥<span id="yuraLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyYuraLine()" style="width:100%;">¥<span id="yuraLineCost">XXX</span></button>
 	</div>
 
-
 	<div id="yurakuchoBody" class="line" >
-		<div class="lineHead"> Yurakucho Line<div class="lineIcon">Y</div></div>
+		<div class="lineHead"> Yurakucho Line<div class="lineIcon">G</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
 			<br><span id="yuraStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyYuraStation(1)">¥<span id="yuraStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyYuraStation()">¥<span id="yuraStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyYuraStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="yuraCars">X</span>
+			<br><span id="yuraCars">X</span> / <span id="yuraMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyYuraCar(1)">¥<span id="yuraCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyYuraCar()">¥<span id="yuraCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyYuraCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="yuraLocomotives">X</span>
+			<br><span id="yuraLocomotives">X</span> / <span id="yuraMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyYuraLocomotive(1)">¥<span id="yuraLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyYuraLocomotive(1)">¥<span id="yuraLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyYuraLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of yurakucho -->
 
 
-
 <div id="hanzomon" class="lineContainer">
 	<div id="hanzomonHead">
 		<span class="accent">Hanzomon Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyHanLine()">¥<span id="hanLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyHanLine()" style="width:100%;">¥<span id="hanLineCost">XXX</span></button>
 	</div>
 
-
 	<div id="hanzomonBody" class="line" >
-		<div class="lineHead"> Hanzomon Line<div class="lineIcon">Z</div></div>
+		<div class="lineHead"> Hanzomon Line<div class="lineIcon">G</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
 			<br><span id="hanStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyHanStation(1)">¥<span id="hanStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyHanStation()">¥<span id="hanStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyHanStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="hanCars">X</span>
+			<br><span id="hanCars">X</span> / <span id="hanMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyHanCar(1)">¥<span id="hanCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyHanCar()">¥<span id="hanCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyHanCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="hanLocomotives">X</span>
+			<br><span id="hanLocomotives">X</span> / <span id="hanMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyHanLocomotive(1)">¥<span id="hanLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyHanLocomotive(1)">¥<span id="hanLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyHanLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of hanzomon -->
 
 
-
 <div id="namboku" class="lineContainer">
 	<div id="nambokuHead">
 		<span class="accent">Namboku Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyNamLine()">¥<span id="namLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyNamLine()" style="width:100%;">¥<span id="namLineCost">XXX</span></button>
 	</div>
 
-
 	<div id="nambokuBody" class="line" >
-		<div class="lineHead"> Namboku Line<div class="lineIcon">N</div></div>
+		<div class="lineHead"> Namboku Line<div class="lineIcon">G</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
 			<br><span id="namStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyNamStation(1)">¥<span id="namStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyNamStation()">¥<span id="namStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyNamStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="namCars">X</span>
+			<br><span id="namCars">X</span> / <span id="namMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyNamCar(1)">¥<span id="namCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyNamCar()">¥<span id="namCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyNamCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="namLocomotives">X</span>
+			<br><span id="namLocomotives">X</span> / <span id="namMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyNamLocomotive(1)">¥<span id="namLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyNamLocomotive(1)">¥<span id="namLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyNamLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of namboku -->
 
 
-
 <div id="fukutoshin" class="lineContainer">
 	<div id="fukutoshinHead">
 		<span class="accent">Fukutoshin Line</span>
 		<p class="description">Comes with 2 Stations, 1 Locomotive, and 1 Passenger Car.</p>
-		<button class="button" onClick="buyFukuLine()">¥<span id="fukuLineCost">XXX</span></button>
+		<button class="button buy" onClick="buyFukuLine()" style="width:100%;">¥<span id="fukuLineCost">XXX</span></button>
 	</div>
 
-
 	<div id="fukutoshinBody" class="line" >
-		<div class="lineHead"> Fukutoshin Line<div class="lineIcon">F</div></div>
+		<div class="lineHead"> Fukutoshin Line<div class="lineIcon">G</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
 			<br><span id="fukuStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button" onClick="buyFukuStation(1)">¥<span id="fukuStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyFukuStation()">¥<span id="fukuStationCost">XXX</span></button>
+			<button class="button buy max" onClick="buyFukuStation('max')">BUY MAX</button>			
 		</div>
 
 		<div class="bodyItem three">
 			<span class="accent">Passenger Cars</span>
-			<br><span id="fukuCars">X</span>
+			<br><span id="fukuCars">X</span> / <span id="fukuMaxCars" class="maxStock">X</span>
 			<p class="description">Carries 100 passengers.</p>
-			<button class="button" onClick="buyFukuCar(1)">¥<span id="fukuCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyFukuCar()">¥<span id="fukuCarCost">XXX</span></button>
+			<button class="button buy max" onClick="buyFukuCar('max')">BUY MAX</button>
 		</div>
 
 		<div class="bodyItem two">
 			<span class="accent">Locomotives</span>
-			<br><span id="fukuLocomotives">X</span>
+			<br><span id="fukuLocomotives">X</span> / <span id="fukuMaxLocomotives" class="maxStock">X</span>
 			<p class="description">Max 2 per station. Can carry 12 cars.</p>
-			<button class="button" onClick="buyFukuLocomotive(1)">¥<span id="fukuLocomotiveCost">XXX</span></button>
+			<button class="button buy" onClick="buyFukuLocomotive(1)">¥<span id="fukuLocomotiveCost">XXX</span></button>
+			<button class="button buy max" onClick="buyFukuLocomotive('max')">BUY MAX</button>
 		</div>
 	</div>
 </div>
 <!-- end of fukutoshin -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -469,8 +470,8 @@ Created with help from <a href="https://kastark.co.uk/articles/incrementals.html
 
 
 
-
-
+<script src="mfi-numbers.js"></script>
 <script type="text/javascript" src="main.js"></script>
+
 </body>
 </html>

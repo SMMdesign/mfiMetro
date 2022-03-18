@@ -35,7 +35,6 @@ html, body {
 	background-color: var(--darkestColor);
 	font-family: Verdana, sans-serif;
 	color: var(--whitestColor);
-	touch-events: manipulation;
 
 }
 
@@ -45,10 +44,10 @@ html, body {
 
 .header {
 	background-color: var(--medium1Color);
-	padding: 10px;
-	margin: 0 0 10px 0;
-	font-size: 140%;
-	text-align: left;
+	margin: 0px;
+	position: sticky;
+	top: 0;
+	width: 100%;
 }
 
 .header a {
@@ -56,27 +55,24 @@ html, body {
 	text-decoration: none;
 }
 
-.footer {
-	width: 100%;
-	margin: 10px auto;
-	color: var(--medium2Color);
-	text-align: center;
-	font-size: 80%;
-}
-.footer a {
-	color: var(--medium2Color);
+
+.title {
+	padding: 5px 10px;
+	font-size: 120%;
 }
 
 
 
 .bankContainer {
+	box-sizing: border-box;
 	height: 44px;
-	margin: 5px 10px;
-	width: auto;
+	/* margin: 5px; */
+	width: 100%;
 	background-color: var(--medium2Color);
 	padding: 5px 10px 10px;
 	color: white;
-	line-height: 140%;
+	font-size: 90%;
+	/* line-height: 140%; */
 }
 
 .bank {
@@ -97,11 +93,24 @@ html, body {
 
 
 .main {
+	/* position: relative; */
+	/* top: 77px; */
 	margin: 10px;
 	/* box-sizing: border-box; */
 	background-color: var(--medium1Color);
 	padding: 10px 0px 10px 10px;
 }
+
+/* small phone screen */
+@media screen and (max-width: 440px) {
+	body {
+		font-size: 95%;
+	}
+	.main {
+		margin: 10px 0px;
+	}
+}
+
 
 
 
@@ -308,6 +317,14 @@ html, body {
 	font-style: italic;
 }
 
+.maxStock {
+	/* font-size: 80%; */
+	color: var(--whitestColor);
+	/* font-style: italic; */
+}
+
+
+
 span {
 	color:white;
 }
@@ -319,12 +336,49 @@ span {
 /* BUTTON CLASSES */
 
 .button {
+	display: inline-block;
 	background-color:var(--medium1Color);
 	border: 1px solid var(--accentColor);
+	margin: 5px 0px 0px;
 	padding: 5px 10px;
 	color: var(--whitestColor);
 	font-weight: bold;
-	margin: 5px 0;
 }
 
+.button.buy {
+	padding: 5px 1px;
+	width: 74%;
+	height: 30px;
+	float: left;
+	font-size: 80%;
+	line-height: 100%;
+	overflow: hidden;
+}
+
+.button.buy.max {
+	padding: 3px 1px;
+	width: 24%;
+	background-color:var(--accentColor);
+	border: none;
+	color: white;
+	font-size: 75%;
+	line-height: 100%;
+	float: right;
+}
+
+
+
+
+
+
+.footer {
+	width: 100%;
+	margin: 10px auto;
+	color: var(--medium2Color);
+	text-align: center;
+	font-size: 80%;
+}
+.footer a {
+	color: var(--medium2Color);
+}
 

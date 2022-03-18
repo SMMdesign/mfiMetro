@@ -1,12 +1,10 @@
-Roadmap
+Roadmap (in no particular order)
 ----------
 
-- Fix delete function to prevent mid-delete saving
-- Add max buy buttons
-- Add offline progress
-- Add a visual representation of each building's max amount
 - Continue balancing cost for better gameplay
-- Change number scaling to better differentiate between big numbers (and take up less room)
 - Add prestige mechanic (spawn a new timeline and gain currency that will allow you to buy upgrades that do various things)
 - Add the ability to name your own lines (and maybe change color?)
 - Add tab with Options
+- Add long and short names to mfi-numbers
+- Add variable sigdigs to mfi-numbers
+- Add offline progress
