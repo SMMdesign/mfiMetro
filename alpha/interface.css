@@ -2,7 +2,6 @@
 	--darkestColor:	#202529;
 	--medium1Color:	#363D42;
 	--medium2Color:	#505A61;
-	/* --accentColor:		#1BC6B4; */
 	--accentColor:		#40CFFF;
 	--whitestColor:	#A1B4C4;
 	
@@ -28,7 +27,7 @@
 
   
 html, body {
-	/* height: 100%; */
+	width: 100%;
 	margin: 0;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
@@ -61,11 +60,16 @@ html, body {
 	font-size: 120%;
 }
 
+.navMenu {
+	float: right;
+	margin-top: -2px;
+}
+
 
 
 .bankContainer {
 	box-sizing: border-box;
-	height: 44px;
+	height: 45px;
 	/* margin: 5px; */
 	width: 100%;
 	background-color: var(--medium2Color);
@@ -93,12 +97,11 @@ html, body {
 
 
 .main {
-	/* position: relative; */
-	/* top: 77px; */
+	display: inline-block;
 	margin: 10px;
 	/* box-sizing: border-box; */
 	background-color: var(--medium1Color);
-	padding: 10px 0px 10px 10px;
+	padding: 10px;
 }
 
 /* small phone screen */
@@ -112,6 +115,10 @@ html, body {
 }
 
 
+
+.main.lines {
+	padding: 10px 0px 10px 10px;
+}
 
 
 /* 3 columns */
@@ -197,105 +204,17 @@ html, body {
 
 
 
-#ginza {
-	--accentColor: var(--ginzaColor);
-}
-#marunouchi {
-	--accentColor: var(--marunouchiColor);
-}
-#hibiya {
-	--accentColor: var(--hibiyaColor);
-}
-#tozai {
-	--accentColor: var(--tozaiColor);
-}
-#chiyoda {
-	--accentColor: var(--chiyodaColor);
-}
-#yurakucho {
-	--accentColor: var(--yurakuchoColor);
-}
-#hanzomon {
-	--accentColor: var(--hanzomonColor);
-}
-#namboku {
-	--accentColor: var(--nambokuColor);
-}
-#fukutoshin {
-	--accentColor: var(--fukutoshinColor);
-}
 
 
 
-
-
-
-
-#ginzaBody {
-	display:none;
+.main.prestige {
+	text-align: center;
 }
 
-#marunouchiHead {
-	display:none;
-}
-#marunouchiBody {
-	display:none;
-}
 
-#hibiyaHead {
-	display:none;
+.main.options {
+	text-align: center;
 }
-#hibiyaBody {
-	display:none;
-}
-
-#tozaiHead {
-	display:none;
-}
-#tozaiBody {
-	display:none;
-}
-
-#chiyodaHead {
-	display:none;
-}
-#chiyodaBody {
-	display:none;
-}
-
-#yurakuchoHead {
-	display:none;
-}
-#yurakuchoBody {
-	display:none;
-}
-
-#hanzomonHead {
-	display:none;
-}
-#hanzomonBody {
-	display:none;
-}
-
-#nambokuHead {
-	display:none;
-}
-#nambokuBody {
-	display:none;
-}
-
-#fukutoshinHead {
-	display:none;
-}
-#fukutoshinBody {
-	display:none;
-}  
-
-
-
-
-
-
 
 
 
@@ -345,6 +264,18 @@ span {
 	font-weight: bold;
 }
 
+.button.nav {
+	background-color:var(--medium2Color);
+	border: none;
+	margin: 0px;
+	padding: 2px 10px;
+}
+
+.button.nav.active {
+	background-color:var(--accentColor);
+	color: var(--darkestColor);
+}
+
 .button.buy {
 	padding: 5px 1px;
 	width: 74%;
@@ -371,6 +302,7 @@ span {
 
 
 
+
 .footer {
 	width: 100%;
 	margin: 10px auto;
@@ -381,4 +313,49 @@ span {
 .footer a {
 	color: var(--medium2Color);
 }
+
+
+
+
+
+
+
+
+
+#ginza { --accentColor: var(--ginzaColor); }
+#marunouchi { --accentColor: var(--marunouchiColor); }
+#hibiya { --accentColor: var(--hibiyaColor); }
+#tozai { --accentColor: var(--tozaiColor); }
+#chiyoda { --accentColor: var(--chiyodaColor); }
+#yurakucho { --accentColor: var(--yurakuchoColor); }
+#hanzomon { --accentColor: var(--hanzomonColor); }
+#namboku { --accentColor: var(--nambokuColor); }
+#fukutoshin { --accentColor: var(--fukutoshinColor); }
+
+#ginzaBody { display:none; } 
+
+#marunouchiHead { display:none; }
+#marunouchiBody { display:none; }
+
+#hibiyaHead { display:none; }
+#hibiyaBody { display:none; }
+
+#tozaiHead { display:none; }
+#tozaiBody { display:none; }
+
+#chiyodaHead { display:none; }
+#chiyodaBody { display:none; }
+
+#yurakuchoHead { display:none; }
+#yurakuchoBody { display:none; }
+
+#hanzomonHead { display:none; }
+#hanzomonBody { display:none; }
+
+#nambokuHead { display:none; }
+#nambokuBody { display:none; }
+
+#fukutoshinHead { display:none; }
+#fukutoshinBody { display:none; }  #prestigeTab { display:none; }
+#optionsTab { display: none; }
 

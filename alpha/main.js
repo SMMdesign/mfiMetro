@@ -6,7 +6,7 @@
 
 // Initializing game data variables
 var gameData = {
-	version: '0.42',
+	version: '0.50',
 	money: 50000,
 	ticketPrice: 100,
 	passengers: 0,
@@ -28,6 +28,8 @@ var pps = 0;
 var maxPassengers = 0;
 var mps = 0;
 var lineCost = 0;			// dont forget this exists
+
+// "constants" than can be changed by upgrades
 var locoPerStat = 2;
 var carPerLoco = 12;
 var passPerCar = 100;
@@ -107,6 +109,35 @@ function show(id) {
 function hide(id) {
 	document.getElementById(id).style.display = "none"; 
 }
+
+function changeAccentColor() {
+	let accentColor = prompt("Enter a HEX color","#40CFFF");
+	if(!accentColor.match(/^#[0-9A-F]{6}$/i) ) {
+		alert("Please enter a valid HEX color."); return;
+	}
+	document.documentElement.style.setProperty('--accentColor', accentColor);
+}
+
+
+
+
+// navigation tools
+
+
+function goToTab(tab, tabButton) {
+	hide("linesTab");
+	document.getElementById("linesTabButton").setAttribute("class", "button nav")
+	hide("prestigeTab");
+	document.getElementById("prestigeTabButton").setAttribute("class", "button nav")
+	hide("optionsTab");
+	document.getElementById("optionsTabButton").setAttribute("class", "button nav")
+
+	document.getElementById(tab).style.display = "block"; 
+	document.getElementById(tabButton).setAttribute("class", "button nav active")
+}
+
+
+
 
 
 
@@ -338,6 +369,7 @@ load();
 refresh();
 update("titleVer", `v${gameData.version}`);
 if(window.location.href === "https://smmdesign.github.io/mfiMetro/alpha/") {titleVer.insertAdjacentHTML('afterend', ' <span style="font-size:70%;">ALPHA</span>');}
+goToTab('linesTab', 'linesTabButton');
 
 
 
@@ -420,6 +452,14 @@ function updateMaxPassengers() {
 
 
 
+function updatePrestige() {
+	let unrealizedPrestige = (calcTotalLines() * 4.8) + (calcTotalStations() * 2.4) + (calcTotalLocomotives() * 1.2) + (calcTotalCars() * .1);
+	update("unrealizedPrestige", `${format(unrealizedPrestige)}`)
+}
+
+
+
+
 
 
 
@@ -432,6 +472,9 @@ function calcTotalLines() {
 }
 function calcTotalStations() {
 	return gameData.ginza.stations + gameData.marunouchi.stations + gameData.hibiya.stations + gameData.tozai.stations + gameData.chiyoda.stations + gameData.yurakucho.stations + gameData.hanzomon.stations + gameData.namboku.stations + gameData.fukutoshin.stations
+}
+function calcTotalLocomotives() {
+	return gameData.ginza.locomotives + gameData.marunouchi.locomotives + gameData.hibiya.locomotives + gameData.tozai.locomotives + gameData.chiyoda.locomotives + gameData.yurakucho.locomotives + gameData.hanzomon.locomotives + gameData.namboku.locomotives + gameData.fukutoshin.locomotives
 }
 function calcTotalCars() {
 	return gameData.ginza.cars + gameData.marunouchi.cars + gameData.hibiya.cars + gameData.tozai.cars + gameData.chiyoda.cars + gameData.yurakucho.cars + gameData.hanzomon.cars + gameData.namboku.cars + gameData.fukutoshin.cars
@@ -453,6 +496,9 @@ function calcLocomotiveCost(locomotives) {
 function calcCarCost(cars) {
 	return Math.floor(5000 * (1.06 ** cars ));
 }
+
+
+
 
 
 

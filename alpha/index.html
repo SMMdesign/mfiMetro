@@ -33,7 +33,13 @@
 
 
 <div class="header">
-	<div class="title"><a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a></div>
+	<div class="title"><a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a>
+	<div class="navMenu">
+		<button id="linesTabButton" class="button nav" onClick="goToTab('linesTab', 'linesTabButton')">Lines</button>
+		<button id="prestigeTabButton" class="button nav" onClick="goToTab('prestigeTab', 'prestigeTabButton')">Prestige</button>
+		<button id="optionsTabButton" class="button nav" onClick="goToTab('optionsTab', 'optionsTabButton')">Options</button>
+	</div>
+</div>
 	
 	<div class="bankContainer">
 		<div class="bank left">
@@ -66,19 +72,13 @@
 
 
 
-<div class="main">
+<div id="linesTab" class="main lines">
 
 <div style="margin-bottom:5px;">
 <span class="accent">Ticket Price</span>: ¥<span id="ticketPrice">100</span>&nbsp;
 <button class="button" onClick="setTicketPrice()">Set Price</button>
 <!-- <br><span class="description">Effects passenger gain rate.</span> -->
 </div>
-
-
-
-
-
-
 
 
 
@@ -129,7 +129,7 @@
 	</div>
 
 	<div id="marunouchiBody" class="line" >
-		<div class="lineHead"> Marunouchi Line<div class="lineIcon">G</div></div>
+		<div class="lineHead"> Marunouchi Line<div class="lineIcon">M</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
@@ -167,7 +167,7 @@
 	</div>
 
 	<div id="hibiyaBody" class="line" >
-		<div class="lineHead"> Hibiya Line<div class="lineIcon">G</div></div>
+		<div class="lineHead"> Hibiya Line<div class="lineIcon">H</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
@@ -205,7 +205,7 @@
 	</div>
 
 	<div id="tozaiBody" class="line" >
-		<div class="lineHead"> Tozai Line<div class="lineIcon">G</div></div>
+		<div class="lineHead"> Tozai Line<div class="lineIcon">T</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
@@ -243,7 +243,7 @@
 	</div>
 
 	<div id="chiyodaBody" class="line" >
-		<div class="lineHead"> Chiyoda Line<div class="lineIcon">G</div></div>
+		<div class="lineHead"> Chiyoda Line<div class="lineIcon">C</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
@@ -281,7 +281,7 @@
 	</div>
 
 	<div id="yurakuchoBody" class="line" >
-		<div class="lineHead"> Yurakucho Line<div class="lineIcon">G</div></div>
+		<div class="lineHead"> Yurakucho Line<div class="lineIcon">Y</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
@@ -319,7 +319,7 @@
 	</div>
 
 	<div id="hanzomonBody" class="line" >
-		<div class="lineHead"> Hanzomon Line<div class="lineIcon">G</div></div>
+		<div class="lineHead"> Hanzomon Line<div class="lineIcon">Z</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
@@ -357,7 +357,7 @@
 	</div>
 
 	<div id="nambokuBody" class="line" >
-		<div class="lineHead"> Namboku Line<div class="lineIcon">G</div></div>
+		<div class="lineHead"> Namboku Line<div class="lineIcon">N</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
@@ -395,7 +395,7 @@
 	</div>
 
 	<div id="fukutoshinBody" class="line" >
-		<div class="lineHead"> Fukutoshin Line<div class="lineIcon">G</div></div>
+		<div class="lineHead"> Fukutoshin Line<div class="lineIcon">F</div></div>
 
 		<div class="bodyItem one">
 			<span class="accent">Stations</span>
@@ -426,32 +426,67 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div style="clear:both">
-<br>
-<hr>
-<h3>Debugging Tools</h3>
-<button class="button" onClick="deleteSave()"> Delete Save</button>
-<br>
-</div>
-
+<!-- makes sure container contains everything -->
+<div style="clear:both"></div>
 
 </div>
-<!-- end of main div -->
+<!-- end of linesTab div -->
+
+
+
+
+
+<div id="prestigeTab" class="main prestige">
+<h3 class="accent" style="margin-top: 5px;">Are You Ready To Enter The Multiverse?</h3>
+
+<p>Your success as a train tycoon has opened doors you previously thought impossible. A [mysterious person] has developed the technology for you to travel back to the beginning of your empire while retaining your current level of business expertise. This will enable you to progress at even faster speeds, and unlocks new upgrades to further expand your train empire.</p>
+
+<p>Your current <span>Business Expertise</span> is <span id="unrealizedPrestige">XXX</span></p>
+
+
+<p class="accent">Are you ready to travel back?</p>
+<button class="button" onClick="updatePrestige()"> This Button Doesn't Work Yet (it does update your exp tho)</button>
+<br><br>
+
+
+</div>
+<!-- end of prestigeTab div -->
+
+
+
+
+<div id="optionsTab" class="main">
+
+<h3 class="accent" style="margin-top: 5px;">Options</h3>
+
+<button class="button" onClick="changeAccentColor()" >Change Theme Accent Color</button>
+<p class="description">Note: Only applies to current session.</p>
+
+
+<br><br><br><br><br><br>
+
+
+<button class="button" onClick="deleteSave()" style="	border: 1px solid red;"> Delete Save</button>
+<br>
+
+</div>
+<!-- end of optionsTab div -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <div class="footer">
