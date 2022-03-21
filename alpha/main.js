@@ -124,7 +124,7 @@ function changeAccentColor() {
 // navigation tools
 
 
-function goToTab(tab, tabButton) {
+function goToTab(tab) {
 	hide("linesTab");
 	document.getElementById("linesTabButton").setAttribute("class", "button nav")
 	hide("prestigeTab");
@@ -132,8 +132,19 @@ function goToTab(tab, tabButton) {
 	hide("optionsTab");
 	document.getElementById("optionsTabButton").setAttribute("class", "button nav")
 
-	document.getElementById(tab).style.display = "block"; 
-	document.getElementById(tabButton).setAttribute("class", "button nav active")
+	if(tab === 'linesTab') {
+		document.getElementById("linesTab").style.display = "block"; 
+		document.getElementById("linesTabButton").setAttribute("class", "button nav active")
+	}
+	if(tab === 'prestigeTab') {
+		document.getElementById("prestigeTab").style.display = "block"; 
+		document.getElementById("prestigeTabButton").setAttribute("class", "button nav active")
+		updatePrestige();	// in theory, prestige should only need to be updated here
+	}
+	if(tab === 'optionsTab') {
+		document.getElementById("optionsTab").style.display = "block"; 
+		document.getElementById("optionsTabButton").setAttribute("class", "button nav active")
+	}
 }
 
 
@@ -288,7 +299,7 @@ function refreshFukutoshin() {
 function refresh() {
 	// refreshing values from gameData
 	update("money", format(gameData.money));
-	update("ticketPrice", gameData.ticketPrice.toLocaleString("en-US"));
+	update("ticketPrice", format(gameData.ticketPrice) );
 	update("passengers", gameData.passengers.toLocaleString("en-US"));
 
 	// refreshing formulas dependent on gameData
@@ -369,7 +380,7 @@ load();
 refresh();
 update("titleVer", `v${gameData.version}`);
 if(window.location.href === "https://smmdesign.github.io/mfiMetro/alpha/") {titleVer.insertAdjacentHTML('afterend', ' <span style="font-size:70%;">ALPHA</span>');}
-goToTab('linesTab', 'linesTabButton');
+goToTab('linesTab');
 
 
 
@@ -415,7 +426,7 @@ function setTicketPrice() {
 		alert("Please enter a number between 1 and 1,000."); return;
 	}
 	gameData.ticketPrice = Math.round(userPrice);
-	update("ticketPrice", gameData.ticketPrice);
+	update("ticketPrice", format(gameData.ticketPrice) );
 	updatePps();					// because pps is dependent on ticket price
 }
 

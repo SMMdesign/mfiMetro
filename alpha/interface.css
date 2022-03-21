@@ -37,6 +37,10 @@ html, body {
 
 }
 
+.clearfix {
+	clear: both;
+}
+
 
 
 /* DIV CLASSES */
@@ -55,28 +59,40 @@ html, body {
 }
 
 
-.title {
+
+.titleBar {
+	display: block;
+	box-sizing: border-box;
+	height: 34px;
 	padding: 5px 10px;
-	font-size: 120%;
 }
+
+.title {
+	margin-top: 3px;
+	float: left;
+	font-size: 100%;
+}
+
 
 .navMenu {
 	float: right;
-	margin-top: -2px;
 }
+
+
+
 
 
 
 .bankContainer {
 	box-sizing: border-box;
-	height: 45px;
-	/* margin: 5px; */
+	/* height: 45px; */
 	width: 100%;
 	background-color: var(--medium2Color);
-	padding: 5px 10px 10px;
+	padding: 5px 10px;
 	color: white;
 	font-size: 90%;
 	/* line-height: 140%; */
+	clear: both;
 }
 
 .bank {
@@ -96,19 +112,31 @@ html, body {
 
 
 
+.ticketPrice {
+	display: block;
+	/* text-align: center; */
+	/* font-size: 80%; */
+	margin-bottom: 5px;
+}
+
+
+
+
+
+
+
+
 .main {
 	display: inline-block;
 	margin: 10px;
 	/* box-sizing: border-box; */
 	background-color: var(--medium1Color);
 	padding: 10px;
+	clear: both;
 }
 
 /* small phone screen */
 @media screen and (max-width: 440px) {
-	body {
-		font-size: 95%;
-	}
 	.main {
 		margin: 10px 0px;
 	}
@@ -259,7 +287,7 @@ span {
 	background-color:var(--medium1Color);
 	border: 1px solid var(--accentColor);
 	margin: 5px 0px 0px;
-	padding: 5px 10px;
+	padding: 4px 10px;
 	color: var(--whitestColor);
 	font-weight: bold;
 }
@@ -268,8 +296,15 @@ span {
 	background-color:var(--medium2Color);
 	border: none;
 	margin: 0px;
-	padding: 2px 10px;
+	padding: 2px 25px;
 }
+
+@media screen and (max-width: 850px) {
+	.button.nav {
+		padding: 2px 10px;
+	}
+}
+
 
 .button.nav.active {
 	background-color:var(--accentColor);
@@ -356,6 +391,9 @@ span {
 #nambokuBody { display:none; }
 
 #fukutoshinHead { display:none; }
-#fukutoshinBody { display:none; }  #prestigeTab { display:none; }
+#fukutoshinBody { display:none; }  
+
+#linesTab { display: block; }
+#prestigeTab { display: none; }
 #optionsTab { display: none; }
 

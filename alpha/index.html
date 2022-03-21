@@ -33,13 +33,20 @@
 
 
 <div class="header">
-	<div class="title"><a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a>
-	<div class="navMenu">
-		<button id="linesTabButton" class="button nav" onClick="goToTab('linesTab', 'linesTabButton')">Lines</button>
-		<button id="prestigeTabButton" class="button nav" onClick="goToTab('prestigeTab', 'prestigeTabButton')">Prestige</button>
-		<button id="optionsTabButton" class="button nav" onClick="goToTab('optionsTab', 'optionsTabButton')">Options</button>
-	</div>
+<div class="titleBar">
+	<div class="title">
+		<a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a>
+		</div>
+
+	
+		<div class="navMenu">
+			<button id="linesTabButton" class="button nav" onClick="goToTab('linesTab')">Lines</button>
+			<button id="prestigeTabButton" class="button nav" onClick="goToTab('prestigeTab')">Prestige</button>
+			<button id="optionsTabButton" class="button nav" onClick="goToTab('optionsTab')">Options</button>
+		</div>
 </div>
+
+	
 	
 	<div class="bankContainer">
 		<div class="bank left">
@@ -54,11 +61,14 @@
 			<br>
 			<span id="passengers" >X</span> <span id="maxPassengers" class="description">XXX</span>
 		</div>
+	<div class="clearfix"></div>
 	</div>
 
-	
-	
 </div>
+
+
+
+
 
 
 
@@ -74,11 +84,18 @@
 
 <div id="linesTab" class="main lines">
 
-<div style="margin-bottom:5px;">
-<span class="accent">Ticket Price</span>: ¥<span id="ticketPrice">100</span>&nbsp;
-<button class="button" onClick="setTicketPrice()">Set Price</button>
-<!-- <br><span class="description">Effects passenger gain rate.</span> -->
-</div>
+
+
+	<div class="ticketPrice">
+		<span class="accent">Ticket Price</span>: ¥<span id="ticketPrice">100</span>
+		<button class="button" onClick="setTicketPrice()">
+		<span class="accent">Set Ticket Price</span>
+		</button>
+	</div>
+
+
+
+
 
 
 
@@ -427,8 +444,7 @@
 
 
 <!-- makes sure container contains everything -->
-<div style="clear:both"></div>
-
+<div class="clearfix"></div>
 </div>
 <!-- end of linesTab div -->
 
@@ -444,9 +460,11 @@
 <p>Your current <span>Business Expertise</span> is <span id="unrealizedPrestige">XXX</span></p>
 
 
-<p class="accent">Are you ready to travel back?</p>
-<button class="button" onClick="updatePrestige()"> This Button Doesn't Work Yet (it does update your exp tho)</button>
-<br><br>
+<p class="accent">Are you ready to Travel Back?</p>
+<button class="button" onClick="updatePrestige()"> Open The Door</button>
+<p class="description">This Button Doesn't Work Yet
+</p>
+<br>
 
 
 </div>
@@ -455,7 +473,7 @@
 
 
 
-<div id="optionsTab" class="main">
+<div id="optionsTab" class="main options">
 
 <h3 class="accent" style="margin-top: 5px;">Options</h3>
 
