@@ -5,7 +5,7 @@
 
 
 // Initializing game data variables
-var gameData = {
+var gameDataZero = {
 	version: '0.50',
 	money: 50000,
 	ticketPrice: 100,
@@ -23,16 +23,22 @@ var gameData = {
 	
 }	// remember to add new variables to load function
 
+var gameData = gameDataZero; 	// zero variable allows for an easy prestige reset
+
 // non gameData variables
 var pps = 0;
 var maxPassengers = 0;
 var mps = 0;
+var unrealizedPrestige = 0;
 var lineCost = 0;			// dont forget this exists
 
-// "constants" than can be changed by upgrades
+// variables than can be changed by upgrades
 var locoPerStat = 2;
 var carPerLoco = 12;
 var passPerCar = 100;
+var ppsPerStat = 5;
+var ticketPriceEq = 200;
+var ticketPriceMax = 1000;
 
 
 
@@ -380,10 +386,10 @@ load();
 refresh();
 update("titleVer", `v${gameData.version}`);
 if(window.location.href === "https://smmdesign.github.io/mfiMetro/alpha/") {titleVer.insertAdjacentHTML('afterend', ' <span style="font-size:70%;">ALPHA</span>');}
-goToTab('linesTab');
+// goToTab('linesTab');
 
 
-
+goToTab('prestigeTab');	// while editing so i dont have to switch every F5
 
 
 
@@ -420,10 +426,10 @@ function generatePassengers(number) {
 
 
 function setTicketPrice() {
-	let userPrice = prompt("Set Price ( 1 - 1,000 )","100");
+	let userPrice = prompt(`Set Price ( 1 - ${format(ticketPriceMax)} )`,"100");
 	if(userPrice === null || isNaN(userPrice)) { return;}
-	if(userPrice < 1 || userPrice > 1000) {
-		alert("Please enter a number between 1 and 1,000."); return;
+	if(userPrice < 1 || userPrice > ticketPriceMax) {
+		alert(`Please enter a number between 1 and ${format(ticketPriceMax)}.`); return;
 	}
 	gameData.ticketPrice = Math.round(userPrice);
 	update("ticketPrice", format(gameData.ticketPrice) );
@@ -438,8 +444,7 @@ function setTicketPrice() {
 // equilibrium is ¥200 price
 
 function updatePps() {
-	// pps = gameData.ginza.stations * 2;
-	pps = Math.ceil( (( 200 - gameData.ticketPrice ) / 200 ) * ( calcTotalStations() * 5 ) );
+	pps = Math.ceil( (( ticketPriceEq - gameData.ticketPrice ) / ticketPriceEq ) * ( calcTotalStations() * ppsPerStat ) );
 	// prevents errors from dividing by zero
 	if(!pps) {
 		pps = 0;
@@ -463,10 +468,6 @@ function updateMaxPassengers() {
 
 
 
-function updatePrestige() {
-	let unrealizedPrestige = (calcTotalLines() * 4.8) + (calcTotalStations() * 2.4) + (calcTotalLocomotives() * 1.2) + (calcTotalCars() * .1);
-	update("unrealizedPrestige", `${format(unrealizedPrestige)}`)
-}
 
 
 
@@ -963,6 +964,68 @@ function buyFukuCar(x) {
 		updateMaxPassengers();	// because max is dependent on car number
 }}
 // end of fukutoshin buying functions
+
+
+
+
+
+
+
+
+
+// PRESTIGE FUNCTIONS
+
+function updatePrestige() {
+	unrealizedPrestige = Math.round( (calcTotalLines() * 4.8) + (calcTotalStations() * 2.4) + (calcTotalLocomotives() * 1.2) + (calcTotalCars() * .1) );
+	update("unrealizedPrestige", `${format(unrealizedPrestige)}`)
+	update("prestige", `${format(gameData.prestige)}`)
+}
+
+
+function prestige() {
+	clearInterval(autosaveLoop);
+	if(confirm(`This will reset your progress and give you ${format(unrealizedPrestige)} Business Expertise. Are you sure?`) === true) {
+		gameData = gameDataZero;
+		gameData.prestige = unrealizedPrestige;
+		save();
+		console.log('Prestige Successful!');
+		location.reload();
+	} else {
+		console.log('Prestige Cancelled.')
+		location.reload();
+	}
+}
+
+var upgradeTicketPriceEqLvl = 0;
+var upgradeTicketPriceEqCost = 100;
+
+function upgradeTicketPriceEq(number) {
+	if(gameData.prestige >= upgradeTicketPriceEqCost && number !== 0) {
+		upgradeTicketPriceEqLvl += 1;
+		ticketPriceEq = ticketPriceEq * 2;
+		ticketPriceMax = ticketPriceMax * 2;
+		gameData.prestige -= upgradeTicketPriceEqCost;
+	}
+		update("upgradeTicketPriceEqLvl", format(upgradeTicketPriceEqLvl) );
+		update("upgradeTicketPriceEqCost", format(upgradeTicketPriceEqCost) );
+		update("prestige", `${format(gameData.prestige)}`)
+
+		// temporarily allow for (0) to refresh values
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

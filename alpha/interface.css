@@ -20,11 +20,6 @@
 
 
 
-
-
-
-
-
   
 html, body {
 	width: 100%;
@@ -36,6 +31,25 @@ html, body {
 	color: var(--whitestColor);
 
 }
+
+a {
+	color: var(--accentColor);
+}
+
+h3 {
+	margin-top: 5px;
+	color: var(--accentColor);
+}
+
+p {
+	font-size: 80%;
+}
+
+span {
+	color:white;
+}
+
+
 
 .clearfix {
 	clear: both;
@@ -54,7 +68,7 @@ html, body {
 }
 
 .header a {
-	color: var(--whitest2Color);
+	color: var(--whitestColor);
 	text-decoration: none;
 }
 
@@ -240,6 +254,47 @@ html, body {
 }
 
 
+.shop {
+	border: 1px solid var(--accentColor);
+	width: 100%;
+	box-sizing: border-box;
+	text-align: left;
+	/* display: inline-block; */
+	/* float: left; */
+	/* margin: 15px 0px; */
+}
+
+.shopHead {
+	background-color: var(--accentColor);
+	color: white;
+	font-weight: bold;
+	padding: 5px 10px;
+}
+
+.shopBank {
+	background-color: var(--medium1Color);
+	color: black;
+	/* border-radius: 15px; */
+	margin-top: -1px;
+	margin-right: -5px;
+	padding: 1px 5px;
+	font-size: 100%;
+	display: inline;
+	float: right;
+}
+
+.shopBank #prestige {
+	color: white;
+}
+
+.shopInner {
+	margin: 10px;
+}
+
+
+
+
+
 .main.options {
 	text-align: center;
 }
@@ -272,9 +327,8 @@ html, body {
 
 
 
-span {
-	color:white;
-}
+
+
 
 
 
@@ -284,7 +338,7 @@ span {
 
 .button {
 	display: inline-block;
-	background-color:var(--medium1Color);
+	background-color: var(--medium1Color);
 	border: 1px solid var(--accentColor);
 	margin: 5px 0px 0px;
 	padding: 4px 10px;
@@ -332,6 +386,14 @@ span {
 	float: right;
 }
 
+.button.prestige {
+	border: 2px solid;
+	border-image-slice: 1;
+	border-image-source: linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(255,147,0,1) 16%, rgba(247,255,0,1) 33%, rgba(0,255,11,1) 50%, rgba(0,97,255,1) 66%, rgba(100,0,255,1) 83%, rgba(245,0,255,1) 100%);
+	color: linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(255,147,0,1) 16%, rgba(247,255,0,1) 33%, rgba(0,255,11,1) 50%, rgba(0,97,255,1) 66%, rgba(100,0,255,1) 83%, rgba(245,0,255,1) 100%); 
+	color: white;
+}
+
 
 
 
@@ -345,6 +407,7 @@ span {
 	text-align: center;
 	font-size: 80%;
 }
+
 .footer a {
 	color: var(--medium2Color);
 }

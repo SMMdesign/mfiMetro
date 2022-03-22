@@ -453,19 +453,54 @@
 
 
 <div id="prestigeTab" class="main prestige">
-<h3 class="accent" style="margin-top: 5px;">Are You Ready To Enter The Multiverse?</h3>
+<h3>Are You Ready To Enter The Multiverse?</h3>
 
-<p>Your success as a train tycoon has opened doors you previously thought impossible. A [mysterious person] has developed the technology for you to travel back to the beginning of your empire while retaining your current level of business expertise. This will enable you to progress at even faster speeds, and unlocks new upgrades to further expand your train empire.</p>
+<p>Your success as a train tycoon has opened doors you previously thought impossible. You have been approached by a mysterious corporation with the technology to travel back to the beginning of your empire while retaining your current level of business expertise. This will enable you to progress at even faster speeds, and unlocks new upgrades to further expand your train empire.</p>
 
-<p>Your current <span>Business Expertise</span> is <span id="unrealizedPrestige">XXX</span></p>
+<p>Your current unrealized <span>Business Expertise (bXP)</span> is <span id="unrealizedPrestige">XXX</span></p>
 
 
-<p class="accent">Are you ready to Travel Back?</p>
-<button class="button" onClick="updatePrestige()"> Open The Door</button>
-<p class="description">This Button Doesn't Work Yet
-</p>
+<p class="accent">If you are ready,</p>
+<button class="button prestige" onClick="prestige()"> Open The Door</button>
+<br><br><br><br><br><br><br><br>
+
+<hr>
+
+<br>SHOP IS NOT IN A WORKING STATE, PROCEED AT YOUR OWN RISK<br><br>
+
+<div class="shop">
+		<div class="shopHead">
+			Prestige Shop
+			<div class="shopBank"><span class="accent">bXP: </span><span id="prestige">XXX</span></div>
+		</div>
+		
+		
+		<div class="shopInner">
+		
+		<span class="accent">Fancier Trains</span> Level <span id="upgradeTicketPriceEqLvl">X</span>
+		<p class="description">You can change twice as much before you start to lose passengers. <span style="color:red">THIS DOES NOT SAVE RIGHT NOW</span></p>
+		<button class="button" onClick="upgradeTicketPriceEq()"><span id="upgradeTicketPriceEqCost">XXX</span> bXP</button>
+		<button class="button" onClick="upgradeTicketPriceEq(0)">Refresh Price</button>
+		
+		
+		<br><br>
+		<button class="button" onClick="javascript:gameData.prestige += 100;">gain 100 prestige</button>
+
+
+		
+		</div>
+		
+		
+
+
+
+
+</div>
+
+
+
 <br>
-
+<div class="clearfix"></div>
 
 </div>
 <!-- end of prestigeTab div -->
@@ -475,17 +510,36 @@
 
 <div id="optionsTab" class="main options">
 
-<h3 class="accent" style="margin-top: 5px;">Options</h3>
+<h3>Options</h3>
 
 <button class="button" onClick="changeAccentColor()" >Change Theme Accent Color</button>
-<p class="description">Note: Only applies to current session.</p>
-
+<p class="description">(only applies to current session)</p>
 
 <br><br><br><br><br><br>
-
-
 <button class="button" onClick="deleteSave()" style="	border: 1px solid red;"> Delete Save</button>
+<br><br>
+
+
+<hr>
 <br>
+
+<h3>About</h3>
+
+<p>Created by <a href="https://twitter.com/SMMdesigner">SMMDesign</a>. </p>
+
+<p>Check out the <a href="https://www.reddit.com/r/mfiMetro/">Subreddit</a> or <a href="https://github.com/SMMdesign/mfiMetro">GitHub</a>.</p>
+
+<p><a href="https://github.com/SMMdesign/mfiMetro#changelog">Changelog</a> & <a href="https://github.com/SMMdesign/mfiMetro/blob/main/roadmap.txt">Roadmap</a></p>
+
+<p>Submit bug reports or feature requests <a href="https://github.com/SMMdesign/mfiMetro/issues/new/choose/">here</a>.</p>
+
+<p>Line names and colors are inspired by the real-world <a href="https://www.tokyometro.jp/en/index.html">Tokyo Metro</a> subway system.</p>
+
+<p>
+Credit to <a href="https://kastark.co.uk/articles/incrementals.html">kastark</a>, <a href="https://www.reddit.com/r/incremental_games/comments/ahf6nx/how_to_make_an_incremental_game/">YhvrTheSecond</a>, and <a href="https://www.reddit.com/r/incremental_games/">/r/incremental_games</a> for helpful information about game development.
+</p>
+
+
 
 </div>
 <!-- end of optionsTab div -->
@@ -508,9 +562,10 @@
 
 
 <div class="footer">
+
 © <a href="https://twitter.com/SMMdesigner">SMMDesign</a> 2022
 <br>
-Created with help from <a href="https://kastark.co.uk/articles/incrementals.html">kastark</a>, <a href="https://www.reddit.com/r/incremental_games/comments/ahf6nx/how_to_make_an_incremental_game/">YhvrTheSecond</a>, and <a href="https://www.reddit.com/r/incremental_games/">/r/incremental_games</a>
+<a href="javascript:goToTab('optionsTab')">About</a> | <a href="https://github.com/SMMdesign/mfiMetro">GitHub</a> | <a href="https://www.reddit.com/r/mfiMetro/">Subreddit</a>
 </div>
 
 
