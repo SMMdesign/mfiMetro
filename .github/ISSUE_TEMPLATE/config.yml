@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Post on the Subreddit
+    url: https://www.reddit.com/r/mfiMetro/
+    about: Discuss bugs or feature requests with other community members.
+  - name: GitHub Issues
+    url: https://github.com/ciderapp/Cider/issues
+    about: Check to see if someone else has posted the same bug or request.
