@@ -386,10 +386,10 @@ load();
 refresh();
 update("titleVer", `v${gameData.version}`);
 if(window.location.href === "https://smmdesign.github.io/mfiMetro/alpha/") {titleVer.insertAdjacentHTML('afterend', ' <span style="font-size:70%;">ALPHA</span>');}
-// goToTab('linesTab');
+goToTab('linesTab');
 
 
-goToTab('prestigeTab');	// while editing so i dont have to switch every F5
+// goToTab('prestigeTab');	// while editing so i dont have to switch every F5
 
 
 
