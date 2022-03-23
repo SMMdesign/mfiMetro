@@ -273,7 +273,7 @@ span {
 
 .shopBank {
 	background-color: var(--medium1Color);
-	color: black;
+	/* color: black; */
 	/* border-radius: 15px; */
 	margin-top: -1px;
 	margin-right: -5px;

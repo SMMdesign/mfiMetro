@@ -95,6 +95,8 @@
 
 
 
+<br>
+<button class="button" onClick="buyAllStock()">Experimental Buy All Rolling Stock Button</button>			
 
 
 
@@ -466,27 +468,26 @@
 
 <hr>
 
-<br>SHOP IS NOT IN A WORKING STATE, PROCEED AT YOUR OWN RISK<br><br>
+<br>SHOP IS A WORK IN PROGRESS, PROCEED AT YOUR OWN RISK<br><br>
 
 <div class="shop">
 		<div class="shopHead">
 			Prestige Shop
-			<div class="shopBank"><span class="accent">bXP: </span><span id="prestige">XXX</span></div>
+			<div class="shopBank"><span class="accent">bXP: </span><span id="bXP">XXX</span></div>
 		</div>
 		
 		
 		<div class="shopInner">
 		
-		<span class="accent">Fancier Trains</span> Level <span id="upgradeTicketPriceEqLvl">X</span>
-		<p class="description">You can change twice as much before you start to lose passengers. <span style="color:red">THIS DOES NOT SAVE RIGHT NOW</span></p>
-		<button class="button" onClick="upgradeTicketPriceEq()"><span id="upgradeTicketPriceEqCost">XXX</span> bXP</button>
-		<button class="button" onClick="upgradeTicketPriceEq(0)">Refresh Price</button>
-		
+		<span class="accent">Fancier Trains</span> Level <span id="upgrade1Lvl">X</span>
+		<p class="description">Your trains appear twice as valueable to passengers.</p>
+		<button class="button" onClick="buyUpgrade1()"><span id="upgrade1Cost">XXX</span> bXP</button>
 		
 		<br><br>
-		<button class="button" onClick="javascript:gameData.prestige += 100;">gain 100 prestige</button>
-
-
+		
+		<span class="accent">More Perks</span> Level <span id="upgrade2Lvl">X</span>
+		<p class="description">Doubles the max possible Ticket Price.</p>
+		<button class="button" onClick="buyUpgrade2()"><span id="upgrade2Cost">XXX</span> bXP</button>
 		
 		</div>
 		
@@ -518,6 +519,17 @@
 <br><br><br><br><br><br>
 <button class="button" onClick="deleteSave()" style="	border: 1px solid red;"> Delete Save</button>
 <br><br>
+
+<hr>
+<br>
+
+<h3>Debugging Tools</h3>
+
+
+<button class="button" onClick="javascript:gameData.money += 1000000000;">Gain 1B money</button>
+
+
+<button class="button" onClick="javascript:gameData.bXP += 1000;">Gain 1000 bXP</button>
 
 
 <hr>

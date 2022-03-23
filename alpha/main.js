@@ -5,12 +5,11 @@
 
 
 // Initializing game data variables
-var gameDataZero = {
-	version: '0.50',
+var gameData = {
+	version: 0.50,
 	money: 50000,
 	ticketPrice: 100,
 	passengers: 0,
-	prestige: 0,
 	ginza: 			{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	marunouchi: 	{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	hibiya: 			{ line: 0, stations: 0, locomotives: 0, cars: 0 },
@@ -19,11 +18,13 @@ var gameDataZero = {
 	yurakucho: 	{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	hanzomon: 	{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	namboku: 		{ line: 0, stations: 0, locomotives: 0, cars: 0 },
-	fukutoshin: 	{ line: 0, stations: 0, locomotives: 0, cars: 0 }
-	
-}	// remember to add new variables to load function
+	fukutoshin: 	{ line: 0, stations: 0, locomotives: 0, cars: 0 },
+	bXP: 0,
+	prestige:		{ upgrade1Lvl: 0, upgrade2Lvl: 0 }
 
-var gameData = gameDataZero; 	// zero variable allows for an easy prestige reset
+}	// remember to add new variables to load function
+	// remember to check compatibility with prestige resetting function
+
 
 // non gameData variables
 var pps = 0;
@@ -33,12 +34,12 @@ var unrealizedPrestige = 0;
 var lineCost = 0;			// dont forget this exists
 
 // variables than can be changed by upgrades
+var ticketPriceEq = 200;
+var ticketPriceMax = 1000;
 var locoPerStat = 2;
 var carPerLoco = 12;
 var passPerCar = 100;
 var ppsPerStat = 5;
-var ticketPriceEq = 200;
-var ticketPriceMax = 1000;
 
 
 
@@ -61,11 +62,16 @@ function load() {
 	var saveGame = JSON.parse(localStorage.getItem("mfiSave"));	// saveGame is the decoded save
 	if (saveGame !==null) {	// runs if player has a save file
 		if (saveGame.version !== gameData.version) { // runs if the save is out of date
+			// removing support for saves before 0.50
+			if (saveGame.version < 0.5 || isNaN(saveGame.version) ) {
+				alert('MFI Metro v0.5 is incompatible with previous version saves. Your progress will be reset.');
+				saveGame = gameData;
+			}
+		
 			if (typeof saveGame.version === 'undefined') saveGame.version = gameData.version;
 			if (typeof saveGame.money === 'undefined') saveGame.money = gameData.money;
 			if (typeof saveGame.ticketPrice === 'undefined') saveGame.ticketPrice = gameData.ticketPrice;
 			if (typeof saveGame.passengers === 'undefined') saveGame.passengers = gameData.passengers;
-			if (typeof saveGame.prestige === 'undefined') saveGame.prestige = gameData.prestige;
 			if (typeof saveGame.ginza === 'undefined') saveGame.ginza = gameData.ginza;
 			if (typeof saveGame.marunouchi === 'undefined') saveGame.marunouchi = gameData.marunouchi;
 			if (typeof saveGame.hibiya === 'undefined') saveGame.hibiya = gameData.hibiya;
@@ -75,6 +81,9 @@ function load() {
 			if (typeof saveGame.hanzomon === 'undefined') saveGame.hanzomon = gameData.hanzomon;
 			if (typeof saveGame.namboku === 'undefined') saveGame.namboku = gameData.namboku;
 			if (typeof saveGame.fukutoshin === 'undefined') saveGame.fukutoshin = gameData.fukutoshin;
+			if (typeof saveGame.bXP === 'undefined') saveGame.bXP = gameData.bXP;
+			if (typeof saveGame.prestige === 'undefined') saveGame.prestige = gameData.prestige;
+
 			
 			saveGame.version = gameData.version;
 			console.log(`saveGame has been updated to ${gameData.version}`);
@@ -145,7 +154,7 @@ function goToTab(tab) {
 	if(tab === 'prestigeTab') {
 		document.getElementById("prestigeTab").style.display = "block"; 
 		document.getElementById("prestigeTabButton").setAttribute("class", "button nav active")
-		updatePrestige();	// in theory, prestige should only need to be updated here
+		refreshPrestige();	// in theory, prestige should only need to be updated here
 	}
 	if(tab === 'optionsTab') {
 		document.getElementById("optionsTab").style.display = "block"; 
@@ -313,6 +322,12 @@ function refresh() {
 	updateMps();
 	updateMaxPassengers();
 	lineCost = calcLineCost();
+	
+	// refreshing variables effected by prestige upgrades
+	ticketPriceEq = 200 * 2 ** gameData.prestige.upgrade1Lvl;
+	ticketPriceMax = 1000 * 2 ** gameData.prestige.upgrade2Lvl;
+
+
 	
 	// making sure proper elements are displayed per line
 	if(gameData.ginza.line < 1) {
@@ -494,7 +509,7 @@ function calcTotalCars() {
 
 
 function calcLineCost() {
-	return Math.floor(50000 * (24 ** calcTotalLines()));
+	return Math.floor(24000 * (24 ** calcTotalLines()));
 }
 
 function calcStationCost(stations) {
@@ -518,6 +533,36 @@ function calcCarCost(cars) {
 
 
 // buying functions
+
+
+// EXPERIMENTAL BUY ALL BUTTON
+
+function buyAllStock() {
+	buyGinLocomotive('max');
+	buyGinCar('max');
+	buyMaruLocomotive('max');
+	buyMaruCar('max');
+	buyHibiLocomotive('max');
+	buyHibiCar('max');
+	buyTozaLocomotive('max');
+	buyTozaCar('max');
+	buyChiyoLocomotive('max');
+	buyChiyoCar('max');
+	buyYuraLocomotive('max');
+	buyYuraCar('max');
+	buyHanLocomotive('max');
+	buyHanCar('max');
+	buyNamLocomotive('max');
+	buyNamCar('max');
+	buyFukuLocomotive('max');
+	buyFukuCar('max');
+}
+
+
+
+
+
+
 
 // ginza buying functions
 function buyGinLine() {
@@ -975,18 +1020,63 @@ function buyFukuCar(x) {
 
 // PRESTIGE FUNCTIONS
 
-function updatePrestige() {
-	unrealizedPrestige = Math.round( (calcTotalLines() * 4.8) + (calcTotalStations() * 2.4) + (calcTotalLocomotives() * 1.2) + (calcTotalCars() * .1) );
+function refreshPrestige() {
+	unrealizedPrestige = calcUnrealizedPrestige();
 	update("unrealizedPrestige", `${format(unrealizedPrestige)}`)
-	update("prestige", `${format(gameData.prestige)}`)
+	update("bXP", `${format(gameData.bXP)}`)
+
+	update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
+	upgrade1Cost = calcUpgrade1Cost();
+	update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
+	update("upgrade1Cost", format(upgrade1Cost) );
+	update("bXP", `${format(gameData.bXP)}`)
+
+	update("upgrade2Lvl", format(gameData.prestige.upgrade2Lvl) );
+	upgrade2Cost = calcUpgrade2Cost();
+	update("upgrade2Lvl", format(gameData.prestige.upgrade2Lvl) );
+	update("upgrade2Cost", format(upgrade2Cost) );
+	update("bXP", `${format(gameData.bXP)}`)
+
+}	// remember to add relevant info to the main refresh function too
+
+
+function prestigeReset() {
+	gameData.money = 50000;
+	gameData.ticketPrice = 100;
+	gameData.passengers = 0;
+	gameData.ginza = 			{ line: 0, stations: 0, locomotives: 0, cars: 0 };
+	gameData.marunouchi =	{ line: 0, stations: 0, locomotives: 0, cars: 0 };
+	gameData.hibiya = 			{ line: 0, stations: 0, locomotives: 0, cars: 0 };
+	gameData.tozai = 			{ line: 0, stations: 0, locomotives: 0, cars: 0 };
+	gameData.chiyoda = 		{ line: 0, stations: 0, locomotives: 0, cars: 0 };
+	gameData.yurakucho = 	{ line: 0, stations: 0, locomotives: 0, cars: 0 };
+	gameData.hanzomon = 	{ line: 0, stations: 0, locomotives: 0, cars: 0 };
+	gameData.namboku = 		{ line: 0, stations: 0, locomotives: 0, cars: 0 };
+	gameData.fukutoshin = 	{ line: 0, stations: 0, locomotives: 0, cars: 0 };
 }
+
+
+function calcUnrealizedPrestige() {
+	return Math.round( (calcTotalLines() * 4.8) + (calcTotalStations() * 2.4) + (calcTotalLocomotives() * 1.2) + (calcTotalCars() * .1) );
+}
+
+function calcUpgrade1Cost() {
+	return Math.floor(100 * (5 ** gameData.prestige.upgrade1Lvl));
+}
+
+function calcUpgrade2Cost() {
+	return Math.floor(100 * (5 ** gameData.prestige.upgrade2Lvl));
+}
+
+
 
 
 function prestige() {
 	clearInterval(autosaveLoop);
 	if(confirm(`This will reset your progress and give you ${format(unrealizedPrestige)} Business Expertise. Are you sure?`) === true) {
-		gameData = gameDataZero;
-		gameData.prestige = unrealizedPrestige;
+		unrealizedPrestige = calcUnrealizedPrestige();
+		prestigeReset();
+		gameData.bXP += unrealizedPrestige;
 		save();
 		console.log('Prestige Successful!');
 		location.reload();
@@ -996,31 +1086,31 @@ function prestige() {
 	}
 }
 
-var upgradeTicketPriceEqLvl = 0;
-var upgradeTicketPriceEqCost = 100;
 
-function upgradeTicketPriceEq(number) {
-	if(gameData.prestige >= upgradeTicketPriceEqCost && number !== 0) {
-		upgradeTicketPriceEqLvl += 1;
-		ticketPriceEq = ticketPriceEq * 2;
-		ticketPriceMax = ticketPriceMax * 2;
-		gameData.prestige -= upgradeTicketPriceEqCost;
+function buyUpgrade1() {
+	if(gameData.bXP >= upgrade1Cost ) {
+		gameData.prestige.upgrade1Lvl += 1;
+		ticketPriceEq = 200 * 2 ** gameData.prestige.upgrade1Lvl;
+		gameData.bXP -= upgrade1Cost;
+		upgrade1Cost = calcUpgrade1Cost();
+		update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
+		update("upgrade1Cost", format(upgrade1Cost) );
+		update("bXP", `${format(gameData.bXP)}`)
 	}
-		update("upgradeTicketPriceEqLvl", format(upgradeTicketPriceEqLvl) );
-		update("upgradeTicketPriceEqCost", format(upgradeTicketPriceEqCost) );
-		update("prestige", `${format(gameData.prestige)}`)
-
-		// temporarily allow for (0) to refresh values
 }
 
 
-
-
-
-
-
-
-
+function buyUpgrade2() {
+	if(gameData.bXP >= upgrade2Cost ) {
+		gameData.prestige.upgrade2Lvl += 1;
+		ticketPriceMax = 200 * 2 ** gameData.prestige.upgrade2Lvl;
+		gameData.bXP -= upgrade2Cost;
+		upgrade2Cost = calcUpgrade2Cost();
+		update("upgrade2Lvl", format(gameData.prestige.upgrade2Lvl) );
+		update("upgrade2Cost", format(upgrade2Cost) );
+		update("bXP", `${format(gameData.bXP)}`)
+	}
+}
 
 
 
@@ -1051,7 +1141,6 @@ function upgradeTicketPriceEq(number) {
 window.setInterval(function() {
 	makeMoney(gameData.passengers * gameData.ticketPrice);
 	generatePassengers(pps);
-	
 	
 }, 1000);
 
