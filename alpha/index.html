@@ -456,6 +456,8 @@
 
 
 <div id="prestigeTab" class="main prestige">
+
+<div class="prestigeContainer">
 <h3>Are You Ready To Enter The Multiverse?</h3>
 
 <p>Your success as a train tycoon has opened doors you previously thought impossible. You have been approached by a mysterious corporation with the technology to travel back to the beginning of your empire while retaining your current level of business expertise. This will enable you to progress at even faster speeds, and unlocks new upgrades to further expand your train empire.</p>
@@ -463,13 +465,17 @@
 <p>Your current unrealized <span>Business Expertise (bXP)</span> is <span id="unrealizedPrestige">XXX</span></p>
 
 
-<p class="accent">If you are ready,</p>
-<button class="button prestige" onClick="prestige()"> Open The Door</button>
-<br><br><br><br><br>
 
-<hr>
+<h4 style="margin-bottom: 5px;">If you are ready,</h4>
+<button class="button prestige" onClick="prestige()"> OPEN THE DOOR</button>
+<br><br><br>
 
-<br>SHOP IS A WORK IN PROGRESS, PROCEED AT YOUR OWN RISK<br><br>
+
+
+</div>
+<!-- end of prestigeContainer -->
+
+
 
 <div class="shop">
 		<div class="shopHead">
@@ -536,12 +542,13 @@
 
 <div id="optionsTab" class="main options">
 
+
 <h3>Options</h3>
 
 <button class="button" onClick="changeAccentColor()" >Change Theme Accent Color</button>
 <p class="description">(only applies to current session)</p>
 
-<br><br><br><br><br><br>
+<br><br><br><br>
 <button class="button" onClick="deleteSave()" style="	border: 1px solid red;"> Delete Save</button>
 <br><br>
 
@@ -555,11 +562,13 @@
 
 <button class="button" onClick="javascript:gameData.bXP += 1000;">Gain 1000 bXP</button>
 
-<br>
+<br><br>
 
 
 <hr>
 <br>
+
+<div class="optionsContainer">
 
 <h3>About</h3>
 
@@ -578,7 +587,7 @@ Credit to <a href="https://kastark.co.uk/articles/incrementals.html">kastark</a>
 </p>
 
 
-
+</div>
 </div>
 <!-- end of optionsTab div -->
 

@@ -336,6 +336,10 @@ function refresh() {
 
 	
 	// making sure proper elements are displayed per line
+	if(gameData.bXP < 1 && gameData.hibiya.line < 1) {
+		hide("prestigeTabButton");
+	}	// make sure buyHibiLine makes this button show
+	
 	if(gameData.ginza.line < 1) {
 		update("ginLineCost", format(lineCost));
 	}
@@ -515,7 +519,7 @@ function calcTotalCars() {
 
 
 function calcLineCost() {
-	return Math.floor(24000 * (24 ** calcTotalLines()));
+	return Math.floor(50000 * (24 ** calcTotalLines()));
 }
 
 function calcStationCost(stations) {
@@ -527,7 +531,7 @@ function calcLocomotiveCost(locomotives) {
 }
 
 function calcCarCost(cars) {
-	return Math.floor(5000 * (1.06 ** cars ));
+	return Math.floor(5000 * (1.05 ** cars ));
 }
 
 
@@ -687,6 +691,8 @@ function buyHibiLine() {
 		refreshHibiya();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+		show("prestigeTabButton");	// prestige unlocks here
+		document.getElementById("prestigeTabButton").setAttribute("class", "button nav highlight")
 }}
 function buyHibiStation(x) {
 	if(gameData.money >= hibiStationCost) {
