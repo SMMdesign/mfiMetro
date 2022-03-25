@@ -7,10 +7,23 @@ Play Here: [https://smmdesign.github.io/mfiMetro/](https://smmdesign.github.io/m
 
 ## Bugs & Errors
 
-If you encounter an issue of any kind, please submit it as a github issue, or comment on one of the game's posts on Reddit.
+If you encounter an issue of any kind, [https://github.com/SMMdesign/mfiMetro/issues/new/choose/](please let me know here)!
 
 
 ## Changelog
+
+#### Version 0.50 - 2022/03/XX
+
+- Prestige function added! Prestiging will give you a currency called bXP that will be used to buy prestige-exclusive upgrades.
+- Prestige shop with six different prestige upgrades added.
+- Prestige Shop will be unlocked after your 3rd line purchase and bXP gained is based on the total number of buildings and rolling stock you have bought.
+- Savegames from earlier versions are no longer supported and will reset upon first game load.
+- Added Prestige and Options tabs.
+- Added option to change the UI's accent color.
+- Added an About section with more info about the game.
+- Updated UI to look better on small screens.
+- Adjusted game balance.
+
 
 #### Version 0.42 - 2022/03/18
 

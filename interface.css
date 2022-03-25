@@ -2,7 +2,6 @@
 	--darkestColor:	#202529;
 	--medium1Color:	#363D42;
 	--medium2Color:	#505A61;
-	/* --accentColor:		#1BC6B4; */
 	--accentColor:		#40CFFF;
 	--whitestColor:	#A1B4C4;
 	
@@ -21,21 +20,42 @@
 
 
 
-
-
-
-
-
   
 html, body {
-	/* height: 100%; */
+	width: 100%;
 	margin: 0;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-color: var(--darkestColor);
 	font-family: Verdana, sans-serif;
 	color: var(--whitestColor);
+}
 
+a {
+	color: var(--accentColor);
+}
+
+h3 {
+	margin-top: 5px;
+	color: var(--accentColor);
+}
+
+h4 {
+	color: var(--accentColor);
+}
+
+p {
+	font-size: 80%;
+}
+
+span {
+	color:white;
+}
+
+
+
+.clearfix {
+	clear: both;
 }
 
 
@@ -51,28 +71,45 @@ html, body {
 }
 
 .header a {
-	color: var(--whitest2Color);
+	color: var(--whitestColor);
 	text-decoration: none;
 }
 
 
-.title {
+
+.titleBar {
+	display: block;
+	box-sizing: border-box;
+	height: 34px;
 	padding: 5px 10px;
-	font-size: 120%;
 }
+
+.title {
+	margin-top: 3px;
+	float: left;
+	font-size: 100%;
+}
+
+
+.navMenu {
+	float: right;
+}
+
+
+
 
 
 
 .bankContainer {
 	box-sizing: border-box;
-	height: 45px;
-	/* margin: 5px; */
+	/* height: 45px; */
 	width: 100%;
 	background-color: var(--medium2Color);
-	padding: 5px 10px 10px;
+	padding: 5px 10px;
 	color: white;
 	font-size: 90%;
 	/* line-height: 140%; */
+	clear: both;
 }
 
 .bank {
@@ -92,26 +129,41 @@ html, body {
 
 
 
+.ticketPrice {
+	display: block;
+	/* text-align: center; */
+	/* font-size: 80%; */
+	margin-bottom: 5px;
+}
+
+
+
+
+
+
+
+
 .main {
-	/* position: relative; */
-	/* top: 77px; */
+	display: inline-block;
 	margin: 10px;
 	/* box-sizing: border-box; */
 	background-color: var(--medium1Color);
-	padding: 10px 0px 10px 10px;
+	padding: 10px;
+	clear: both;
 }
 
 /* small phone screen */
 @media screen and (max-width: 440px) {
-	body {
-		font-size: 95%;
-	}
 	.main {
 		margin: 10px 0px;
 	}
 }
 
 
+
+.main.lines {
+	padding: 10px 0px 10px 10px;
+}
 
 
 /* 3 columns */
@@ -194,35 +246,11 @@ html, body {
 .bodyItem.two {float:none; overflow:hidden; margin: 7px auto 7px;}
 .bodyItem.three {float:right;}
 
-
-
-
-#ginza {
-	--accentColor: var(--ginzaColor);
-}
-#marunouchi {
-	--accentColor: var(--marunouchiColor);
-}
-#hibiya {
-	--accentColor: var(--hibiyaColor);
-}
-#tozai {
-	--accentColor: var(--tozaiColor);
-}
-#chiyoda {
-	--accentColor: var(--chiyodaColor);
-}
-#yurakucho {
-	--accentColor: var(--yurakuchoColor);
-}
-#hanzomon {
-	--accentColor: var(--hanzomonColor);
-}
-#namboku {
-	--accentColor: var(--nambokuColor);
-}
-#fukutoshin {
-	--accentColor: var(--fukutoshinColor);
+/* super small phone screen */
+@media screen and (max-width: 400px) {
+	.bodyItem .accent {
+	letter-spacing: -1px;
+	}
 }
 
 
@@ -230,73 +258,66 @@ html, body {
 
 
 
-
-#ginzaBody {
-	display:none;
+.main.prestige {
+	text-align: center;
 }
 
-#marunouchiHead {
-	display:none;
-}
-#marunouchiBody {
-	display:none;
+.prestigeContainer {
+	max-width: 640px;
+	margin: 0px auto;
 }
 
-#hibiyaHead {
-	display:none;
-}
-#hibiyaBody {
-	display:none;
+
+.shop {
+	border: 1px solid var(--accentColor);
+	width: 100%;
+	max-width: 640px;
+	margin: 20px auto 0px;
+	box-sizing: border-box;
+	text-align: left;
+	/* display: inline-block; */
+	/* float: left; */
 }
 
-#tozaiHead {
-	display:none;
-}
-#tozaiBody {
-	display:none;
-}
-
-#chiyodaHead {
-	display:none;
-}
-#chiyodaBody {
-	display:none;
+.shopHead {
+	background-color: var(--accentColor);
+	color: white;
+	font-weight: bold;
+	padding: 5px 10px;
 }
 
-#yurakuchoHead {
-	display:none;
-}
-#yurakuchoBody {
-	display:none;
-}
-
-#hanzomonHead {
-	display:none;
-}
-#hanzomonBody {
-	display:none;
+.shopBank {
+	background-color: var(--medium1Color);
+	/* color: black; */
+	/* border-radius: 15px; */
+	margin-top: -1px;
+	margin-right: -5px;
+	padding: 1px 5px;
+	font-size: 100%;
+	display: inline;
+	float: right;
 }
 
-#nambokuHead {
-	display:none;
-}
-#nambokuBody {
-	display:none;
+.shopBank #prestige {
+	color: white;
 }
 
-#fukutoshinHead {
-	display:none;
+.shopInner {
+	margin: 10px;
 }
-#fukutoshinBody {
-	display:none;
-}  
 
 
 
 
 
+.main.options {
+	text-align: center;
+}
 
-
+.optionsContainer {
+	max-width: 640px;
+	margin: 0px auto;
+}
 
 
 
@@ -325,9 +346,8 @@ html, body {
 
 
 
-span {
-	color:white;
-}
+
+
 
 
 
@@ -337,13 +357,37 @@ span {
 
 .button {
 	display: inline-block;
-	background-color:var(--medium1Color);
+	background-color: var(--medium1Color);
 	border: 1px solid var(--accentColor);
 	margin: 5px 0px 0px;
-	padding: 5px 10px;
+	padding: 4px 10px;
 	color: var(--whitestColor);
 	font-weight: bold;
 }
+
+.button.nav {
+	background-color:var(--medium2Color);
+	border: none;
+	margin: 0px;
+	padding: 2px 25px;
+}
+
+@media screen and (max-width: 850px) {
+	.button.nav {
+		padding: 2px 10px;
+	}
+}
+
+.button.nav.active {
+	background-color:var(--accentColor);
+	color: var(--darkestColor);
+}
+
+.button.nav.highlight {
+	background-image: linear-gradient(to right, #fc00ff 0%, #00dbde  100%);
+	color: white;
+}
+
 
 .button.buy {
 	padding: 5px 1px;
@@ -371,6 +415,51 @@ span {
 
 
 
+
+
+
+.button.prestige {
+	background-image: linear-gradient(to right, #fc00ff 0%, #00dbde  51%, #fc00ff  100%);
+	/* margin: 10px; */
+	border: none;
+	padding: 5px 20px;
+	text-align: center;
+	font-size: 90%;
+	text-transform: uppercase;
+	transition: 0.5s;
+	background-size: 200% auto;
+	color: white;            
+	/* border-radius: 10px; */
+	/* display: block; */
+}
+
+.button.prestige:hover {
+	background-position: right center; /* change the direction of the change here */
+	color: #fff;
+	text-decoration: none;
+	box-shadow: 0 0 50px 10px #eee;
+	letter-spacing: 3px;
+
+}
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .footer {
 	width: 100%;
 	margin: 10px auto;
@@ -378,7 +467,56 @@ span {
 	text-align: center;
 	font-size: 80%;
 }
+
 .footer a {
 	color: var(--medium2Color);
 }
+
+
+
+
+
+
+
+
+
+#ginza { --accentColor: var(--ginzaColor); }
+#marunouchi { --accentColor: var(--marunouchiColor); }
+#hibiya { --accentColor: var(--hibiyaColor); }
+#tozai { --accentColor: var(--tozaiColor); }
+#chiyoda { --accentColor: var(--chiyodaColor); }
+#yurakucho { --accentColor: var(--yurakuchoColor); }
+#hanzomon { --accentColor: var(--hanzomonColor); }
+#namboku { --accentColor: var(--nambokuColor); }
+#fukutoshin { --accentColor: var(--fukutoshinColor); }
+
+#ginzaBody { display:none; } 
+
+#marunouchiHead { display:none; }
+#marunouchiBody { display:none; }
+
+#hibiyaHead { display:none; }
+#hibiyaBody { display:none; }
+
+#tozaiHead { display:none; }
+#tozaiBody { display:none; }
+
+#chiyodaHead { display:none; }
+#chiyodaBody { display:none; }
+
+#yurakuchoHead { display:none; }
+#yurakuchoBody { display:none; }
+
+#hanzomonHead { display:none; }
+#hanzomonBody { display:none; }
+
+#nambokuHead { display:none; }
+#nambokuBody { display:none; }
+
+#fukutoshinHead { display:none; }
+#fukutoshinBody { display:none; }  
+
+#linesTab { display: block; }
+#prestigeTab { display: none; }
+#optionsTab { display: none; }
 
