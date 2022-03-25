@@ -2,9 +2,12 @@ Roadmap (in no particular order)
 ----------
 
 - Continue balancing cost for better gameplay
-- Add prestige mechanic (spawn a new timeline and gain currency that will allow you to buy upgrades that do various things)
+- Add more prestige upgrades
+- Add + and - buttons to adjust ticket price
+- Add more multi-buy buttons (buy to 10, equalize all station numbers etc)
 - Add the ability to name your own lines (and maybe change color?)
-- Add tab with Options
+- Add more options
 - Add long and short names to mfi-numbers
 - Add variable sigdigs to mfi-numbers
 - Add offline progress
+- Add Japanese language option
