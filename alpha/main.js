@@ -33,13 +33,22 @@ var mps = 0;
 var unrealizedPrestige = 0;
 var lineCost = 0;			// dont forget this exists
 
+// constants for base values
+const ticketPriceEqConst = 200;
+const ticketPriceMaxConst = 1000;
+const ppsPerStatConst = 5;
+const locoPerStatConst = 1;
+const carPerLocoConst = 6;
+const passPerCarConst = 100;
+
+
 // variables than can be changed by upgrades
-var ticketPriceEq = 200;
-var ticketPriceMax = 1000;
-var ppsPerStat = 5;
-var locoPerStat = 2;
-var carPerLoco = 12;
-var passPerCar = 100;
+var ticketPriceEq = ticketPriceEqConst;
+var ticketPriceMax = ticketPriceMaxConst;
+var ppsPerStat = ppsPerStatConst;
+var locoPerStat = locoPerStatConst;
+var carPerLoco = carPerLocoConst;
+var passPerCar = passPerCarConst;
 
 
 
@@ -320,12 +329,12 @@ function refresh() {
 	update("passengers", gameData.passengers.toLocaleString("en-US"));
 	
 	// refreshing variables effected by prestige upgrades
-	ticketPriceEq = 200 * 2 ** gameData.prestige.upgrade1Lvl;
-	ticketPriceMax = 1000 * 2 ** gameData.prestige.upgrade2Lvl;
-	ppsPerStat = 5 + (1 * gameData.prestige.upgrade3Lvl);
-	locoPerStat = 2 + (1 * gameData.prestige.upgrade4Lvl);
-	carPerLoco = 12 + (6 * gameData.prestige.upgrade5Lvl);
-	passPerCar = 100 + (50 * gameData.prestige.upgrade6Lvl);
+	ticketPriceEq = ticketPriceEqConst * 2 ** gameData.prestige.upgrade1Lvl;
+	ticketPriceMax = ticketPriceMaxConst * 2 ** gameData.prestige.upgrade2Lvl;
+	ppsPerStat = ppsPerStatConst + (1 * gameData.prestige.upgrade3Lvl);
+	locoPerStat = locoPerStatConst + (1 * gameData.prestige.upgrade4Lvl);
+	carPerLoco = carPerLocoConst + (6 * gameData.prestige.upgrade5Lvl);
+	passPerCar = passPerCarConst + (50 * gameData.prestige.upgrade6Lvl);
 
 
 	// refreshing formulas dependent on gameData
@@ -523,7 +532,7 @@ function calcLineCost() {
 }
 
 function calcStationCost(stations) {
-	return Math.floor(10000 * (4	** stations ));
+	return Math.floor(10000 * (2.2	** stations ));
 }
 
 function calcLocomotiveCost(locomotives) {
@@ -531,7 +540,7 @@ function calcLocomotiveCost(locomotives) {
 }
 
 function calcCarCost(cars) {
-	return Math.floor(5000 * (1.05 ** cars ));
+	return Math.floor(5000 * (1.1 ** cars ));
 }
 
 
@@ -546,6 +555,7 @@ function calcCarCost(cars) {
 
 
 // EXPERIMENTAL BUY ALL BUTTON
+// this currently only works properly because un-bought lines rolling stock are limited by stations (which dont exist yet). it will not work for max buying stations.
 
 function buyAllStock() {
 	buyGinLocomotive('max');
@@ -567,6 +577,20 @@ function buyAllStock() {
 	buyFukuLocomotive('max');
 	buyFukuCar('max');
 }
+
+
+function buyAll1Station() {
+	if(gameData.ginza.line === 1) { buyGinStation(); }
+	if(gameData.marunouchi.line === 1) { buyMaruStation(); }
+	if(gameData.hibiya.line === 1) { buyHibiStation(); }
+	if(gameData.tozai.line === 1) { buyTozaStation(); }
+	if(gameData.chiyoda.line === 1) { buyChiyoStation(); }
+	if(gameData.yurakucho.line === 1) { buyYuraStation(); }
+	if(gameData.hanzomon.line === 1) { buyHanStation(); }
+	if(gameData.namboku.line === 1) { buyNamStation(); }
+	if(gameData.fukutoshin.line === 1) { buyFukuStation(); }
+}
+
 
 
 
@@ -1093,19 +1117,19 @@ function prestigeReset() {
 
 
 function calcUnrealizedPrestige() {
-	return Math.round( (calcTotalLines() * 4.8) + (calcTotalStations() * 2.4) + (calcTotalLocomotives() * 1.2) + (calcTotalCars() * .1) );
+	return Math.round((((calcTotalLines() * locoPerStatConst * carPerLocoConst * 4) + (calcTotalStations() * locoPerStatConst * carPerLocoConst) + (calcTotalLocomotives() * carPerLocoConst) + (calcTotalCars() * 1) ) * 0.1) * calcTotalLines());
 }
 
 function calcUpgrade1Cost() {
-	return Math.floor(100 * (3 ** gameData.prestige.upgrade1Lvl));
+	return Math.floor(100 * (1.5 ** gameData.prestige.upgrade1Lvl));
 }
 
 function calcUpgrade2Cost() {
-	return Math.floor(100 * (3	** gameData.prestige.upgrade2Lvl));
+	return Math.floor(100 * (2	** gameData.prestige.upgrade2Lvl));
 }
 
 function calcUpgrade3Cost() {
-	return Math.floor(50 * (1.5	** gameData.prestige.upgrade3Lvl));
+	return Math.floor(50 * (1.1	** gameData.prestige.upgrade3Lvl));
 }
 
 function calcUpgrade4Cost() {
@@ -1143,7 +1167,7 @@ function prestige() {
 function buyUpgrade1() {
 	if(gameData.bXP >= upgrade1Cost ) {
 		gameData.prestige.upgrade1Lvl += 1;
-		ticketPriceEq = 200 * 2 ** gameData.prestige.upgrade1Lvl;
+		ticketPriceEq = ticketPriceEqConst * 2 ** gameData.prestige.upgrade1Lvl;
 		gameData.bXP -= upgrade1Cost;
 		upgrade1Cost = calcUpgrade1Cost();
 		update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
@@ -1157,7 +1181,7 @@ function buyUpgrade1() {
 function buyUpgrade2() {
 	if(gameData.bXP >= upgrade2Cost ) {
 		gameData.prestige.upgrade2Lvl += 1;
-		ticketPriceMax = 1000 * 2 ** gameData.prestige.upgrade2Lvl;
+		ticketPriceMax = ticketPriceMaxConst * 2 ** gameData.prestige.upgrade2Lvl;
 		gameData.bXP -= upgrade2Cost;
 		upgrade2Cost = calcUpgrade2Cost();
 		update("upgrade2Lvl", format(gameData.prestige.upgrade2Lvl) );
@@ -1169,7 +1193,7 @@ function buyUpgrade2() {
 function buyUpgrade3() {
 	if(gameData.bXP >= upgrade3Cost ) {
 		gameData.prestige.upgrade3Lvl += 1;
-		ppsPerStat = 5 + (1 * gameData.prestige.upgrade3Lvl);
+		ppsPerStat = ppsPerStatConst + (1 * gameData.prestige.upgrade3Lvl);
 		gameData.bXP -= upgrade3Cost;
 		upgrade3Cost = calcUpgrade3Cost();
 		update("upgrade3Lvl", format(gameData.prestige.upgrade3Lvl) );
@@ -1183,7 +1207,7 @@ function buyUpgrade3() {
 function buyUpgrade4() {
 	if(gameData.bXP >= upgrade4Cost ) {
 		gameData.prestige.upgrade4Lvl += 1;
-		locoPerStat = 2 + (1 * gameData.prestige.upgrade4Lvl);
+		locoPerStat = locoPerStatConst + (1 * gameData.prestige.upgrade4Lvl);
 		gameData.bXP -= upgrade4Cost;
 		upgrade4Cost = calcUpgrade4Cost();
 		update("upgrade4Lvl", format(gameData.prestige.upgrade4Lvl) );
@@ -1195,7 +1219,7 @@ function buyUpgrade4() {
 function buyUpgrade5() {
 	if(gameData.bXP >= upgrade5Cost ) {
 		gameData.prestige.upgrade5Lvl += 1;
-		carPerLoco = 12 + (6 * gameData.prestige.upgrade5Lvl);
+		carPerLoco = carPerLocoConst + (6 * gameData.prestige.upgrade5Lvl);
 		gameData.bXP -= upgrade5Cost;
 		upgrade5Cost = calcUpgrade5Cost();
 		update("upgrade5Lvl", format(gameData.prestige.upgrade5Lvl) );
@@ -1207,7 +1231,7 @@ function buyUpgrade5() {
 function buyUpgrade6() {
 	if(gameData.bXP >= upgrade6Cost ) {
 		gameData.prestige.upgrade6Lvl += 1;
-		passPerCar = 100 + (50 * gameData.prestige.upgrade6Lvl);
+		passPerCar = passPerCarConst + (50 * gameData.prestige.upgrade6Lvl);
 		gameData.bXP -= upgrade6Cost;
 		upgrade6Cost = calcUpgrade6Cost();
 		update("upgrade6Lvl", format(gameData.prestige.upgrade6Lvl) );

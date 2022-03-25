@@ -29,7 +29,6 @@ html, body {
 	background-color: var(--darkestColor);
 	font-family: Verdana, sans-serif;
 	color: var(--whitestColor);
-
 }
 
 a {
@@ -247,6 +246,12 @@ span {
 .bodyItem.two {float:none; overflow:hidden; margin: 7px auto 7px;}
 .bodyItem.three {float:right;}
 
+/* super small phone screen */
+@media screen and (max-width: 400px) {
+	.bodyItem .accent {
+	letter-spacing: -1px;
+	}
+}
 
 
 
