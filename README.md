@@ -7,7 +7,7 @@ Play Here: [https://smmdesign.github.io/mfiMetro/](https://smmdesign.github.io/m
 
 ## Bugs & Errors
 
-If you encounter an issue of any kind, [please let me know here.] (https://github.com/SMMdesign/mfiMetro/issues/new/choose/)
+If you encounter an issue of any kind, [please let me know here.](https://github.com/SMMdesign/mfiMetro/issues/new/choose/)
 
 
 ## Changelog
