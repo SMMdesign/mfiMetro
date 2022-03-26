@@ -496,7 +496,7 @@ function updateMps() {
 }
 
 function updateMaxPassengers() {
-	maxPassengers = calcTotalCars() * 100;
+	maxPassengers = calcTotalCars() * passPerCar;
 	update("maxPassengers", `/${maxPassengers.toLocaleString("en-US")}`)
 }
 
