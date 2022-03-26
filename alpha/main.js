@@ -6,7 +6,7 @@
 
 // Initializing game data variables
 var gameData = {
-	version: 0.50,
+	version: 0.51,
 	money: 50000,
 	ticketPrice: 100,
 	passengers: 0,
@@ -40,6 +40,7 @@ const ppsPerStatConst = 5;
 const locoPerStatConst = 1;
 const carPerLocoConst = 6;
 const passPerCarConst = 100;
+const statPerLine = 4;
 
 
 // variables than can be changed by upgrades
@@ -333,7 +334,7 @@ function refresh() {
 	ticketPriceMax = ticketPriceMaxConst * 2 ** gameData.prestige.upgrade2Lvl;
 	ppsPerStat = ppsPerStatConst + (1 * gameData.prestige.upgrade3Lvl);
 	locoPerStat = locoPerStatConst + (1 * gameData.prestige.upgrade4Lvl);
-	carPerLoco = carPerLocoConst + (6 * gameData.prestige.upgrade5Lvl);
+	carPerLoco = carPerLocoConst + (2 * gameData.prestige.upgrade5Lvl);
 	passPerCar = passPerCarConst + (50 * gameData.prestige.upgrade6Lvl);
 
 
@@ -345,9 +346,9 @@ function refresh() {
 
 	
 	// making sure proper elements are displayed per line
-	if(gameData.bXP < 1 && gameData.hibiya.line < 1) {
+	if(gameData.bXP < 1 && gameData.tozai.line < 1) {
 		hide("prestigeTabButton");
-	}	// make sure buyHibiLine makes this button show
+	}	// make sure buyTozaLine makes this button show
 	
 	if(gameData.ginza.line < 1) {
 		update("ginLineCost", format(lineCost));
@@ -436,7 +437,6 @@ goToTab('linesTab');
 
 function makeMoney(number) {
 	gameData.money += number;
-	// update("money", gameData.money.toLocaleString("en-US"));
 	update("money", format(gameData.money));
 	
 }
@@ -444,8 +444,8 @@ function makeMoney(number) {
 function generatePassengers(number) {
 	gameData.passengers += number;
 	// Prevents passengers from exceeding passenger car max
-	if (gameData.passengers >= calcTotalCars() * 100) {
-		gameData.passengers = calcTotalCars() * 100;
+	if (gameData.passengers >= calcTotalCars() * passPerCar) {
+		gameData.passengers = calcTotalCars() * passPerCar;
 	}
 	// Prevents passengers from going below zero
 	if (gameData.passengers < 0) {
@@ -496,7 +496,7 @@ function updateMps() {
 }
 
 function updateMaxPassengers() {
-	maxPassengers = calcTotalCars() * 100;
+	maxPassengers = calcTotalCars() * passPerCar;
 	update("maxPassengers", `/${maxPassengers.toLocaleString("en-US")}`)
 }
 
@@ -535,12 +535,13 @@ function calcStationCost(stations) {
 	return Math.floor(10000 * (2.2	** stations ));
 }
 
+// these functions automatically readjust prices based on ratios from upgrades
 function calcLocomotiveCost(locomotives) {
-	return Math.floor(10000 * (2 ** locomotives ));
+	return Math.floor( (10000 * ( (1 + (1 * locoPerStatConst / locoPerStat)) ** locomotives )));
 }
 
 function calcCarCost(cars) {
-	return Math.floor(5000 * (1.1 ** cars ));
+	return Math.floor( 5000 * ( (1 + (.1 * carPerLocoConst / carPerLoco * locoPerStatConst / locoPerStat)) ** cars ));
 }
 
 
@@ -715,8 +716,6 @@ function buyHibiLine() {
 		refreshHibiya();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
-		show("prestigeTabButton");	// prestige unlocks here
-		document.getElementById("prestigeTabButton").setAttribute("class", "button nav highlight")
 }}
 function buyHibiStation(x) {
 	if(gameData.money >= hibiStationCost) {
@@ -767,6 +766,8 @@ function buyTozaLine() {
 		refreshTozai();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+		show("prestigeTabButton");	// prestige unlocks here
+		document.getElementById("prestigeTabButton").setAttribute("class", "button nav highlight")
 }}
 function buyTozaStation(x) {
 	if(gameData.money >= tozaStationCost) {
@@ -1116,32 +1117,38 @@ function prestigeReset() {
 }
 
 
+
+
+
 function calcUnrealizedPrestige() {
-	return Math.round((((calcTotalLines() * locoPerStatConst * carPerLocoConst * 4) + (calcTotalStations() * locoPerStatConst * carPerLocoConst) + (calcTotalLocomotives() * carPerLocoConst) + (calcTotalCars() * 1) ) * 0.1) * calcTotalLines());
+	if(calcTotalLines() < 4) { return 0; }
+	return Math.round((((calcTotalCars() * 1) + (calcTotalLocomotives() * carPerLocoConst) + (calcTotalStations() * locoPerStatConst * carPerLocoConst)) * (calcTotalLines() - 2) ** 3) * 0.01);
 }
 
+
+
 function calcUpgrade1Cost() {
-	return Math.floor(100 * (1.5 ** gameData.prestige.upgrade1Lvl));
+	return Math.floor(50 * (1.5 ** gameData.prestige.upgrade1Lvl));
 }
 
 function calcUpgrade2Cost() {
-	return Math.floor(100 * (2	** gameData.prestige.upgrade2Lvl));
+	return Math.floor(50 * (2	** gameData.prestige.upgrade2Lvl));
 }
 
 function calcUpgrade3Cost() {
-	return Math.floor(50 * (1.1	** gameData.prestige.upgrade3Lvl));
+	return Math.floor(10 * (1.5	** gameData.prestige.upgrade3Lvl));
 }
 
 function calcUpgrade4Cost() {
-	return Math.floor(500 * (1.5	** gameData.prestige.upgrade4Lvl));
+	return Math.floor(200 * (2	** gameData.prestige.upgrade4Lvl));
 }
 
 function calcUpgrade5Cost() {
-	return Math.floor(200 * (1.5	** gameData.prestige.upgrade5Lvl));
+	return Math.floor(100 * (1.5	** gameData.prestige.upgrade5Lvl));
 }
 
 function calcUpgrade6Cost() {
-	return Math.floor(200 * (1.5	** gameData.prestige.upgrade6Lvl));
+	return Math.floor(50 * (1.5	** gameData.prestige.upgrade6Lvl));
 }
 
 
@@ -1219,7 +1226,7 @@ function buyUpgrade4() {
 function buyUpgrade5() {
 	if(gameData.bXP >= upgrade5Cost ) {
 		gameData.prestige.upgrade5Lvl += 1;
-		carPerLoco = carPerLocoConst + (6 * gameData.prestige.upgrade5Lvl);
+		carPerLoco = carPerLocoConst + (2 * gameData.prestige.upgrade5Lvl);
 		gameData.bXP -= upgrade5Cost;
 		upgrade5Cost = calcUpgrade5Cost();
 		update("upgrade5Lvl", format(gameData.prestige.upgrade5Lvl) );
@@ -1261,7 +1268,7 @@ function buyUpgrade6() {
 
 
 // Game Loop
-window.setInterval(function() {
+gameLoop = window.setInterval(function() {
 	makeMoney(gameData.passengers * gameData.ticketPrice);
 	generatePassengers(pps);
 	
