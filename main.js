@@ -444,8 +444,8 @@ function makeMoney(number) {
 function generatePassengers(number) {
 	gameData.passengers += number;
 	// Prevents passengers from exceeding passenger car max
-	if (gameData.passengers >= calcTotalCars() * 100) {
-		gameData.passengers = calcTotalCars() * 100;
+	if (gameData.passengers >= calcTotalCars() * passPerCar) {
+		gameData.passengers = calcTotalCars() * passPerCar;
 	}
 	// Prevents passengers from going below zero
 	if (gameData.passengers < 0) {
