@@ -20,7 +20,7 @@ var gameData = {
 	namboku: 		{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	fukutoshin: 	{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	bXP: 0,
-	prestige:		{ upgrade1Lvl: 0, upgrade2Lvl: 0, upgrade3Lvl: 0, upgrade4Lvl: 0, upgrade5Lvl: 0, upgrade6Lvl: 0 }
+	prestige:		{ upgrade1Lvl: 0, upgrade2Lvl: 0, upgrade3Lvl: 0, upgrade4Lvl: 0, upgrade5Lvl: 0, upgrade6Lvl: 0, upgrade7Lvl: 0, upgrade8Lvl: 0 }
 
 }	// remember to add new variables to load function, even ones in nested objects
 	// remember to check compatibility with prestige resetting function
@@ -93,8 +93,8 @@ function load() {
 			if (typeof saveGame.fukutoshin === 'undefined') saveGame.fukutoshin = gameData.fukutoshin;
 			if (typeof saveGame.bXP === 'undefined') saveGame.bXP = gameData.bXP;
 			if (typeof saveGame.prestige === 'undefined') saveGame.prestige = gameData.prestige;
-			// if (typeof saveGame.prestige.upgrade1Lvl === 'undefined') saveGame.prestige.upgrade1Lvl = gameData.prestige.upgrade1Lvl;
-
+			if (typeof saveGame.prestige.upgrade1Lvl === 'undefined') saveGame.prestige.upgrade7Lvl = gameData.prestige.upgrade7Lvl;
+			if (typeof saveGame.prestige.upgrade1Lvl === 'undefined') saveGame.prestige.upgrade8Lvl = gameData.prestige.upgrade8Lvl;
 			
 			saveGame.version = gameData.version;
 			console.log(`saveGame has been updated to ${gameData.version}`);
@@ -359,53 +359,53 @@ function refresh() {
 		show("marunouchiHead");
 		update("maruLineCost", format(lineCost));
 	}
-		if(gameData.marunouchi.line > 0) {
-		show("marunouchiBody"); hide("marunouchiHead");
-		refreshMarunouchi();
-		show("hibiyaHead");
-		update("hibiLineCost", format(lineCost));
-	}
-		if(gameData.hibiya.line > 0) {
-		show("hibiyaBody"); hide("hibiyaHead");
-		refreshHibiya();
-		show("tozaiHead");
-		update("tozaLineCost", format(lineCost));
-	}
-		if(gameData.tozai.line > 0) {
-		show("tozaiBody"); hide("tozaiHead");
-		refreshTozai();
-		show("chiyodaHead");
-		update("chiyoLineCost", format(lineCost));
-	}
-		if(gameData.chiyoda.line > 0) {
-		show("chiyodaBody"); hide("chiyodaHead");
-		refreshChiyoda();
-		show("yurakuchoHead");
-		update("yuraLineCost", format(lineCost));
-	}
-		if(gameData.yurakucho.line > 0) {
-		show("yurakuchoBody"); hide("yurakuchoHead");
-		refreshYurakucho();
-		show("hanzomonHead");
-		update("hanLineCost", format(lineCost));
-	}
-		if(gameData.hanzomon.line > 0) {
-		show("hanzomonBody"); hide("hanzomonHead");
-		refreshHanzomon();
-		show("nambokuHead");
-		update("namLineCost", format(lineCost));
-	}
-		if(gameData.namboku.line > 0) {
-		show("nambokuBody"); hide("nambokuHead");
-		refreshNamboku();
-		show("fukutoshinHead");
-		update("fukuLineCost", format(lineCost));
-	}
-		if(gameData.fukutoshin.line > 0) {
-		show("fukutoshinBody"); hide("fukutoshinHead");
-		refreshFukutoshin();
-	}
-	
+    if(gameData.marunouchi.line > 0) {
+    show("marunouchiBody"); hide("marunouchiHead");
+    refreshMarunouchi();
+    show("hibiyaHead");
+    update("hibiLineCost", format(lineCost));
+}
+    if(gameData.hibiya.line > 0) {
+    show("hibiyaBody"); hide("hibiyaHead");
+    refreshHibiya();
+    show("tozaiHead");
+    update("tozaLineCost", format(lineCost));
+}
+    if(gameData.tozai.line > 0) {
+    show("tozaiBody"); hide("tozaiHead");
+    refreshTozai();
+    show("chiyodaHead");
+    update("chiyoLineCost", format(lineCost));
+}
+    if(gameData.chiyoda.line > 0) {
+    show("chiyodaBody"); hide("chiyodaHead");
+    refreshChiyoda();
+    show("yurakuchoHead");
+    update("yuraLineCost", format(lineCost));
+}
+    if(gameData.yurakucho.line > 0) {
+    show("yurakuchoBody"); hide("yurakuchoHead");
+    refreshYurakucho();
+    show("hanzomonHead");
+    update("hanLineCost", format(lineCost));
+}
+    if(gameData.hanzomon.line > 0) {
+    show("hanzomonBody"); hide("hanzomonHead");
+    refreshHanzomon();
+    show("nambokuHead");
+    update("namLineCost", format(lineCost));
+}
+    if(gameData.namboku.line > 0) {
+    show("nambokuBody"); hide("nambokuHead");
+    refreshNamboku();
+    show("fukutoshinHead");
+    update("fukuLineCost", format(lineCost));
+}
+    if(gameData.fukutoshin.line > 0) {
+    show("fukutoshinBody"); hide("fukutoshinHead");
+    refreshFukutoshin();
+}
+
 }
 
 
@@ -471,6 +471,24 @@ function setTicketPrice() {
 }
 
 
+function adjustTicketPrice(number) {
+    if(number === 'min') {gameData.ticketPrice = 1;}
+    if(number === 'eq') {gameData.ticketPrice = ticketPriceEq;}
+    if(number === 'max') {gameData.ticketPrice = ticketPriceMax;}
+    // percentage based changes
+    if(ticketPriceMax > number + gameData.ticketPrice > 0) { gameData.ticketPrice += ticketPriceEq / number; }
+    if(number + gameData.ticketPrice > ticketPriceMax) { gameData.ticketPrice = ticketPriceMax; }
+    if(number + gameData.ticketPrice < 1) { gameData.ticketPrice = 1; }
+	update("ticketPrice", format(gameData.ticketPrice) );
+	updatePps();					// because pps is dependent on ticket price
+}
+
+
+
+
+
+
+
 
 
 
@@ -491,7 +509,12 @@ function updatePps() {
 }
 
 function updateMps() {
-	mps = gameData.passengers * gameData.ticketPrice;
+    if(gameData.prestige.upgrade7Lvl === 0) {
+        mps = gameData.passengers * gameData.ticketPrice;
+    }
+    if(gameData.prestige.upgrade7Lvl === 1) {
+        mps = (gameData.passengers * gameData.ticketPrice) * calcTotalLines() ** gameData.prestige.upgrade7Lvl;
+    }
 	update("mps", `(¥${format(mps)}/s)`)
 }
 
@@ -616,6 +639,7 @@ function buyGinLine() {
 		refreshGinza();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 }}
 function buyGinStation(x) {
 	if(gameData.money >= ginStationCost) {
@@ -666,6 +690,7 @@ function buyMaruLine() {
 		refreshMarunouchi();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 }}
 function buyMaruStation(x) {
 	if(gameData.money >= maruStationCost) {
@@ -716,6 +741,7 @@ function buyHibiLine() {
 		refreshHibiya();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 }}
 function buyHibiStation(x) {
 	if(gameData.money >= hibiStationCost) {
@@ -766,6 +792,7 @@ function buyTozaLine() {
 		refreshTozai();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 		show("prestigeTabButton");	// prestige unlocks here
 		document.getElementById("prestigeTabButton").setAttribute("class", "button nav highlight")
 }}
@@ -818,6 +845,7 @@ function buyChiyoLine() {
 		refreshChiyoda();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 }}
 function buyChiyoStation(x) {
 	if(gameData.money >= chiyoStationCost) {
@@ -868,6 +896,7 @@ function buyYuraLine() {
 		refreshYurakucho();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 }}
 function buyYuraStation(x) {
 	if(gameData.money >= yuraStationCost) {
@@ -918,6 +947,7 @@ function buyHanLine() {
 		refreshHanzomon();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 }}
 function buyHanStation(x) {
 	if(gameData.money >= hanStationCost) {
@@ -968,6 +998,7 @@ function buyNamLine() {
 		refreshNamboku();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 }}
 function buyNamStation(x) {
 	if(gameData.money >= namStationCost) {
@@ -1015,6 +1046,7 @@ function buyFukuLine() {
 		refreshFukutoshin();
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
+        updateMps();            // because mps is dependent on line number
 }}
 function buyFukuStation(x) {
 	if(gameData.money >= fukuStationCost) {
@@ -1061,42 +1093,39 @@ function refreshPrestige() {
 	unrealizedPrestige = calcUnrealizedPrestige();
 	update("unrealizedPrestige", `${format(unrealizedPrestige)}`)
 	update("bXP", `${format(gameData.bXP)}`)
+    
+    upgrade1Cost = calcUpgrade1Cost();
+    update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
+    update("upgrade1Cost", format(upgrade1Cost) );
+    update("ticketPriceEq", format(ticketPriceEq));
+    upgrade2Cost = calcUpgrade2Cost();
+    update("upgrade2Lvl", format(gameData.prestige.upgrade2Lvl) );
+    update("upgrade2Cost", format(upgrade2Cost) );
+    update("ticketPriceMax", format(ticketPriceMax));
+    upgrade3Cost = calcUpgrade3Cost();
+    update("upgrade3Lvl", format(gameData.prestige.upgrade3Lvl) );
+    update("upgrade3Cost", format(upgrade3Cost) );
+    update("ppsPerStat", format(ppsPerStat));
+    upgrade4Cost = calcUpgrade4Cost();
+    update("upgrade4Lvl", format(gameData.prestige.upgrade4Lvl) );
+    update("upgrade4Cost", format(upgrade4Cost) );
+    update("locoPerStat", format(locoPerStat));
+    upgrade5Cost = calcUpgrade5Cost();
+    update("upgrade5Lvl", format(gameData.prestige.upgrade5Lvl) );
+    update("upgrade5Cost", format(upgrade5Cost) );
+    update("carPerLoco", format(carPerLoco));
+    upgrade6Cost = calcUpgrade6Cost();
+    update("upgrade6Lvl", format(gameData.prestige.upgrade6Lvl) );
+    update("upgrade6Cost", format(upgrade6Cost) );
+    update("passPerCar", format(passPerCar));
+    upgrade7Cost = calcUpgrade7Cost();
+    update("upgrade7Lvl", format(gameData.prestige.upgrade7Lvl) );
+    update("upgrade7Cost", format(upgrade7Cost) );
+		upgrade8Cost = calcUpgrade8Cost();
+		update("upgrade8Lvl", format(gameData.prestige.upgrade8Lvl) );
+		update("upgrade8Cost", format(upgrade8Cost) );
 
-	update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
-	upgrade1Cost = calcUpgrade1Cost();
-	update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
-	update("upgrade1Cost", format(upgrade1Cost) );
-	update("bXP", `${format(gameData.bXP)}`)
 
-	update("upgrade2Lvl", format(gameData.prestige.upgrade2Lvl) );
-	upgrade2Cost = calcUpgrade2Cost();
-	update("upgrade2Lvl", format(gameData.prestige.upgrade2Lvl) );
-	update("upgrade2Cost", format(upgrade2Cost) );
-	update("bXP", `${format(gameData.bXP)}`)
-
-	update("upgrade3Lvl", format(gameData.prestige.upgrade3Lvl) );
-	upgrade3Cost = calcUpgrade3Cost();
-	update("upgrade3Lvl", format(gameData.prestige.upgrade3Lvl) );
-	update("upgrade3Cost", format(upgrade3Cost) );
-	update("bXP", `${format(gameData.bXP)}`)
-
-	update("upgrade4Lvl", format(gameData.prestige.upgrade4Lvl) );
-	upgrade4Cost = calcUpgrade4Cost();
-	update("upgrade4Lvl", format(gameData.prestige.upgrade4Lvl) );
-	update("upgrade4Cost", format(upgrade4Cost) );
-	update("bXP", `${format(gameData.bXP)}`)
-
-	update("upgrade5Lvl", format(gameData.prestige.upgrade5Lvl) );
-	upgrade5Cost = calcUpgrade5Cost();
-	update("upgrade5Lvl", format(gameData.prestige.upgrade5Lvl) );
-	update("upgrade5Cost", format(upgrade5Cost) );
-	update("bXP", `${format(gameData.bXP)}`)
-
-	update("upgrade6Lvl", format(gameData.prestige.upgrade6Lvl) );
-	upgrade6Cost = calcUpgrade6Cost();
-	update("upgrade6Lvl", format(gameData.prestige.upgrade6Lvl) );
-	update("upgrade6Cost", format(upgrade6Cost) );
-	update("bXP", `${format(gameData.bXP)}`)
 
 }	// remember to add relevant info to the main refresh function too
 
@@ -1118,40 +1147,36 @@ function prestigeReset() {
 
 
 
-
-
 function calcUnrealizedPrestige() {
 	if(calcTotalLines() < 4) { return 0; }
 	return Math.round((((calcTotalCars() * 1) + (calcTotalLocomotives() * carPerLocoConst) + (calcTotalStations() * locoPerStatConst * carPerLocoConst)) * (calcTotalLines() - 2) ** 3) * 0.01);
 }
 
 
-
 function calcUpgrade1Cost() {
 	return Math.floor(50 * (1.5 ** gameData.prestige.upgrade1Lvl));
 }
-
 function calcUpgrade2Cost() {
 	return Math.floor(50 * (2	** gameData.prestige.upgrade2Lvl));
 }
-
 function calcUpgrade3Cost() {
 	return Math.floor(10 * (1.5	** gameData.prestige.upgrade3Lvl));
 }
-
 function calcUpgrade4Cost() {
 	return Math.floor(200 * (2	** gameData.prestige.upgrade4Lvl));
 }
-
 function calcUpgrade5Cost() {
 	return Math.floor(100 * (1.5	** gameData.prestige.upgrade5Lvl));
 }
-
 function calcUpgrade6Cost() {
 	return Math.floor(50 * (1.5	** gameData.prestige.upgrade6Lvl));
 }
-
-
+function calcUpgrade7Cost() {
+	return Math.floor(250 * (10 ** gameData.prestige.upgrade7Lvl));
+}
+function calcUpgrade8Cost() {
+	return Math.floor(500 * (10 ** gameData.prestige.upgrade8Lvl));
+}
 
 
 
@@ -1179,6 +1204,7 @@ function buyUpgrade1() {
 		upgrade1Cost = calcUpgrade1Cost();
 		update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
 		update("upgrade1Cost", format(upgrade1Cost) );
+        update("ticketPriceEq", format(ticketPriceEq));
 		update("bXP", `${format(gameData.bXP)}`);
 		updatePps();		// because this changes variables in the ticketprice formula
 
@@ -1193,6 +1219,7 @@ function buyUpgrade2() {
 		upgrade2Cost = calcUpgrade2Cost();
 		update("upgrade2Lvl", format(gameData.prestige.upgrade2Lvl) );
 		update("upgrade2Cost", format(upgrade2Cost) );
+        update("ticketPriceMax", format(ticketPriceMax));
 		update("bXP", `${format(gameData.bXP)}`);
 	}
 }
@@ -1205,9 +1232,9 @@ function buyUpgrade3() {
 		upgrade3Cost = calcUpgrade3Cost();
 		update("upgrade3Lvl", format(gameData.prestige.upgrade3Lvl) );
 		update("upgrade3Cost", format(upgrade3Cost) );
+        update("ppsPerStat", format(ppsPerStat));
 		update("bXP", `${format(gameData.bXP)}`);
 		updatePps();
-
 	}
 }
 
@@ -1219,6 +1246,7 @@ function buyUpgrade4() {
 		upgrade4Cost = calcUpgrade4Cost();
 		update("upgrade4Lvl", format(gameData.prestige.upgrade4Lvl) );
 		update("upgrade4Cost", format(upgrade4Cost) );
+        update("locoPerStat", format(locoPerStat));
 		update("bXP", `${format(gameData.bXP)}`);
 	}
 }
@@ -1231,6 +1259,7 @@ function buyUpgrade5() {
 		upgrade5Cost = calcUpgrade5Cost();
 		update("upgrade5Lvl", format(gameData.prestige.upgrade5Lvl) );
 		update("upgrade5Cost", format(upgrade5Cost) );
+        update("carPerLoco", format(carPerLoco));
 		update("bXP", `${format(gameData.bXP)}`);
 	}
 }
@@ -1243,12 +1272,35 @@ function buyUpgrade6() {
 		upgrade6Cost = calcUpgrade6Cost();
 		update("upgrade6Lvl", format(gameData.prestige.upgrade6Lvl) );
 		update("upgrade6Cost", format(upgrade6Cost) );
+        update("passPerCar", format(passPerCar));
 		update("bXP", `${format(gameData.bXP)}`);
 		updateMaxPassengers();
 	}
 }
 
 
+function buyUpgrade7() {
+	if(gameData.bXP >= upgrade7Cost) {
+		gameData.prestige.upgrade7Lvl += 1;
+		gameData.bXP -= upgrade7Cost;
+		upgrade7Cost = calcUpgrade7Cost();
+		update("upgrade7Lvl", format(gameData.prestige.upgrade7Lvl) );
+		update("upgrade7Cost", format(upgrade7Cost) );
+		update("bXP", `${format(gameData.bXP)}`);
+		updateMps();
+	}
+}
+
+function buyUpgrade8() {
+	if(gameData.bXP >= upgrade8Cost) {
+		gameData.prestige.upgrade8Lvl += 1;
+		gameData.bXP -= upgrade8Cost;
+		upgrade8Cost = calcUpgrade8Cost();
+		update("upgrade8Lvl", format(gameData.prestige.upgrade8Lvl) );
+		update("upgrade8Cost", format(upgrade8Cost) );
+		update("bXP", `${format(gameData.bXP)}`);
+	}
+}
 
 
 
@@ -1268,8 +1320,9 @@ function buyUpgrade6() {
 
 
 // Game Loop
-gameLoop = window.setInterval(function() {
-	makeMoney(gameData.passengers * gameData.ticketPrice);
+var gameLoop = window.setInterval(function() {
+    makeMoney(mps);
+	// makeMoney(gameData.passengers * gameData.ticketPrice);
 	generatePassengers(pps);
 	
 }, 1000);
@@ -1277,7 +1330,7 @@ gameLoop = window.setInterval(function() {
 
 
 // Autosave Loop
-autosaveLoop = window.setInterval(function() {
+var autosaveLoop = window.setInterval(function() {
 	save();
 	
 	

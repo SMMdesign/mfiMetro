@@ -33,18 +33,18 @@
 
 
 <div class="header">
-<div class="titleBar">
-	<div class="title">
-		<a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a>
-		</div>
+    <div class="titleBar">
+        <div class="title">
+            <a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a>
+        </div>
 
-	
-		<div class="navMenu">
-			<button id="linesTabButton" class="button nav" onClick="goToTab('linesTab')">Lines</button>
-			<button id="prestigeTabButton" class="button nav" onClick="goToTab('prestigeTab')">Prestige</button>
-			<button id="optionsTabButton" class="button nav" onClick="goToTab('optionsTab')">Options</button>
-		</div>
-</div>
+        
+        <div class="navMenu">
+            <button id="linesTabButton" class="button nav" onClick="goToTab('linesTab')">Lines</button>
+            <button id="prestigeTabButton" class="button nav" onClick="goToTab('prestigeTab')">Prestige</button>
+            <button id="optionsTabButton" class="button nav" onClick="goToTab('optionsTab')">Options</button>
+        </div>
+    </div>
 
 	
 	
@@ -61,9 +61,23 @@
 			<br>
 			<span id="passengers" >X</span> <span id="maxPassengers" class="description">XXX</span>
 		</div>
-	<div class="clearfix"></div>
+    <div class="clearfix"></div>
 	</div>
+    
+	<div class="ticketPriceContainer">
+		<span class="accent">Ticket Price</span>:
+        
+        <button class="button price" onClick="adjustTicketPrice('min')">min</button>
+        <button class="button price" onClick="adjustTicketPrice(-10)">-</button>
+        ¥<span id="ticketPrice">100</span>
+        <button class="button price" onClick="adjustTicketPrice(10)">+</button>
+        <button class="button price" onClick="adjustTicketPrice('eq')">value</button>
+        <button class="button price" onClick="adjustTicketPrice('max')">max</button>
+        <button id="setPriceButton" class="button price" onClick="setTicketPrice()">custom</button>
 
+	</div>
+    
+<div style="background-color: var(--medium2Color); height: 2px; width: 100%;"></div>
 </div>
 
 
@@ -85,17 +99,6 @@
 <div id="linesTab" class="main lines">
 
 
-
-	<div class="ticketPrice">
-		<span class="accent">Ticket Price</span>: ¥<span id="ticketPrice">100</span>
-		<button class="button" onClick="setTicketPrice()">
-		Set Ticket Price
-		</button>
-	</div>
-
-
-<!-- <span class="description" style="color:red">Experimental Buttons</span> -->
-<br>
 <button class="button" onClick="buyAll1Station()">Buy All 1 Station</button>
 &emsp;
 <button class="button" onClick="buyAllStock()">Buy All Rolling Stock</button>
@@ -461,83 +464,92 @@
 
 <div id="prestigeTab" class="main prestige">
 
-<div class="prestigeContainer">
-<h3>Are You Ready To Enter The Multiverse?</h3>
+    <div class="prestigeContainer">
+    <h3>Are You Ready To Enter The Multiverse?</h3>
 
-<p>Your success as a train tycoon has opened doors you previously thought impossible. You have been approached by a mysterious corporation with the technology to travel back to the beginning of your empire while retaining your current level of business expertise. This will enable you to progress at even faster speeds, and unlocks new upgrades to further expand your train empire.</p>
+    <p>Your success as a train tycoon has opened doors you previously thought impossible. You have been approached by a mysterious corporation with the technology to travel back to the beginning of your empire while retaining your current level of business expertise. This will enable you to progress at even faster speeds, and unlocks new upgrades to further expand your train empire.</p>
 
-<p>Your current unrealized <span>Business Expertise (bXP)</span> is <span id="unrealizedPrestige">XXX</span></p>
+    <p>Your current unrealized <span>Business Expertise (bXP)</span> is <span id="unrealizedPrestige">XXX</span></p>
 
-
-
-<h4 style="margin-bottom: 5px;">If you are ready,</h4>
-<button class="button prestige" onClick="prestige()"> OPEN THE DOOR</button>
-<br><br><br>
-
-
-
-</div>
-<!-- end of prestigeContainer -->
+    <h4 style="margin-bottom: 5px;">If you are ready,</h4>
+    <button class="button prestige" onClick="prestige()"> OPEN THE DOOR</button>
+    <br><br><br>
+    </div>
+    <!-- end of prestigeContainer -->
 
 
 
-<div class="shop">
-		<div class="shopHead">
-			Prestige Shop
-			<div class="shopBank"><span class="accent">bXP: </span><span id="bXP">XXX</span></div>
-		</div>
-		
-		
-		<div class="shopInner">
-		
-		<span class="accent">Fancier Trains</span> Level <span id="upgrade1Lvl">X</span>
-		<p class="description">Your trains appear twice as valueable to passengers.</p>
-		<button class="button" onClick="buyUpgrade1()"><span id="upgrade1Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">More Perks</span> Level <span id="upgrade2Lvl">X</span>
-		<p class="description">Doubles the max possible Ticket Price.</p>
-		<button class="button" onClick="buyUpgrade2()"><span id="upgrade2Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">Advertising</span> Level <span id="upgrade3Lvl">X</span>
-		<p class="description">Stations attract more customers.</p>
-		<button class="button" onClick="buyUpgrade3()"><span id="upgrade3Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">Add Track</span> Level <span id="upgrade4Lvl">X</span>
-		<p class="description">Allows one more Locomotive per Station.</p>
-		<button class="button" onClick="buyUpgrade4()"><span id="upgrade4Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">Locomotive Horsepower</span> Level <span id="upgrade5Lvl">X</span>
-		<p class="description">Locomotives can carry more cars.</p>
-		<button class="button" onClick="buyUpgrade5()"><span id="upgrade5Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">Bigger Cars</span> Level <span id="upgrade6Lvl">X</span>
-		<p class="description">Passenger cars can carry more passengers.</p>
-		<button class="button" onClick="buyUpgrade6()"><span id="upgrade6Cost">XXX</span> bXP</button>
-		
-		</div>
-		
-		
+    <div class="shop">
+        <div class="shopHead">
+            Prestige Shop
+            <div class="shopBank"><span class="accent">bXP: </span><span id="bXP">XXX</span></div>
+        </div>
 
 
+        <div class="shopInner">
 
+            <span class="accent">Fancier Trains</span> Level <span id="upgrade1Lvl">X</span>
+            <p class="description">Doubles the percieved value of your service.
+            <br>Current: ¥<span id="ticketPriceEq">XXX</span></p>
+            <button class="button" onClick="buyUpgrade1()"><span id="upgrade1Cost">XXX</span> bXP</button>
 
-</div>
+            <br><br>
+
+            <span class="accent">More Perks</span> Level <span id="upgrade2Lvl">X</span>
+            <p class="description">Doubles the max possible Ticket Price.
+            <br>Current: ¥<span id="ticketPriceMax">XXX</span></p>
+            <button class="button" onClick="buyUpgrade2()"><span id="upgrade2Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Advertising</span> Level <span id="upgrade3Lvl">X</span>
+            <p class="description">Each station can attract more customers.
+            <br>Current: <span id="ppsPerStat">XXX</span></p>
+            <button class="button" onClick="buyUpgrade3()"><span id="upgrade3Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Add Track</span> Level <span id="upgrade4Lvl">X</span>
+            <p class="description">Allows one more Locomotive per Station.
+            <br>Current: <span id="locoPerStat">XXX</span></p>
+            <button class="button" onClick="buyUpgrade4()"><span id="upgrade4Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Locomotive Horsepower</span> Level <span id="upgrade5Lvl">X</span>
+            <p class="description">Locomotives can carry more cars.
+            <br>Current: <span id="carPerLoco">XXX</span></p>
+            <button class="button" onClick="buyUpgrade5()"><span id="upgrade5Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Bigger Cars</span> Level <span id="upgrade6Lvl">X</span>
+            <p class="description">Passenger cars can carry more passengers.
+            <br>Current: <span id="passPerCar">XXX</span></p>
+            <button class="button" onClick="buyUpgrade6()"><span id="upgrade6Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Income Multiplier</span> Level <span id="upgrade7Lvl">X</span>
+            <p class="description">Income is modified by the number of lines bought.
+            <br>Formula: income * lines<sup>upgrade lvl</sup></p>
+            <button class="button" onClick="buyUpgrade7()"><span id="upgrade7Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Cost Reduction</span> Level <span id="upgrade8Lvl">X</span>
+            <p class="description">This upgrade doesn't do anything yet, don't buy it.</p>
+            <button class="button" onClick="buyUpgrade8()"><span id="upgrade8Cost">XXX</span> bXP</button>
+
+        </div>
+
+    </div>
+    <!-- end of shop div -->
 
 
 
 <br>
 <div class="clearfix"></div>
-
 </div>
 <!-- end of prestigeTab div -->
 

@@ -129,13 +129,13 @@ span {
 
 
 
-.ticketPrice {
-	display: block;
-	/* text-align: center; */
-	/* font-size: 80%; */
-	margin-bottom: 5px;
+.ticketPriceContainer {
+	box-sizing: border-box;
+	background-color: var(--medium1Color);
+	padding: 8px 10px 7px;
+	/* color: white; */
+	font-size: 90%;
 }
-
 
 
 
@@ -387,6 +387,27 @@ span {
 	background-image: linear-gradient(to right, #fc00ff 0%, #00dbde  100%);
 	color: white;
 }
+
+
+.button.price {
+	background-color:var(--medium2Color);
+	border: none;
+	margin: 0px 3px;
+	padding: 2px 6px;
+	font-weight: normal;
+}
+@media screen and (max-width: 440px) {
+	#setPriceButton {
+		display:none;
+	}
+    .button.price {
+        margin: 0px 6px;
+    }
+}
+
+
+
+
 
 
 .button.buy {
