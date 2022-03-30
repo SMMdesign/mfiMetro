@@ -160,17 +160,20 @@ function goToTab(tab) {
 
 	if(tab === 'linesTab') {
 		document.getElementById("linesTab").style.display = "block"; 
-		document.getElementById("linesTabButton").setAttribute("class", "button nav active")
+		document.getElementById("linesTabButton").setAttribute("class", "button nav active");
+        window.scrollTo(0, 0);
 		refresh();
 	}
 	if(tab === 'prestigeTab') {
 		document.getElementById("prestigeTab").style.display = "block"; 
-		document.getElementById("prestigeTabButton").setAttribute("class", "button nav active")
+		document.getElementById("prestigeTabButton").setAttribute("class", "button nav active");
+        window.scrollTo(0, 0);
 		refreshPrestige();	// in theory, prestige should only need to be updated here
 	}
 	if(tab === 'optionsTab') {
 		document.getElementById("optionsTab").style.display = "block"; 
-		document.getElementById("optionsTabButton").setAttribute("class", "button nav active")
+		document.getElementById("optionsTabButton").setAttribute("class", "button nav active");
+        window.scrollTo(0, 0);
 	}
 }
 
@@ -468,12 +471,17 @@ function setTicketPrice() {
 	gameData.ticketPrice = Math.round(userPrice);
 	update("ticketPrice", format(gameData.ticketPrice) );
 	updatePps();					// because pps is dependent on ticket price
+    updateMps();					// because mps is dependent on ticket price
+
 }
 
 
 function adjustTicketPrice(number) {
     if(number === 'min') {gameData.ticketPrice = 1;}
-    if(number === 'eq') {gameData.ticketPrice = ticketPriceEq;}
+    if(number === 'eq') {
+        if(number > ticketPriceMax) {gameData.ticketPrice = ticketPriceMax;}
+        gameData.ticketPrice = ticketPriceEq;
+    }
     if(number === 'max') {gameData.ticketPrice = ticketPriceMax;}
     // percentage based changes
     if(ticketPriceMax > number + gameData.ticketPrice > 0) { gameData.ticketPrice += ticketPriceEq / number; }
@@ -481,6 +489,8 @@ function adjustTicketPrice(number) {
     if(number + gameData.ticketPrice < 1) { gameData.ticketPrice = 1; }
 	update("ticketPrice", format(gameData.ticketPrice) );
 	updatePps();					// because pps is dependent on ticket price
+    updateMps();					// because mps is dependent on ticket price
+
 }
 
 
@@ -513,7 +523,7 @@ function updateMps() {
         mps = gameData.passengers * gameData.ticketPrice;
     }
     if(gameData.prestige.upgrade7Lvl === 1) {
-        mps = (gameData.passengers * gameData.ticketPrice) * calcTotalLines() ** gameData.prestige.upgrade7Lvl;
+        mps = (gameData.passengers * gameData.ticketPrice) * (calcTotalLines() ** gameData.prestige.upgrade7Lvl);
     }
 	update("mps", `(¥${format(mps)}/s)`)
 }
@@ -560,7 +570,7 @@ function calcStationCost(stations) {
 
 // these functions automatically readjust prices based on ratios from upgrades
 function calcLocomotiveCost(locomotives) {
-	return Math.floor( (10000 * ( (1 + (1 * locoPerStatConst / locoPerStat)) ** locomotives )));
+	return Math.floor( (8000 * ( (1 + (0.9 * locoPerStatConst / locoPerStat)) ** locomotives )));
 }
 
 function calcCarCost(cars) {
@@ -1157,10 +1167,10 @@ function calcUpgrade1Cost() {
 	return Math.floor(50 * (1.5 ** gameData.prestige.upgrade1Lvl));
 }
 function calcUpgrade2Cost() {
-	return Math.floor(50 * (2	** gameData.prestige.upgrade2Lvl));
+	return Math.floor(100 * (1.5	** gameData.prestige.upgrade2Lvl));
 }
 function calcUpgrade3Cost() {
-	return Math.floor(10 * (1.5	** gameData.prestige.upgrade3Lvl));
+	return Math.floor(10 * (1.2	** gameData.prestige.upgrade3Lvl));
 }
 function calcUpgrade4Cost() {
 	return Math.floor(200 * (2	** gameData.prestige.upgrade4Lvl));
@@ -1172,7 +1182,7 @@ function calcUpgrade6Cost() {
 	return Math.floor(50 * (1.5	** gameData.prestige.upgrade6Lvl));
 }
 function calcUpgrade7Cost() {
-	return Math.floor(250 * (10 ** gameData.prestige.upgrade7Lvl));
+	return Math.floor(150 * (2 ** gameData.prestige.upgrade7Lvl));
 }
 function calcUpgrade8Cost() {
 	return Math.floor(500 * (10 ** gameData.prestige.upgrade8Lvl));
