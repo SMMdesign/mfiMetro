@@ -423,7 +423,7 @@ load();
 refresh();
 update("titleVer", `v${gameData.version}`);
 if(window.location.href === "https://smmdesign.github.io/mfiMetro/alpha/") {titleVer.insertAdjacentHTML('afterend', ' <span style="font-size:70%;">ALPHA</span>');}
-if(window.location.href !== "https://smmdesign.github.io/mfiMetro/*" && window.location.protocol !== "file:") {document.body.insertAdjacentHTML( 'afterbegin', '<div class="titleBar" style="height:auto;background-color:darkred;color:white;text-align:center;font-weight:bold;font-size:80%;"><a href="https://smmdesign.github.io/mfiMetro/" style="color:white;text-decoration: none;">This is a copy, please support the original game at <u>smmdesign.github.io/mfiMetro</u></a></div>');}
+if(window.location.href !== "https://smmdesign.github.io/mfiMetro/" && window.location.href !== "https://smmdesign.github.io/mfiMetro/alpha/" && window.location.protocol !== "file:") {document.body.insertAdjacentHTML( 'afterbegin', '<div class="titleBar" style="height:auto;background-color:darkred;color:white;text-align:center;font-weight:bold;font-size:80%;"><a href="https://smmdesign.github.io/mfiMetro/" style="color:white;text-decoration: none;">This is a copy, please support the original game at <u>smmdesign.github.io/mfiMetro</u></a></div>');}
 goToTab('linesTab');
 
 
