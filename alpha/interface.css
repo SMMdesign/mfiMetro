@@ -84,6 +84,7 @@ span {
 	padding: 5px 10px;
 }
 
+
 .title {
 	margin-top: 3px;
 	float: left;
@@ -392,14 +393,15 @@ span {
 .button.price {
 	background-color:var(--medium2Color);
 	border: none;
-	margin: 0px 3px;
+    margin: 0px 3px;
 	padding: 2px 6px;
+    min-width: 20px;
 	font-weight: normal;
 }
 @media screen and (max-width: 440px) {
-	#setPriceButton {
-		display:none;
-	}
+	/* #setPriceButton { */
+		/* display:none; */
+	/* } */
     .button.price {
         margin: 0px 6px;
     }

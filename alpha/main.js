@@ -20,7 +20,7 @@ var gameData = {
 	namboku: 		{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	fukutoshin: 	{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	bXP: 0,
-	prestige:		{ upgrade1Lvl: 0, upgrade2Lvl: 0, upgrade3Lvl: 0, upgrade4Lvl: 0, upgrade5Lvl: 0, upgrade6Lvl: 0, upgrade7Lvl: 0, upgrade8Lvl: 0 }
+	prestige:		{ upgrade1Lvl: 0, upgrade2Lvl: 0, upgrade3Lvl: 0, upgrade4Lvl: 0, upgrade5Lvl: 0, upgrade6Lvl: 0, upgrade7Lvl: 0 }
 
 }	// remember to add new variables to load function, even ones in nested objects
 	// remember to check compatibility with prestige resetting function
@@ -94,7 +94,6 @@ function load() {
 			if (typeof saveGame.bXP === 'undefined') saveGame.bXP = gameData.bXP;
 			if (typeof saveGame.prestige === 'undefined') saveGame.prestige = gameData.prestige;
 			if (typeof saveGame.prestige.upgrade1Lvl === 'undefined') saveGame.prestige.upgrade7Lvl = gameData.prestige.upgrade7Lvl;
-			if (typeof saveGame.prestige.upgrade1Lvl === 'undefined') saveGame.prestige.upgrade8Lvl = gameData.prestige.upgrade8Lvl;
 			
 			saveGame.version = gameData.version;
 			console.log(`saveGame has been updated to ${gameData.version}`);
@@ -424,6 +423,7 @@ load();
 refresh();
 update("titleVer", `v${gameData.version}`);
 if(window.location.href === "https://smmdesign.github.io/mfiMetro/alpha/") {titleVer.insertAdjacentHTML('afterend', ' <span style="font-size:70%;">ALPHA</span>');}
+if(window.location.href !== "https://smmdesign.github.io/mfiMetro/*" && window.location.protocol !== "file:") {document.body.insertAdjacentHTML( 'afterbegin', '<div class="titleBar" style="height:auto;background-color:darkred;color:white;text-align:center;font-weight:bold;font-size:80%;"><a href="https://smmdesign.github.io/mfiMetro/" style="color:white;text-decoration: none;">This is a copy, please support the original game at <u>smmdesign.github.io/mfiMetro</u></a></div>');}
 goToTab('linesTab');
 
 
@@ -472,7 +472,6 @@ function setTicketPrice() {
 	update("ticketPrice", format(gameData.ticketPrice) );
 	updatePps();					// because pps is dependent on ticket price
     updateMps();					// because mps is dependent on ticket price
-
 }
 
 
@@ -484,27 +483,20 @@ function adjustTicketPrice(number) {
     }
     if(number === 'max') {gameData.ticketPrice = ticketPriceMax;}
     // percentage based changes
-    if(ticketPriceMax > number + gameData.ticketPrice > 0) { gameData.ticketPrice += ticketPriceEq / number; }
-    if(number + gameData.ticketPrice > ticketPriceMax) { gameData.ticketPrice = ticketPriceMax; }
-    if(number + gameData.ticketPrice < 1) { gameData.ticketPrice = 1; }
+    let priceAdjust = gameData.ticketPrice + ticketPriceEq * number;
+    if(ticketPriceMax > priceAdjust > 0) { gameData.ticketPrice = priceAdjust; }
+    if(priceAdjust > ticketPriceMax) { gameData.ticketPrice = ticketPriceMax; }
+    if(priceAdjust < 1) { gameData.ticketPrice = 1; }
 	update("ticketPrice", format(gameData.ticketPrice) );
 	updatePps();					// because pps is dependent on ticket price
     updateMps();					// because mps is dependent on ticket price
-
 }
 
 
 
 
 
-
-
-
-
-
-
-// equilibrium is ¥200 price
-
+// ticket price formula location
 function updatePps() {
 	pps = Math.ceil( (( ticketPriceEq - gameData.ticketPrice ) / ticketPriceEq ) * ( calcTotalStations() * ppsPerStat ) );
 	// prevents errors from dividing by zero
@@ -522,7 +514,7 @@ function updateMps() {
     if(gameData.prestige.upgrade7Lvl === 0) {
         mps = gameData.passengers * gameData.ticketPrice;
     }
-    if(gameData.prestige.upgrade7Lvl === 1) {
+    if(gameData.prestige.upgrade7Lvl > 0) {
         mps = (gameData.passengers * gameData.ticketPrice) * (calcTotalLines() ** gameData.prestige.upgrade7Lvl);
     }
 	update("mps", `(¥${format(mps)}/s)`)
@@ -576,6 +568,93 @@ function calcLocomotiveCost(locomotives) {
 function calcCarCost(cars) {
 	return Math.floor( 5000 * ( (1 + (.1 * carPerLocoConst / carPerLoco * locoPerStatConst / locoPerStat)) ** cars ));
 }
+
+
+
+
+
+
+
+///////////////////////////
+// MAX AND MULTI BUY FUNCTIONS WIP
+
+
+/* 
+function calcBaseLog(x, y) {
+    // returns the logarithm of y with base x
+    return Math.log(y) / Math.log(x);
+}
+
+function calcMaxBuyNumber(type, owned) {
+    let base;
+    let increment;
+    if(type === 'locomotive') {
+        base = 8000;
+        increment = (1 + (0.9 * locoPerStatConst / locoPerStat));
+    }
+    if(type === 'car') {
+        base = 5000;
+        increment = (1 + (.1 * carPerLocoConst / carPerLoco * locoPerStatConst / locoPerStat));
+    }
+    let y = (increment ** owned) - (gameData.money *( 1 - increment ) / base);
+    let x = increment;
+    return Math.floor( calcBaseLog(x, y) - owned);
+}
+
+function calcMaxBuyCost(type, owned) {
+    let maxBuyNumber = Math.floor(calcMaxBuyNumber(type, owned));
+    let base;
+    let increment;
+    if(type === 'locomotive') {
+        base = 8000;
+        increment = (1 + (0.9 * locoPerStatConst / locoPerStat));
+    }
+    if(type === 'car') {
+        base = 5000;
+        increment = (1 + (.1 * carPerLocoConst / carPerLoco * locoPerStatConst / locoPerStat));
+    }
+    return Math.floor( base *((increment ** (owned) - increment ** (owned+maxBuyNumber))/(1-increment)) );
+}
+
+function calcMultiBuyCost(type, owned, buyAmount) {
+    let base;
+    let increment;
+    if(type === 'locomotive') {
+        base = 8000;
+        increment = (1 + (0.9 * locoPerStatConst / locoPerStat));
+    }
+    if(type === 'car') {
+        base = 5000;
+        increment = (1 + (.1 * carPerLocoConst / carPerLoco * locoPerStatConst / locoPerStat));
+    }
+    return Math.floor( base *((increment ** (owned) - increment ** (owned+buyAmount))/(1-increment)) );
+}
+
+
+function buyGinCarMax() {
+    if(gameData.money >= ginCarCost) {
+        if(gameData.ginza.cars + calcMaxBuyNumber('car', gameData.ginza.cars) < gameData.ginza.locomotives * carPerLoco) {
+            let buyNumber = calcMaxBuyNumber('car', gameData.ginza.cars);
+            gameData.money -= calcMaxBuyCost('car', gameData.ginza.cars);
+            gameData.ginza.cars += buyNumber;
+        } else {
+            let fillNumber = (gameData.ginza.locomotives * carPerLoco) - gameData.ginza.cars;
+            gameData.money -= calcMultiBuyCost('car', gameData.ginza.cars, fillNumber);
+            gameData.ginza.cars += fillNumber;
+        }
+    }
+    ginCarCost = calcCarCost(gameData.ginza.cars);
+    update("money", format(gameData.money));
+    refreshGinza();
+    updateMaxPassengers();	// because max is dependent on car number
+}
+ */
+
+
+///////////////////////////
+
+
+
 
 
 
@@ -650,6 +729,9 @@ function buyGinLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Ginza Line"
+        });
 }}
 function buyGinStation(x) {
 	if(gameData.money >= ginStationCost) {
@@ -701,6 +783,9 @@ function buyMaruLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Marunouchi Line"
+        });
 }}
 function buyMaruStation(x) {
 	if(gameData.money >= maruStationCost) {
@@ -752,6 +837,9 @@ function buyHibiLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Hibiya Line"
+        });
 }}
 function buyHibiStation(x) {
 	if(gameData.money >= hibiStationCost) {
@@ -803,6 +891,9 @@ function buyTozaLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Tozai Line"
+        });
 		show("prestigeTabButton");	// prestige unlocks here
 		document.getElementById("prestigeTabButton").setAttribute("class", "button nav highlight")
 }}
@@ -856,6 +947,9 @@ function buyChiyoLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Chiyoda Line"
+        });
 }}
 function buyChiyoStation(x) {
 	if(gameData.money >= chiyoStationCost) {
@@ -907,6 +1001,9 @@ function buyYuraLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Yurakucho Line"
+        });
 }}
 function buyYuraStation(x) {
 	if(gameData.money >= yuraStationCost) {
@@ -958,6 +1055,9 @@ function buyHanLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Hanzomon Line"
+        });
 }}
 function buyHanStation(x) {
 	if(gameData.money >= hanStationCost) {
@@ -1009,6 +1109,9 @@ function buyNamLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Namboku Line"
+        });
 }}
 function buyNamStation(x) {
 	if(gameData.money >= namStationCost) {
@@ -1057,6 +1160,9 @@ function buyFukuLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        gtag("event", "level_start", {
+          level_name: "Fukutoshin Line"
+        });
 }}
 function buyFukuStation(x) {
 	if(gameData.money >= fukuStationCost) {
@@ -1103,7 +1209,9 @@ function refreshPrestige() {
 	unrealizedPrestige = calcUnrealizedPrestige();
 	update("unrealizedPrestige", `${format(unrealizedPrestige)}`)
 	update("bXP", `${format(gameData.bXP)}`)
-    
+	if(gameData.tozai.line < 1) {
+		hide("prestigeHead");
+	} else {show("prestigeHead");}
     upgrade1Cost = calcUpgrade1Cost();
     update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
     update("upgrade1Cost", format(upgrade1Cost) );
@@ -1131,10 +1239,6 @@ function refreshPrestige() {
     upgrade7Cost = calcUpgrade7Cost();
     update("upgrade7Lvl", format(gameData.prestige.upgrade7Lvl) );
     update("upgrade7Cost", format(upgrade7Cost) );
-		upgrade8Cost = calcUpgrade8Cost();
-		update("upgrade8Lvl", format(gameData.prestige.upgrade8Lvl) );
-		update("upgrade8Cost", format(upgrade8Cost) );
-
 
 
 }	// remember to add relevant info to the main refresh function too
@@ -1164,28 +1268,25 @@ function calcUnrealizedPrestige() {
 
 
 function calcUpgrade1Cost() {
-	return Math.floor(50 * (1.5 ** gameData.prestige.upgrade1Lvl));
+	return Math.floor(50 * (2 ** gameData.prestige.upgrade1Lvl));
 }
 function calcUpgrade2Cost() {
-	return Math.floor(100 * (1.5	** gameData.prestige.upgrade2Lvl));
+	return Math.floor(100 * (2	** gameData.prestige.upgrade2Lvl));
 }
 function calcUpgrade3Cost() {
 	return Math.floor(10 * (1.2	** gameData.prestige.upgrade3Lvl));
 }
 function calcUpgrade4Cost() {
-	return Math.floor(200 * (2	** gameData.prestige.upgrade4Lvl));
+	return Math.floor(200 * (6	** gameData.prestige.upgrade4Lvl));
 }
 function calcUpgrade5Cost() {
-	return Math.floor(100 * (1.5	** gameData.prestige.upgrade5Lvl));
+	return Math.floor(200 * (2	** gameData.prestige.upgrade5Lvl));
 }
 function calcUpgrade6Cost() {
-	return Math.floor(50 * (1.5	** gameData.prestige.upgrade6Lvl));
+	return Math.floor(100 * (1.5	** gameData.prestige.upgrade6Lvl));
 }
 function calcUpgrade7Cost() {
-	return Math.floor(150 * (2 ** gameData.prestige.upgrade7Lvl));
-}
-function calcUpgrade8Cost() {
-	return Math.floor(500 * (10 ** gameData.prestige.upgrade8Lvl));
+	return Math.floor(3000 * (4 ** gameData.prestige.upgrade7Lvl));
 }
 
 
@@ -1198,10 +1299,11 @@ function prestige() {
 		gameData.bXP += unrealizedPrestige;
 		save();
 		console.log('Prestige Successful!');
-		location.reload();
+        gtag("event", "level_up",);
+		location.reload();  // needs this to re-enable autosave
 	} else {
 		console.log('Prestige Cancelled.')
-		location.reload();
+		location.reload();  // needs this to re-enable autosave
 	}
 }
 
@@ -1217,7 +1319,6 @@ function buyUpgrade1() {
         update("ticketPriceEq", format(ticketPriceEq));
 		update("bXP", `${format(gameData.bXP)}`);
 		updatePps();		// because this changes variables in the ticketprice formula
-
 	}
 }
 
@@ -1298,17 +1399,6 @@ function buyUpgrade7() {
 		update("upgrade7Cost", format(upgrade7Cost) );
 		update("bXP", `${format(gameData.bXP)}`);
 		updateMps();
-	}
-}
-
-function buyUpgrade8() {
-	if(gameData.bXP >= upgrade8Cost) {
-		gameData.prestige.upgrade8Lvl += 1;
-		gameData.bXP -= upgrade8Cost;
-		upgrade8Cost = calcUpgrade8Cost();
-		update("upgrade8Lvl", format(gameData.prestige.upgrade8Lvl) );
-		update("upgrade8Cost", format(upgrade8Cost) );
-		update("bXP", `${format(gameData.bXP)}`);
 	}
 }
 
