@@ -14,6 +14,22 @@ If you encounter an issue of any kind, [please let me know here.](https://github
 
 [View Roadmap](https://github.com/users/SMMdesign/projects/1/views/1)
 
+#### Version 0.51 - 2022/04/01
+
+- Adjusted prestige shop and bXP gain balance.
+- Prestige upgrades now give more information about what they do.
+- Prestige upgrades that raise your Locomotive or Car limit now also adjust their cost scaling formula at the same rate.
+- Prestige now unlocks after the 4th line (Tozai) instead of the 3rd.
+- Prestige button is now hidden on the prestige screen until it is unlocked every run.
+- Added a 7th prestige upgrade that multiplies your income based on the number of lines currently unlocked.
+- Added buttons to adjust Ticket Price or set it to min/max values.
+- Added proper Buy All buttons.
+- Changed the Buy Max button formula so it doesn't make the game stutter when buying a large amount at once.
+- Added a small message that unlocks when you reach the end of the game.
+- Switching tabs now takes you to the top of the page.
+- Added a Donate section with links under the About section. Donation is entirely optional and does not affect gameplay (but it does affect my happiness).
+
+
 #### Version 0.50 - 2022/03/25
 
 - Prestige function added! Prestiging will give you a currency called bXP that will be used to buy prestige-exclusive upgrades.

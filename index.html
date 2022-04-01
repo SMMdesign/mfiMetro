@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>MFI Metro by SMMDesign</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <meta name="description" content="MFI Metro is a browser-based incremental game about building an ever-expanding train empire created by an aspiring gamedev.">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, minimum-scale=1, user-scalable=no">
@@ -27,24 +28,21 @@
 
 
 
-
-
-
-
-
 <div class="header">
-<div class="titleBar">
-	<div class="title">
-		<a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a>
-		</div>
 
-	
-		<div class="navMenu">
-			<button id="linesTabButton" class="button nav" onClick="goToTab('linesTab')">Lines</button>
-			<button id="prestigeTabButton" class="button nav" onClick="goToTab('prestigeTab')">Prestige</button>
-			<button id="optionsTabButton" class="button nav" onClick="goToTab('optionsTab')">Options</button>
-		</div>
-</div>
+
+    <div class="titleBar">
+        <div class="title">
+            <a href="https://smmdesign.github.io/mfiMetro/">MFI Metro</a> <a href="https://github.com/SMMdesign/mfiMetro#changelog"><span id="titleVer" style="font-size:80%;" class="accent">0.0</span></a>
+        </div>
+
+        
+        <div class="navMenu">
+            <button id="linesTabButton" class="button nav" onClick="goToTab('linesTab')">Lines</button>
+            <button id="prestigeTabButton" class="button nav" onClick="goToTab('prestigeTab')">Prestige</button>
+            <button id="optionsTabButton" class="button nav" onClick="goToTab('optionsTab')">Options</button>
+        </div>
+    </div>
 
 	
 	
@@ -61,19 +59,23 @@
 			<br>
 			<span id="passengers" >X</span> <span id="maxPassengers" class="description">XXX</span>
 		</div>
-	<div class="clearfix"></div>
+    <div class="clearfix"></div>
 	</div>
+    
+	<div class="ticketPriceContainer">
+		<span class="accent">Tickets</span>:
+        <button class="button price" onClick="adjustTicketPrice(-.05)" style="margin-left:0px;">-</button>
+        ¥<a href="javascript:setTicketPrice()"><span id="ticketPrice">100</span></a>
+        <button class="button price" onClick="adjustTicketPrice(.05)">+</button>
+        <button class="button price" onClick="adjustTicketPrice('min')">min</button>
+        <button class="button price" onClick="adjustTicketPrice('eq')">value</button>
+        <button class="button price" onClick="adjustTicketPrice('max')">max</button>
+        <!-- <button id="setPriceButton" class="button price" onClick="setTicketPrice()">custom</button> -->
 
+	</div>
+    
+<div style="background-color: var(--medium2Color); height: 2px; width: 100%;"></div>
 </div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -84,26 +86,11 @@
 
 <div id="linesTab" class="main lines">
 
-
-
-	<div class="ticketPrice">
-		<span class="accent">Ticket Price</span>: ¥<span id="ticketPrice">100</span>
-		<button class="button" onClick="setTicketPrice()">
-		Set Ticket Price
-		</button>
-	</div>
-
-
-<!-- <span class="description" style="color:red">Experimental Buttons</span> -->
-<br>
-<button class="button" onClick="buyAll1Station()">Buy All 1 Station</button>
-&emsp;
-<button class="button" onClick="buyAllStock()">Buy All Rolling Stock</button>
-
-	
-<br>		
-
-
+<div style="box-sizing: border-box; width:100%; padding-right: 10px;">
+<button class="button buyAll" style="float:left;" onClick="buyAll1Station()">Buy 1  Station Each</button>
+<button class="button buyAll" style="float:right;" onClick="buyAllCar()">Buy All Cars</button>
+<button class="button buyAll" style="float:none; overflow:hidden; margin: 0 auto;" onClick="buyAllLocomotive()">Buy All Locomotives</button>
+</div>
 
 
 
@@ -121,7 +108,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="ginStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyGinStation()">¥<span id="ginStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyGinStation(1)">¥<span id="ginStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyGinStation('max')">BUY MAX</button>			
 		</div>
 
@@ -129,7 +116,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="ginCars">X</span> / <span id="ginMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyGinCar()">¥<span id="ginCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyGinCar(1)">¥<span id="ginCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyGinCar('max')">BUY MAX</button>
 		</div>
 
@@ -159,7 +146,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="maruStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyMaruStation()">¥<span id="maruStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyMaruStation(1)">¥<span id="maruStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyMaruStation('max')">BUY MAX</button>			
 		</div>
 
@@ -167,7 +154,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="maruCars">X</span> / <span id="maruMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyMaruCar()">¥<span id="maruCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyMaruCar(1)">¥<span id="maruCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyMaruCar('max')">BUY MAX</button>
 		</div>
 
@@ -197,7 +184,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="hibiStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyHibiStation()">¥<span id="hibiStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyHibiStation(1)">¥<span id="hibiStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyHibiStation('max')">BUY MAX</button>			
 		</div>
 
@@ -205,7 +192,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="hibiCars">X</span> / <span id="hibiMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyHibiCar()">¥<span id="hibiCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyHibiCar(1)">¥<span id="hibiCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyHibiCar('max')">BUY MAX</button>
 		</div>
 
@@ -235,7 +222,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="tozaStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyTozaStation()">¥<span id="tozaStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyTozaStation(1)">¥<span id="tozaStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyTozaStation('max')">BUY MAX</button>			
 		</div>
 
@@ -243,7 +230,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="tozaCars">X</span> / <span id="tozaMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyTozaCar()">¥<span id="tozaCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyTozaCar(1)">¥<span id="tozaCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyTozaCar('max')">BUY MAX</button>
 		</div>
 
@@ -273,7 +260,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="chiyoStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyChiyoStation()">¥<span id="chiyoStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyChiyoStation(1)">¥<span id="chiyoStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyChiyoStation('max')">BUY MAX</button>			
 		</div>
 
@@ -281,7 +268,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="chiyoCars">X</span> / <span id="chiyoMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyChiyoCar()">¥<span id="chiyoCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyChiyoCar(1)">¥<span id="chiyoCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyChiyoCar('max')">BUY MAX</button>
 		</div>
 
@@ -311,7 +298,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="yuraStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyYuraStation()">¥<span id="yuraStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyYuraStation(1)">¥<span id="yuraStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyYuraStation('max')">BUY MAX</button>			
 		</div>
 
@@ -319,7 +306,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="yuraCars">X</span> / <span id="yuraMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyYuraCar()">¥<span id="yuraCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyYuraCar(1)">¥<span id="yuraCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyYuraCar('max')">BUY MAX</button>
 		</div>
 
@@ -349,7 +336,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="hanStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyHanStation()">¥<span id="hanStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyHanStation(1)">¥<span id="hanStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyHanStation('max')">BUY MAX</button>			
 		</div>
 
@@ -357,7 +344,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="hanCars">X</span> / <span id="hanMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyHanCar()">¥<span id="hanCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyHanCar(1)">¥<span id="hanCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyHanCar('max')">BUY MAX</button>
 		</div>
 
@@ -387,7 +374,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="namStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyNamStation()">¥<span id="namStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyNamStation(1)">¥<span id="namStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyNamStation('max')">BUY MAX</button>			
 		</div>
 
@@ -395,7 +382,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="namCars">X</span> / <span id="namMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyNamCar()">¥<span id="namCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyNamCar(1)">¥<span id="namCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyNamCar('max')">BUY MAX</button>
 		</div>
 
@@ -425,7 +412,7 @@
 			<span class="accent">Stations</span>
 			<br><span id="fukuStations">X</span>
 			<p class="description">Generates passengers.</p>
-			<button class="button buy" onClick="buyFukuStation()">¥<span id="fukuStationCost">XXX</span></button>
+			<button class="button buy" onClick="buyFukuStation(1)">¥<span id="fukuStationCost">XXX</span></button>
 			<button class="button buy max" onClick="buyFukuStation('max')">BUY MAX</button>			
 		</div>
 
@@ -433,7 +420,7 @@
 			<span class="accent">Passenger Cars</span>
 			<br><span id="fukuCars">X</span> / <span id="fukuMaxCars" class="maxStock">X</span>
 			<p class="description">Carries passengers.</p>
-			<button class="button buy" onClick="buyFukuCar()">¥<span id="fukuCarCost">XXX</span></button>
+			<button class="button buy" onClick="buyFukuCar(1)">¥<span id="fukuCarCost">XXX</span></button>
 			<button class="button buy max" onClick="buyFukuCar('max')">BUY MAX</button>
 		</div>
 
@@ -461,83 +448,86 @@
 
 <div id="prestigeTab" class="main prestige">
 
-<div class="prestigeContainer">
-<h3>Are You Ready To Enter The Multiverse?</h3>
+    <div id="prestigeHead" class="prestigeContainer">
+    <h3>Are You Ready To Enter The Multiverse?</h3>
 
-<p>Your success as a train tycoon has opened doors you previously thought impossible. You have been approached by a mysterious corporation with the technology to travel back to the beginning of your empire while retaining your current level of business expertise. This will enable you to progress at even faster speeds, and unlocks new upgrades to further expand your train empire.</p>
+    <p>Your success as a train tycoon has opened doors you previously thought impossible. You have been approached by a mysterious corporation with the technology to travel back to the beginning of your empire while retaining your current level of business expertise. This will enable you to grow at even faster speeds, and unlocks new upgrades to further expand your train empire.</p>
 
-<p>Your current unrealized <span>Business Expertise (bXP)</span> is <span id="unrealizedPrestige">XXX</span></p>
+    <p>Your current unrealized <span>Business Expertise (bXP)</span> is <span id="unrealizedPrestige">XXX</span></p>
 
-
-
-<h4 style="margin-bottom: 5px;">If you are ready,</h4>
-<button class="button prestige" onClick="prestige()"> OPEN THE DOOR</button>
-<br><br><br>
-
-
-
-</div>
-<!-- end of prestigeContainer -->
+    <h4 style="margin-bottom: 5px;">If you are ready,</h4>
+    <button class="button prestige" onClick="prestige()"> OPEN THE DOOR</button>
+    <br><br><br>
+    </div>
+    <!-- end of prestigeContainer -->
 
 
 
-<div class="shop">
-		<div class="shopHead">
-			Prestige Shop
-			<div class="shopBank"><span class="accent">bXP: </span><span id="bXP">XXX</span></div>
-		</div>
-		
-		
-		<div class="shopInner">
-		
-		<span class="accent">Fancier Trains</span> Level <span id="upgrade1Lvl">X</span>
-		<p class="description">Your trains appear twice as valueable to passengers.</p>
-		<button class="button" onClick="buyUpgrade1()"><span id="upgrade1Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">More Perks</span> Level <span id="upgrade2Lvl">X</span>
-		<p class="description">Doubles the max possible Ticket Price.</p>
-		<button class="button" onClick="buyUpgrade2()"><span id="upgrade2Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">Advertising</span> Level <span id="upgrade3Lvl">X</span>
-		<p class="description">Stations attract more customers.</p>
-		<button class="button" onClick="buyUpgrade3()"><span id="upgrade3Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">Add Track</span> Level <span id="upgrade4Lvl">X</span>
-		<p class="description">Allows one more Locomotive per Station.</p>
-		<button class="button" onClick="buyUpgrade4()"><span id="upgrade4Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">Locomotive Horsepower</span> Level <span id="upgrade5Lvl">X</span>
-		<p class="description">Locomotives can carry more cars.</p>
-		<button class="button" onClick="buyUpgrade5()"><span id="upgrade5Cost">XXX</span> bXP</button>
-		
-		<br><br>
-		
-		<span class="accent">Bigger Cars</span> Level <span id="upgrade6Lvl">X</span>
-		<p class="description">Passenger cars can carry more passengers.</p>
-		<button class="button" onClick="buyUpgrade6()"><span id="upgrade6Cost">XXX</span> bXP</button>
-		
-		</div>
-		
-		
+    <div class="shop">
+        <div class="shopHead">
+            Prestige Shop
+            <div class="shopBank"><span class="accent">bXP: </span><span id="bXP">XXX</span></div>
+        </div>
 
 
+        <div class="shopInner">
 
+            <span class="accent">Fancy Trains</span> Level <span id="upgrade1Lvl">X</span>
+            <p class="description">Doubles the percieved value of your service.
+            <br>Current: ¥<span id="ticketPriceEq">XXX</span></p>
+            <button class="button" onClick="buyUpgrade1()"><span id="upgrade1Cost">XXX</span> bXP</button>
 
-</div>
+            <br><br>
+
+            <span class="accent">Added Perks</span> Level <span id="upgrade2Lvl">X</span>
+            <p class="description">Doubles the max possible Ticket Price.
+            <br>Current: ¥<span id="ticketPriceMax">XXX</span></p>
+            <button class="button" onClick="buyUpgrade2()"><span id="upgrade2Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Advertising</span> Level <span id="upgrade3Lvl">X</span>
+            <p class="description">Each station can attract more customers.
+            <br>Current: <span id="ppsPerStat">XXX</span></p>
+            <button class="button" onClick="buyUpgrade3()"><span id="upgrade3Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Add Track</span> Level <span id="upgrade4Lvl">X</span>
+            <p class="description">Allows one more Locomotive per Station.
+            <br>Current: <span id="locoPerStat">XXX</span></p>
+            <button class="button" onClick="buyUpgrade4()"><span id="upgrade4Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Upgrade Engines</span> Level <span id="upgrade5Lvl">X</span>
+            <p class="description">Locomotives can carry two more cars.
+            <br>Current: <span id="carPerLoco">XXX</span></p>
+            <button class="button" onClick="buyUpgrade5()"><span id="upgrade5Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Bigger Cars</span> Level <span id="upgrade6Lvl">X</span>
+            <p class="description">Passenger cars can carry 50 more passengers.
+            <br>Current: <span id="passPerCar">XXX</span></p>
+            <button class="button" onClick="buyUpgrade6()"><span id="upgrade6Cost">XXX</span> bXP</button>
+
+            <br><br>
+
+            <span class="accent">Income Multiplier</span> Level <span id="upgrade7Lvl">X</span>
+            <p class="description">Income is modified by the number of lines bought.
+            <br>Formula: income * lines<sup>upgrade lvl</sup></p>
+            <button class="button" onClick="buyUpgrade7()"><span id="upgrade7Cost">XXX</span> bXP</button>
+
+        </div>
+
+    </div>
+    <!-- end of shop div -->
 
 
 
 <br>
 <div class="clearfix"></div>
-
 </div>
 <!-- end of prestigeTab div -->
 
@@ -552,48 +542,82 @@
 <button class="button" onClick="changeAccentColor()" >Change Theme Accent Color</button>
 <p class="description">(only applies to current session)</p>
 
-<br><br><br><br>
-<button class="button" onClick="deleteSave()" style="	border: 1px solid red;"> Delete Save</button>
-<br><br>
+<br><br><br>
+<button class="button" onClick="deleteSave()" style="	border: 1px solid red;">Delete Save</button>
 
-<hr>
-<br>
-
-<h3>Debugging Tools</h3>
-
-
-<button class="button" onClick="javascript:gameData.money += 1000000000;">Gain 1B money</button>
-
-<button class="button" onClick="javascript:gameData.bXP += 1000;">Gain 1000 bXP</button>
-
-<br><br>
 
 
 <hr>
-<br>
+
+
 
 <div class="optionsContainer">
 
-<h3>About</h3>
+    <h3 id="about">About</h3>
 
-<p>Created by <a href="https://twitter.com/SMMdesigner">SMMDesign</a>. </p>
+    <p>MFI Metro is a game created by <a href="https://twitter.com/SMMdesigner">SMMDesign</a> as a learning experience after almost 10 years of being an avid incremental game player. It is currently in beta development and progress may be reset between versions. This will be avoided as much as possible.</p>
 
-<p>MFI Metro is currently in beta development and progress may be reset between versions. This will be avoided as much as possible.</p>
+    <p>Check out the <a href="https://www.reddit.com/r/mfiMetro/">Subreddit</a> or <a href="https://github.com/SMMdesign/mfiMetro">GitHub</a>.</p>
 
-<p>Check out the <a href="https://www.reddit.com/r/mfiMetro/">Subreddit</a> or <a href="https://github.com/SMMdesign/mfiMetro">GitHub</a>.</p>
+    <p>View the <a href="https://github.com/SMMdesign/mfiMetro#changelog">Changelog</a> or <a href="https://github.com/users/SMMdesign/projects/1/views/1">Roadmap</a></p>
 
-<p>View the <a href="https://github.com/SMMdesign/mfiMetro#changelog">Changelog</a> or <a href="https://github.com/users/SMMdesign/projects/1/views/1">Roadmap</a></p>
+    <p>Submit bug reports or feature requests <a href="https://github.com/SMMdesign/mfiMetro/issues/new/choose/">here</a>.</p>
 
-<p>Submit bug reports or feature requests <a href="https://github.com/SMMdesign/mfiMetro/issues/new/choose/">here</a>.</p>
+    <p>Line names and colors are inspired by the real-world <a href="https://www.tokyometro.jp/en/index.html">Tokyo Metro</a> subway system.</p>
 
-<p>Line names and colors are inspired by the real-world <a href="https://www.tokyometro.jp/en/index.html">Tokyo Metro</a> subway system.</p>
-
-<p>
-Credit to <a href="https://kastark.co.uk/articles/incrementals.html">kastark</a>, <a href="https://www.reddit.com/r/incremental_games/comments/ahf6nx/how_to_make_an_incremental_game/">YhvrTheSecond</a>, and <a href="https://www.reddit.com/r/incremental_games/">/r/incremental_games</a> for helpful information about game development.
-</p>
-
-
+    <p>
+    Credit to <a href="https://kastark.co.uk/articles/incrementals.html">kastark</a>, <a href="https://www.reddit.com/r/incremental_games/comments/ahf6nx/how_to_make_an_incremental_game/">YhvrTheSecond</a>, and <a href="https://www.reddit.com/r/incremental_games/">/r/incremental_games</a> for helpful information about game development.
+    </p>
 </div>
+
+
+
+<hr>
+
+
+
+<div class="optionsContainer">
+    <h3 id="donate">Donate</h3>
+
+    <p>If you have enjoyed my game and want to support my journey to become a self-sufficient designer and developer, please check out the links below.
+    </p>
+    
+    <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', 'var(--accentColor)', 'U6U235TOV');kofiwidget2.draw();</script>
+    
+    <br><br>
+    
+    <form action="https://www.paypal.com/donate" method="post" target="_top">
+    <input type="hidden" name="business" value="2EVYN5VHX8G94" />
+    <input type="hidden" name="no_recurring" value="0" />
+    <input type="hidden" name="item_name" value="Supporting me will allow me to spend more time creating and updating my game(s) as a self-sufficient creator." />
+    <input type="hidden" name="currency_code" value="USD" />
+    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+    </form>
+
+    
+    <p style="font-size: 90%;"><a href="https://www.patreon.com/SMMDesign">Patreon</a></p>
+        
+    <p style="font-size: 90%;"><a href="https://www.redbubble.com/people/indiFANdual/shop?asc=u">My Redbubble Shop</a></p>
+</div>
+
+
+
+<hr>
+
+
+<div class="debugTools">
+    <h3>Debugging Tools</h3>
+
+
+    <button class="button" onClick="javascript:gameData.money += 1000000000;">Gain 1B money</button>
+
+    <button class="button" onClick="javascript:gameData.bXP += 100;">Gain 100 bXP</button>
+    <br><br>
+</div>
+
+
+
 </div>
 <!-- end of optionsTab div -->
 
@@ -618,8 +642,13 @@ Credit to <a href="https://kastark.co.uk/articles/incrementals.html">kastark</a>
 
 © <a href="https://twitter.com/SMMdesigner">SMMDesign</a> 2022
 <br>
-<a href="javascript:goToTab('optionsTab')">About</a> | <a href="https://github.com/SMMdesign/mfiMetro">GitHub</a> | <a href="https://www.reddit.com/r/mfiMetro/">Subreddit</a>
+<a href="javascript:goToTab('optionsTab');document.getElementById('about').scrollIntoView();">About</a>
+| <a href="https://github.com/SMMdesign/mfiMetro">GitHub</a>
+| <a href="https://www.reddit.com/r/mfiMetro/">Subreddit</a>
+| <a href="javascript:goToTab('optionsTab');document.getElementById('donate').scrollIntoView();">Donate</a>
 </div>
+
+
 
 
 
