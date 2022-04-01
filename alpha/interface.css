@@ -35,6 +35,13 @@ a {
 	color: var(--accentColor);
 }
 
+hr {
+    height: 2px;
+    border-width: 0;
+    background-color: var(--whitestColor);
+    margin: 20px 0px;
+}
+
 h3 {
 	margin-top: 5px;
 	color: var(--accentColor);
@@ -159,6 +166,8 @@ span {
 		margin: 10px 0px;
 	}
 }
+
+
 
 
 
@@ -406,6 +415,19 @@ span {
         margin: 0px 6px;
     }
 }
+
+
+.button.buyAll {
+	background-color:var(--medium2Color);
+    display: block;
+	border: none;
+    margin: 0px;
+    padding-right: .5%;
+    padding-left: .5%;
+    width: 33%;
+	font-weight: normal;
+}
+
 
 
 
