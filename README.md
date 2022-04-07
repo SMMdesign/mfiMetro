@@ -14,6 +14,15 @@ If you encounter an issue of any kind, [please let me know here.](https://github
 
 [View Roadmap](https://github.com/users/SMMdesign/projects/1/views/1)
 
+#### Version 0.52 - 2022/04/07
+
+- Slightly lowered the cost scaling of stations and locomotives.
+- Slightly raised the cost scaling of new lines.
+- Adjusted prestige shop balance.
+- Prestige upgrades now unlock as you progress through the game based on the highest line you have reached.
+- Fixed a bug where the game end message wouldn't show up until a refresh ocurred.
+
+
 #### Version 0.51 - 2022/04/01
 
 - Adjusted prestige shop and bXP gain balance.

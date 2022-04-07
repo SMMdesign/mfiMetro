@@ -437,6 +437,16 @@
 
 
 
+<div id="endMessage" class="">
+
+<h3>The End!</h3>
+<p>...for now 👀</p>
+<p>Feel free to continue playing, or delete your save from <a href="javascript:goToTab('optionsTab');">Options</a> and start over!
+</p>
+<p>If you enjoyed playing, please consider <a href="javascript:goToTab('optionsTab');document.getElementById('donate').scrollIntoView();">donating</a> or sharing the game with a friend 💕</p>
+</div>
+
+
 <!-- makes sure container contains everything -->
 <div class="clearfix"></div>
 </div>
@@ -472,55 +482,58 @@
 
         <div class="shopInner">
 
+            <div id="upgrade1" class="lineContainer upgrade">
             <span class="accent">Fancy Trains</span> Level <span id="upgrade1Lvl">X</span>
             <p class="description">Doubles the percieved value of your service.
             <br>Current: ¥<span id="ticketPriceEq">XXX</span></p>
             <button class="button" onClick="buyUpgrade1()"><span id="upgrade1Cost">XXX</span> bXP</button>
+            </div>
 
-            <br><br>
-
+            <div id="upgrade2" class="lineContainer upgrade">
             <span class="accent">Added Perks</span> Level <span id="upgrade2Lvl">X</span>
             <p class="description">Doubles the max possible Ticket Price.
             <br>Current: ¥<span id="ticketPriceMax">XXX</span></p>
             <button class="button" onClick="buyUpgrade2()"><span id="upgrade2Cost">XXX</span> bXP</button>
+            </div>
 
-            <br><br>
-
+            <div id="upgrade3" class="lineContainer upgrade">
             <span class="accent">Advertising</span> Level <span id="upgrade3Lvl">X</span>
             <p class="description">Each station can attract more customers.
             <br>Current: <span id="ppsPerStat">XXX</span></p>
             <button class="button" onClick="buyUpgrade3()"><span id="upgrade3Cost">XXX</span> bXP</button>
+            </div>
 
-            <br><br>
-
+            <div id="upgrade4" class="lineContainer upgrade">
             <span class="accent">Add Track</span> Level <span id="upgrade4Lvl">X</span>
             <p class="description">Allows one more Locomotive per Station.
             <br>Current: <span id="locoPerStat">XXX</span></p>
             <button class="button" onClick="buyUpgrade4()"><span id="upgrade4Cost">XXX</span> bXP</button>
+            </div>
 
-            <br><br>
-
+            <div id="upgrade5" class="lineContainer upgrade">
             <span class="accent">Upgrade Engines</span> Level <span id="upgrade5Lvl">X</span>
             <p class="description">Locomotives can carry two more cars.
             <br>Current: <span id="carPerLoco">XXX</span></p>
             <button class="button" onClick="buyUpgrade5()"><span id="upgrade5Cost">XXX</span> bXP</button>
+            </div>
 
-            <br><br>
-
+            <div id="upgrade6" class="lineContainer upgrade">
             <span class="accent">Bigger Cars</span> Level <span id="upgrade6Lvl">X</span>
             <p class="description">Passenger cars can carry 50 more passengers.
             <br>Current: <span id="passPerCar">XXX</span></p>
             <button class="button" onClick="buyUpgrade6()"><span id="upgrade6Cost">XXX</span> bXP</button>
+            </div>
 
-            <br><br>
-
+            <div id="upgrade7" class="lineContainer upgrade">
             <span class="accent">Income Multiplier</span> Level <span id="upgrade7Lvl">X</span>
             <p class="description">Income is modified by the number of lines bought.
             <br>Formula: income * lines<sup>upgrade lvl</sup></p>
             <button class="button" onClick="buyUpgrade7()"><span id="upgrade7Cost">XXX</span> bXP</button>
-
+            </div>
+            
+        <div class="clearfix"></div>
         </div>
-
+    
     </div>
     <!-- end of shop div -->
 
@@ -613,6 +626,8 @@
     <button class="button" onClick="javascript:gameData.money += 1000000000;">Gain 1B money</button>
 
     <button class="button" onClick="javascript:gameData.bXP += 100;">Gain 100 bXP</button>
+    
+    <button class="button" onClick="javascript:gameLoop = window.setInterval(function() { makeMoney(mps); generatePassengers(pps); }, 100);">Game Speed x10</button>
     <br><br>
 </div>
 
@@ -620,6 +635,7 @@
 
 </div>
 <!-- end of optionsTab div -->
+
 
 
 
