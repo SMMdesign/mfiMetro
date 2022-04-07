@@ -6,7 +6,7 @@
 
 // Initializing game data variables
 var gameData = {
-	version: 0.51,
+	version: 0.52,
 	money: 50000,
 	ticketPrice: 100,
 	passengers: 0,
@@ -20,6 +20,7 @@ var gameData = {
 	namboku: 		{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	fukutoshin: 	{ line: 0, stations: 0, locomotives: 0, cars: 0 },
 	bXP: 0,
+    highestLine: 0,
 	prestige:		{ upgrade1Lvl: 0, upgrade2Lvl: 0, upgrade3Lvl: 0, upgrade4Lvl: 0, upgrade5Lvl: 0, upgrade6Lvl: 0, upgrade7Lvl: 0 }
 
 }	// remember to add new variables to load function, even ones in nested objects
@@ -36,11 +37,11 @@ var lineCost = 0;			// dont forget this exists
 // constants for base values
 const ticketPriceEqConst = 200;
 const ticketPriceMaxConst = 1000;
-const ppsPerStatConst = 5;
+const ppsPerStatConst = 6;
 const locoPerStatConst = 1;
 const carPerLocoConst = 6;
 const passPerCarConst = 100;
-const statPerLine = 4;
+const statPerLine = 5;  // for determining balance
 
 
 // variables than can be changed by upgrades
@@ -92,6 +93,7 @@ function load() {
 			if (typeof saveGame.namboku === 'undefined') saveGame.namboku = gameData.namboku;
 			if (typeof saveGame.fukutoshin === 'undefined') saveGame.fukutoshin = gameData.fukutoshin;
 			if (typeof saveGame.bXP === 'undefined') saveGame.bXP = gameData.bXP;
+			if (typeof saveGame.highestLine === 'undefined') saveGame.highestLine = gameData.highestLine;
 			if (typeof saveGame.prestige === 'undefined') saveGame.prestige = gameData.prestige;
 			if (typeof saveGame.prestige.upgrade1Lvl === 'undefined') saveGame.prestige.upgrade7Lvl = gameData.prestige.upgrade7Lvl;
 			
@@ -334,7 +336,7 @@ function refresh() {
 	// refreshing variables effected by prestige upgrades
 	ticketPriceEq = ticketPriceEqConst * 2 ** gameData.prestige.upgrade1Lvl;
 	ticketPriceMax = ticketPriceMaxConst * 2 ** gameData.prestige.upgrade2Lvl;
-	ppsPerStat = ppsPerStatConst + (1 * gameData.prestige.upgrade3Lvl);
+	ppsPerStat = ppsPerStatConst + (2 * gameData.prestige.upgrade3Lvl);
 	locoPerStat = locoPerStatConst + (1 * gameData.prestige.upgrade4Lvl);
 	carPerLoco = carPerLocoConst + (2 * gameData.prestige.upgrade5Lvl);
 	passPerCar = passPerCarConst + (50 * gameData.prestige.upgrade6Lvl);
@@ -406,6 +408,7 @@ function refresh() {
     if(gameData.fukutoshin.line > 0) {
     show("fukutoshinBody"); hide("fukutoshinHead");
     refreshFukutoshin();
+    show("endMessage");
 }
 
 }
@@ -538,6 +541,7 @@ function updateMaxPassengers() {
 
 
 // calc functions that return values
+// remember to adjust max+multi if you adjust the individuals
 
 function calcTotalLines() {
 	return gameData.ginza.line + gameData.marunouchi.line + gameData.hibiya.line + gameData.tozai.line + gameData.chiyoda.line + gameData.yurakucho.line + gameData.hanzomon.line + gameData.namboku.line + gameData.fukutoshin.line;
@@ -553,16 +557,16 @@ function calcTotalCars() {
 }
 
 function calcLineCost() {
-	return Math.floor(50000 * (24 ** calcTotalLines()));
+	return Math.floor(50000 * ( (statPerLine * locoPerStatConst * carPerLocoConst) ** calcTotalLines()));
 }
 
 function calcStationCost(stations) {
-	return Math.floor(10000 * (2.2	** stations ));
+	return Math.floor(10000 * (2	** stations ));
 }
 
 // these functions automatically readjust prices based on ratios from upgrades
 function calcLocomotiveCost(locomotives) {
-	return Math.floor( (8000 * ( (1 + (0.9 * locoPerStatConst / locoPerStat)) ** locomotives )));
+	return Math.floor( (7000 * ( (1 + (0.8 * locoPerStatConst / locoPerStat)) ** locomotives )));
 }
 
 function calcCarCost(cars) {
@@ -574,11 +578,11 @@ function calcMaxBuyNumber(type, owned) {
     let increment;
     if(type === 'station') {
         base = 10000;
-        increment = 2.2;
+        increment = 2;
     }
     if(type === 'locomotive') {
-        base = 8000;
-        increment = (1 + (0.9 * locoPerStatConst / locoPerStat));
+        base = 7000;
+        increment = (1 + (0.8 * locoPerStatConst / locoPerStat));
     }
     if(type === 'car') {
         base = 5000;
@@ -595,11 +599,11 @@ function calcMultiBuyCost(type, owned, amount) {
     let increment;
     if(type === 'station') {
         base = 10000;
-        increment = 2.2;
+        increment = 2;
     }
     if(type === 'locomotive') {
-        base = 8000;
-        increment = (1 + (0.9 * locoPerStatConst / locoPerStat));
+        base = 7000;
+        increment = (1 + (0.8 * locoPerStatConst / locoPerStat));
     }
     if(type === 'car') {
         base = 5000;
@@ -626,8 +630,7 @@ function calcMultiBuyCost(type, owned, amount) {
 // buying functions
 
 
-// EXPERIMENTAL BUY ALL BUTTON
-
+// buy all buttons
 
 function buyAll1Station() {
 	if(gameData.ginza.line === 1) { buyGinStation(1); }
@@ -665,9 +668,6 @@ function buyAllCar() {
 	if(gameData.namboku.line === 1) { buyNamCar('max'); }
 	if(gameData.fukutoshin.line === 1) { buyFukuCar('max'); }
 }
-
-
-
 
 
 
@@ -1528,6 +1528,8 @@ function buyFukuLine() {
 		updatePps();					// because pps is dependent on station number
 		updateMaxPassengers();	// because max is dependent on car number
         updateMps();            // because mps is dependent on line number
+        show("endMessage");
+
         gtag("event", "level_start", {
           level_name: "Fukutoshin Line"
         });
@@ -1614,7 +1616,6 @@ function buyFukuCar(number) {
 }
 // end of fukutoshin buying functions
 
-if(gameData.fukutoshin.line === 1) {fukutoshin.insertAdjacentHTML('afterend', ' <center><h3>The End!</h3><p>...for now 👀<br>Feel free to continue playing, or delete your save from <a href="javascript:goToTab("optionsTab");">Options</a> and start over!</p></center>');}
 
 
 
@@ -1631,6 +1632,18 @@ function refreshPrestige() {
 	if(gameData.tozai.line < 1) {
 		hide("prestigeHead");
 	} else {show("prestigeHead");}
+    if( calcTotalLines() > gameData.highestLine ) {
+        gameData.highestLine = calcTotalLines();
+    }
+    
+	if(gameData.highestLine < 0) { hide("upgrade1"); } else { show("upgrade1"); }
+	if(gameData.highestLine < 4) { hide("upgrade2"); } else { show("upgrade2"); }
+	if(gameData.highestLine < 0) { hide("upgrade3"); } else { show("upgrade3"); }
+	if(gameData.highestLine < 7) { hide("upgrade4"); } else { show("upgrade4"); }
+	if(gameData.highestLine < 6) { hide("upgrade5"); } else { show("upgrade5"); }
+	if(gameData.highestLine < 5) { hide("upgrade6"); } else { show("upgrade6"); }
+	if(gameData.highestLine < 7) { hide("upgrade7"); } else { show("upgrade7"); }
+ 
     upgrade1Cost = calcUpgrade1Cost();
     update("upgrade1Lvl", format(gameData.prestige.upgrade1Lvl) );
     update("upgrade1Cost", format(upgrade1Cost) );
@@ -1690,22 +1703,22 @@ function calcUpgrade1Cost() {
 	return Math.floor(50 * (2 ** gameData.prestige.upgrade1Lvl));
 }
 function calcUpgrade2Cost() {
-	return Math.floor(100 * (2	** gameData.prestige.upgrade2Lvl));
+	return Math.floor(175 * (2	** gameData.prestige.upgrade2Lvl));
 }
 function calcUpgrade3Cost() {
-	return Math.floor(10 * (1.2	** gameData.prestige.upgrade3Lvl));
+	return Math.floor(10 * (1.1	** gameData.prestige.upgrade3Lvl));
 }
 function calcUpgrade4Cost() {
-	return Math.floor(200 * (6	** gameData.prestige.upgrade4Lvl));
+	return Math.floor(1000 * (4	** gameData.prestige.upgrade4Lvl));
 }
 function calcUpgrade5Cost() {
-	return Math.floor(200 * (2	** gameData.prestige.upgrade5Lvl));
+	return Math.floor(400 * (2	** gameData.prestige.upgrade5Lvl));
 }
 function calcUpgrade6Cost() {
-	return Math.floor(100 * (1.5	** gameData.prestige.upgrade6Lvl));
+	return Math.floor(200 * (1.2	** gameData.prestige.upgrade6Lvl));
 }
 function calcUpgrade7Cost() {
-	return Math.floor(3000 * (4 ** gameData.prestige.upgrade7Lvl));
+	return Math.floor(4000 * (5 ** gameData.prestige.upgrade7Lvl));
 }
 
 
@@ -1713,6 +1726,9 @@ function calcUpgrade7Cost() {
 function prestige() {
 	clearInterval(autosaveLoop);
 	if(confirm(`This will reset your progress and give you ${format(unrealizedPrestige)} Business Expertise. Are you sure?`) === true) {
+        if( calcTotalLines() > gameData.highestLine ) {
+            gameData.highestLine = calcTotalLines();
+        }
 		unrealizedPrestige = calcUnrealizedPrestige();
 		prestigeReset();
 		gameData.bXP += unrealizedPrestige;
@@ -1757,7 +1773,7 @@ function buyUpgrade2() {
 function buyUpgrade3() {
 	if(gameData.bXP >= upgrade3Cost ) {
 		gameData.prestige.upgrade3Lvl += 1;
-		ppsPerStat = ppsPerStatConst + (1 * gameData.prestige.upgrade3Lvl);
+		ppsPerStat = ppsPerStatConst + (2 * gameData.prestige.upgrade3Lvl);
 		gameData.bXP -= upgrade3Cost;
 		upgrade3Cost = calcUpgrade3Cost();
 		update("upgrade3Lvl", format(gameData.prestige.upgrade3Lvl) );
@@ -1841,7 +1857,6 @@ function buyUpgrade7() {
 // Game Loop
 var gameLoop = window.setInterval(function() {
     makeMoney(mps);
-	// makeMoney(gameData.passengers * gameData.ticketPrice);
 	generatePassengers(pps);
 	
 }, 1000);

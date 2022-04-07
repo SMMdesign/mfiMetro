@@ -264,6 +264,16 @@ span {
 }
 
 
+#endMessage {
+    display: none;
+    text-align: center;
+    clear: both;
+}
+
+
+
+
+
 
 
 
@@ -281,7 +291,7 @@ span {
 .shop {
 	border: 1px solid var(--accentColor);
 	width: 100%;
-	max-width: 640px;
+	max-width: 1260px;
 	margin: 20px auto 0px;
 	box-sizing: border-box;
 	text-align: left;
@@ -315,6 +325,15 @@ span {
 .shopInner {
 	margin: 10px;
 }
+
+.lineContainer.upgrade {
+    display: inline-block;
+    height: 90px;
+    /* min-height: 200px; */
+    /* max-height: 200px; */
+}
+
+
 
 
 
@@ -560,6 +579,25 @@ span {
 
 #fukutoshinHead { display:none; }
 #fukutoshinBody { display:none; }  
+
+
+/* #upgrade1 { display:none; } */
+/* #upgrade2 { display:none; } */
+/* #upgrade3 { display:none; } */
+/* #upgrade4 { display:none; } */
+/* #upgrade5 { display:none; } */
+/* #upgrade6 { display:none; } */
+/* #upgrade7 { display:none; } */
+
+
+
+
+
+
+
+
+
+
 
 #linesTab { display: block; }
 #prestigeTab { display: none; }
